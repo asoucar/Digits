@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>B728C3CE-2749-4F86-909B-970340164DB3</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Digits</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>754C9596-5167-4361-B84C-B24A6C7B50FC</key>
+		<string>https://github.com/asoucar/Digits</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Digits/Digits.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>754C9596-5167-4361-B84C-B24A6C7B50FC</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/asoucar/Digits</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>754C9596-5167-4361-B84C-B24A6C7B50FC</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>754C9596-5167-4361-B84C-B24A6C7B50FC</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Digits</string>
+		</dict>
+	</array>
+</dict>
+</plist>

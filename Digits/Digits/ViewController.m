@@ -16,8 +16,6 @@
 
 @implementation ViewController
 
-int labelX = 10;
-int labelY = 10;
 int numDigits =0;
 bool decimalUsed = false;
 
@@ -49,10 +47,13 @@ bool decimalUsed = false;
                 NSDecimalNumber *decNum2 = [NSDecimalNumber decimalNumberWithString:otherLabel.text];
                 
                 NSDecimalNumber *sumVal = [decNum2 decimalNumberByAdding:decNum1];
+                int labelLength = 35*sumVal.stringValue.length;
                 
-                UILabel *sumLabel = [[UILabel alloc] initWithFrame:label.frame];
+                UILabel *sumLabel = [[UILabel alloc] initWithFrame:CGRectMake(otherLabel.frame.origin.x, otherLabel.frame.origin.x, labelLength, 100)];
+                sumLabel.backgroundColor = [UIColor blackColor];
                 sumLabel.text = sumVal.stringValue;
-                sumLabel.font = [UIFont systemFontOfSize:30.0];
+                sumLabel.textColor = [UIColor whiteColor];
+                sumLabel.font = [UIFont fontWithName:@"Futura" size:50];
                 
                 sumLabel.userInteractionEnabled = YES;
                 
@@ -118,10 +119,20 @@ bool decimalUsed = false;
 
 - (IBAction)submitPressed:(UIButton *)sender {
     
-    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, labelY, 150, 100)];
-    labelY = labelY+150;
+    int labelLength = (35*self.numberDisplay.text.length);
+    int lowerX = 50;
+    int upperX = 768-(labelLength);
+    int labelX = lowerX + arc4random() % (upperX - lowerX);
+    int lowerY = 50;
+    int upperY = 300;
+    int labelY = lowerY + arc4random() % (upperY - lowerY);
+    
+    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, labelY, labelLength, 100)];
+    //labelY = labelY+150;
+    newLabel.backgroundColor = [UIColor blackColor];
     newLabel.text = self.numberDisplay.text;
-    newLabel.font = [UIFont systemFontOfSize:30.0];
+    newLabel.textColor = [UIColor whiteColor];
+    newLabel.font = [UIFont fontWithName:@"Futura" size:50];
     
     newLabel.userInteractionEnabled = YES;
     
@@ -137,7 +148,7 @@ bool decimalUsed = false;
     self.numberDisplay.text = @"";
     decimalUsed = false;
     numDigits = 0;
-    [self.makeNumber setTitle:@"Make Number" forState:UIControlStateNormal];
+    [self.makeNumber setTitle:@"Make" forState:UIControlStateNormal];
     self.calculator.hidden = true;
     
 
@@ -154,7 +165,7 @@ bool decimalUsed = false;
         self.calculator.hidden=false;
     }
     else{
-        [sender setTitle:@"Make Number" forState:UIControlStateNormal];
+        [sender setTitle:@"Make" forState:UIControlStateNormal];
         self.calculator.hidden=true;
     }
 }
