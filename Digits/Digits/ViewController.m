@@ -240,6 +240,7 @@ bool decimalUsed = false;
     if (self.calculator.hidden == true) {
         [sender setTitle:@"Close" forState:UIControlStateNormal];
         self.calculator.hidden=false;
+        [self.view bringSubviewToFront:self.calculator];
     }
     else{
         [sender setTitle:@"Make" forState:UIControlStateNormal];
