@@ -43,7 +43,9 @@ bool decimalUsed = false;
     multBy10.userInteractionEnabled = YES;
     
     divBy10.frame = CGRectMake(15, 25, 70, 50);
+    divBy10.backgroundColor = [UIColor clearColor];
     multBy10.frame = CGRectMake(15, 95, 70, 50);
+    multBy10.backgroundColor = [UIColor clearColor];
     
     [multBy10 addGestureRecognizer:gesture1];
     [divBy10 addGestureRecognizer:gesture2];
@@ -68,6 +70,8 @@ bool decimalUsed = false;
             NSDecimalNumber *decNum1 = [NSDecimalNumber decimalNumberWithString:label.text];
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:1];
             label.text = decNum1.stringValue;
+            int labelLength = 35*decNum1.stringValue.length;
+            label.frame = CGRectMake(label.frame.origin.x, label.frame.origin.y, labelLength, 100);
             mult.center = CGPointMake(50, 120);
             gesture.enabled = NO;
             gesture.enabled = YES;
@@ -92,6 +96,8 @@ bool decimalUsed = false;
             NSDecimalNumber *decNum1 = [NSDecimalNumber decimalNumberWithString:label.text];
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:-1];
             label.text = decNum1.stringValue;
+            int labelLength = 35*decNum1.stringValue.length;
+            label.frame = CGRectMake(label.frame.origin.x, label.frame.origin.y, labelLength, 100);
             div.center = CGPointMake(50, 50);
             gesture.enabled = NO;
             gesture.enabled = YES;
@@ -120,7 +126,7 @@ bool decimalUsed = false;
                 NSDecimalNumber *sumVal = [decNum2 decimalNumberByAdding:decNum1];
                 int labelLength = 35*sumVal.stringValue.length;
                 
-                UILabel *sumLabel = [[UILabel alloc] initWithFrame:CGRectMake(otherLabel.frame.origin.x, otherLabel.frame.origin.x, labelLength, 100)];
+                UILabel *sumLabel = [[UILabel alloc] initWithFrame:CGRectMake(otherLabel.frame.origin.x, otherLabel.frame.origin.y, labelLength, 100)];
                 sumLabel.backgroundColor = [UIColor blackColor];
                 sumLabel.text = sumVal.stringValue;
                 sumLabel.textColor = [UIColor whiteColor];
