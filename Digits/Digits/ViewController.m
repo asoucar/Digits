@@ -16,7 +16,7 @@
 
 @implementation ViewController
 
-int labelX = 10;
+int labelX = 300;
 int labelY = 10;
 int numDigits =0;
 bool decimalUsed = false;
@@ -28,6 +28,77 @@ bool decimalUsed = false;
     self.calculator.hidden=true;
     
     self.onScreenNums = [NSMutableArray array];
+    
+    UIPanGestureRecognizer *gesture1 = [[UIPanGestureRecognizer alloc]
+                                        initWithTarget:self
+                                        action:@selector(multDragged:)];
+    UIPanGestureRecognizer *gesture2 = [[UIPanGestureRecognizer alloc]
+                                        initWithTarget:self
+                                        action:@selector(divDragged:)];
+    
+    
+    
+    UIImageView *divBy10 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"rightArrow.jpeg"]];
+    UIImageView *multBy10 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"leftArrow.jpeg"]];
+    
+    divBy10.userInteractionEnabled = YES;
+    multBy10.userInteractionEnabled = YES;
+    
+    divBy10.frame = CGRectMake(15, 25, 70, 50);
+    multBy10.frame = CGRectMake(15, 95, 70, 50);
+    
+    [multBy10 addGestureRecognizer:gesture1];
+    [divBy10 addGestureRecognizer:gesture2];
+    
+    [self.view addSubview:divBy10];
+    [self.view addSubview:multBy10];
+
+}
+
+- (void)multDragged:(UIPanGestureRecognizer *)gesture
+{
+    UIImageView *mult = (UIImageView *)gesture.view;
+    CGPoint translation = [gesture translationInView:mult];
+    
+	// move label
+	mult.center = CGPointMake(mult.center.x + translation.x,
+                               mult.center.y + translation.y);
+    [gesture setTranslation:CGPointZero inView:mult];
+    for (UILabel *label in self.onScreenNums)
+    {
+        if (CGRectIntersectsRect(mult.frame, label.frame)) {
+            NSDecimalNumber *decNum1 = [NSDecimalNumber decimalNumberWithString:label.text];
+            decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:1];
+            label.text = decNum1.stringValue;
+            mult.center = CGPointMake(50, 120);
+            gesture.enabled = NO;
+            gesture.enabled = YES;
+        }
+    }
+
+}
+
+- (void)divDragged:(UIPanGestureRecognizer *)gesture
+{
+    UIImageView *div = (UIImageView *)gesture.view;
+    CGPoint translation = [gesture translationInView:div];
+    
+	// move label
+	div.center = CGPointMake(div.center.x + translation.x,
+                              div.center.y + translation.y);
+    [gesture setTranslation:CGPointZero inView:div];
+    for (UILabel *label in self.onScreenNums)
+    {
+        if (CGRectIntersectsRect(div.frame, label.frame))
+        {
+            NSDecimalNumber *decNum1 = [NSDecimalNumber decimalNumberWithString:label.text];
+            decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:-1];
+            label.text = decNum1.stringValue;
+            div.center = CGPointMake(50, 50);
+            gesture.enabled = NO;
+            gesture.enabled = YES;
+        }
+    }
 
 }
 

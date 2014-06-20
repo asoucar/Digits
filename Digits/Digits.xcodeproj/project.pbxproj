@@ -22,6 +22,8 @@
 		AB1870981954A70400606E51 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1870771954A70400606E51 /* UIKit.framework */; };
 		AB1870A01954A70400606E51 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB18709E1954A70400606E51 /* InfoPlist.strings */; };
 		AB1870A21954A70400606E51 /* DigitsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1870A11954A70400606E51 /* DigitsTests.m */; };
+		AB1870AC1954DB2B00606E51 /* leftArrow.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = AB1870AB1954DB2B00606E51 /* leftArrow.jpeg */; };
+		AB1870AE1954DB6300606E51 /* rightArrow.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = AB1870AD1954DB6300606E51 /* rightArrow.jpeg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,8 @@
 		AB18709D1954A70400606E51 /* DigitsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DigitsTests-Info.plist"; sourceTree = "<group>"; };
 		AB18709F1954A70400606E51 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AB1870A11954A70400606E51 /* DigitsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DigitsTests.m; sourceTree = "<group>"; };
+		AB1870AB1954DB2B00606E51 /* leftArrow.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = leftArrow.jpeg; sourceTree = "<group>"; };
+		AB1870AD1954DB6300606E51 /* rightArrow.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = rightArrow.jpeg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +124,8 @@
 				AB1870881954A70400606E51 /* Main_iPad.storyboard */,
 				AB18708B1954A70400606E51 /* ViewController.h */,
 				AB18708C1954A70400606E51 /* ViewController.m */,
+				AB1870AD1954DB6300606E51 /* rightArrow.jpeg */,
+				AB1870AB1954DB2B00606E51 /* leftArrow.jpeg */,
 				AB18708E1954A70400606E51 /* Images.xcassets */,
 				AB18707A1954A70400606E51 /* Supporting Files */,
 			);
@@ -234,6 +240,8 @@
 				AB18708A1954A70400606E51 /* Main_iPad.storyboard in Resources */,
 				AB18708F1954A70400606E51 /* Images.xcassets in Resources */,
 				AB1870871954A70400606E51 /* Main_iPhone.storyboard in Resources */,
+				AB1870AC1954DB2B00606E51 /* leftArrow.jpeg in Resources */,
+				AB1870AE1954DB6300606E51 /* rightArrow.jpeg in Resources */,
 				AB18707E1954A70400606E51 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
