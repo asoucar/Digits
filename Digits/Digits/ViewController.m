@@ -16,55 +16,19 @@
 
 @implementation ViewController
 
+int labelX = 10;
+int labelY = 10;
+int numDigits =0;
+bool decimalUsed = false;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    self.calculator.hidden=true;
     
     self.onScreenNums = [NSMutableArray array];
-    
-    UILabel *num1Label = [[UILabel alloc] initWithFrame:self.num1.frame];
-    num1Label.text = @"123.456";
-    num1Label.font = self.num1.font;
-    num1Label.userInteractionEnabled = YES;
-    
-    UILabel *num2Label = [[UILabel alloc] initWithFrame:self.numb2.frame];
-    num2Label.text = @"65.43";
-    num2Label.font = self.num1.font;
-    num2Label.userInteractionEnabled = YES;
-    
-    UILabel *num3Label = [[UILabel alloc] initWithFrame:self.numb2.frame];
-    num3Label.center = CGPointMake(num3Label.center.x + 40, num3Label.center.y + 100);
-    num3Label.text = @"22";
-    num3Label.font = self.num1.font;
-    num3Label.userInteractionEnabled = YES;
-    
-    UIPanGestureRecognizer *gesture = [[UIPanGestureRecognizer alloc]
-                                        initWithTarget:self
-                                        action:@selector(labelDragged:)];
-    
-    UIPanGestureRecognizer *gesture2 = [[UIPanGestureRecognizer alloc]
-                                       initWithTarget:self
-                                       action:@selector(labelDragged:)];
-    UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
-                                        initWithTarget:self
-                                        action:@selector(labelDragged:)];
 
-    
-	[num1Label addGestureRecognizer:gesture];
-    [num2Label addGestureRecognizer:gesture2];
-    [num3Label addGestureRecognizer:gesture3];
-    
-    [self.num1 removeFromSuperview];
-    [self.numb2 removeFromSuperview];
-    
-    [self.view addSubview:num1Label];
-    [self.view addSubview:num2Label];
-    [self.view addSubview:num3Label];
-    
-    [self.onScreenNums addObject:num1Label];
-    [self.onScreenNums addObject:num2Label];
-    [self.onScreenNums addObject:num3Label];
 }
 
 - (void)labelDragged:(UIPanGestureRecognizer *)gesture
@@ -79,42 +43,43 @@
     for (UILabel *otherLabel in self.onScreenNums) {
         if (label != otherLabel && CGRectIntersectsRect(label.frame, otherLabel.frame)) {
             //pretending alignment
-//            if (YES) {
-//                
-//                NSDecimalNumber *decNum1 = [NSDecimalNumber decimalNumberWithString:label.text];
-//                NSDecimalNumber *decNum2 = [NSDecimalNumber decimalNumberWithString:otherLabel.text];
-//                
-//                NSDecimalNumber *sumVal = [decNum2 decimalNumberByAdding:decNum1];
-//                
-//                UILabel *sumLabel = [[UILabel alloc] initWithFrame:label.frame];
-//                sumLabel.text = sumVal.stringValue;
-//                sumLabel.font = [UIFont systemFontOfSize:30.0];
-//                
-//                sumLabel.userInteractionEnabled = YES;
-//                
-//                UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
-//                                                    initWithTarget:self
-//                                                    action:@selector(labelDragged:)];
-//                [sumLabel addGestureRecognizer:gesture3];
-//                
-//                [self.onScreenNums removeObject:label];
-//                [self.onScreenNums removeObject:otherLabel];
-//                [label removeFromSuperview];
-//                [otherLabel removeFromSuperview];
-//                
-//                // add it
-//                [self.view addSubview:sumLabel];
-//                [self.onScreenNums addObject:sumLabel];
-//                
-//                break;
-//            }
-            
+            if (YES) {
+                
+                NSDecimalNumber *decNum1 = [NSDecimalNumber decimalNumberWithString:label.text];
+                NSDecimalNumber *decNum2 = [NSDecimalNumber decimalNumberWithString:otherLabel.text];
+                
+                NSDecimalNumber *sumVal = [decNum2 decimalNumberByAdding:decNum1];
+                
+                UILabel *sumLabel = [[UILabel alloc] initWithFrame:label.frame];
+                sumLabel.text = sumVal.stringValue;
+                sumLabel.font = [UIFont systemFontOfSize:30.0];
+                
+                sumLabel.userInteractionEnabled = YES;
+                
+                UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+                                                    initWithTarget:self
+                                                    action:@selector(labelDragged:)];
+                [sumLabel addGestureRecognizer:gesture3];
+                
+                [self.onScreenNums removeObject:label];
+                [self.onScreenNums removeObject:otherLabel];
+                [label removeFromSuperview];
+                [otherLabel removeFromSuperview];
+                
+                // add it
+                [self.view addSubview:sumLabel];
+                [self.onScreenNums addObject:sumLabel];
+                
+                break;
+            }
+            else
+            {
             
             //for not aligned
             
-            otherLabel.center = CGPointMake(otherLabel.center.x + translation.x,
-                                                otherLabel.center.y + translation.y);
-
+//            otherLabel.center = CGPointMake(otherLabel.center.x + translation.x,
+//                                                otherLabel.center.y + translation.y);
+            }
         }
 
     }
@@ -125,6 +90,73 @@
     
     
     
+}
+
+- (IBAction)clearNumber:(UIButton *)sender {
+    for (UILabel *v in self.onScreenNums) {
+        [v removeFromSuperview];
+    }
+    [self.onScreenNums removeAllObjects];
+}
+
+- (IBAction)decimalPressed:(UIButton *)sender {
+    NSString *decimal = sender.currentTitle;
+    if (!decimalUsed) {
+        self.numberDisplay.text = [self.numberDisplay.text stringByAppendingString:decimal];
+        decimalUsed = true;
+    }
+    
+}
+
+- (IBAction)numberPressed:(UIButton *)sender {
+    NSString *number = sender.currentTitle;\
+    if (numDigits < 8) {
+        self.numberDisplay.text = [self.numberDisplay.text stringByAppendingString:number];
+        numDigits++;
+    }
+}
+
+- (IBAction)submitPressed:(UIButton *)sender {
+    
+    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, labelY, 150, 100)];
+    labelY = labelY+150;
+    newLabel.text = self.numberDisplay.text;
+    newLabel.font = [UIFont systemFontOfSize:30.0];
+    
+    newLabel.userInteractionEnabled = YES;
+    
+    UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+                                                        initWithTarget:self
+                                                        action:@selector(labelDragged:)];
+    [newLabel addGestureRecognizer:gesture3];
+    
+    // add it
+    [self.view addSubview:newLabel];
+    [self.onScreenNums addObject:newLabel];
+    
+    self.numberDisplay.text = @"";
+    decimalUsed = false;
+    numDigits = 0;
+    [self.makeNumber setTitle:@"Make Number" forState:UIControlStateNormal];
+    self.calculator.hidden = true;
+    
+
+}
+
+- (IBAction)clearPresssed:(UIButton *)sender {
+    numDigits = 0;
+    self.numberDisplay.text = @"";
+}
+
+- (IBAction)showCalc:(UIButton *)sender {
+    if (self.calculator.hidden == true) {
+        [sender setTitle:@"Close" forState:UIControlStateNormal];
+        self.calculator.hidden=false;
+    }
+    else{
+        [sender setTitle:@"Make Number" forState:UIControlStateNormal];
+        self.calculator.hidden=true;
+    }
 }
 
 
