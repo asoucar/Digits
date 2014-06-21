@@ -10,6 +10,8 @@
 
 @interface DigitView : UILabel
 
-@property (nonatomic, strong) NSDecimalNumber *value;
+@property (nonatomic, strong) NSNumber *value;
+
+- (id)initWithFrame:(CGRect)frame andValue:(NSNumber *)value;
 
 @end

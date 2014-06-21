@@ -25,6 +25,21 @@
     return self;
 }
 
+- (id)initWithFrame:(CGRect)frame andValue:(NSNumber *)value
+{
+    self = [super initWithFrame:frame];
+    self.value = value;
+    if (self) {
+        // Initialization code
+        
+        UISwipeGestureRecognizer *gesture2 = [[UISwipeGestureRecognizer alloc]
+                                              initWithTarget:self
+                                              action:@selector(numberSwiped:)];
+        
+    }
+    return self;
+}
+
 - (void) numberSwiped:(UISwipeGestureRecognizer *)gesture
 {
     if (gesture.direction == UISwipeGestureRecognizerDirectionUp || gesture.direction == UISwipeGestureRecognizerDirectionDown) {

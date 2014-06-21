@@ -204,12 +204,12 @@ bool decimalUsed = false;
     int upperY = 300;
     int labelY = lowerY + arc4random() % (upperY - lowerY);
     
-    BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(labelX, labelY, labelLength, 100)
+    BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(300, 100, labelLength, 100)
                                     andValue:[NSDecimalNumber decimalNumberWithString:self.numberDisplay.text]];
     newNumber.backgroundColor = [UIColor blackColor];
     
 
-    
+    /*
     UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, labelY, labelLength, 100)];
     //labelY = labelY+150;
     //newLabel.backgroundColor = [UIColor blackColor];
@@ -227,7 +227,7 @@ bool decimalUsed = false;
     // add it
     [self.view addSubview:newLabel];
     [self.onScreenNums addObject:newLabel];
-    
+    */
     self.numberDisplay.text = @"";
     decimalUsed = false;
     numDigits = 0;

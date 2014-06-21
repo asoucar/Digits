@@ -33,18 +33,23 @@
     self = [super initWithFrame:frame];
     self.value = value;
     if (self) {
+        self.wholeNumberDigits = [[NSMutableArray alloc] init];
+        int xPos = 0;
+        
         NSDecimalNumberHandler *behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:0 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:NO];
         NSDecimalNumber *wholePart = [value decimalNumberByRoundingAccordingToBehavior:behavior];
-        NSDecimalNumber *decPart = [value decimalNumberBySubtracting:wholePart];
+                NSDecimalNumber *decPart = [value decimalNumberBySubtracting:wholePart];
         
         //pull apart whole part into digits
         NSString *wholeValString = wholePart.stringValue;
         NSMutableArray *wholeDigits;
-        for (int i =0; i < wholeValString.length; i++){
-            NSNumber *charNum = [NSNumber numberWithChar:[wholeValString characterAtIndex:wholeValString.length - i]];
-            wholeDigits[i] = charNum;
+        for (int i = 0; i < wholeValString.length; i++){
+            NSString *charNum = [NSString stringWithString:[wholeValString string]];
+            NSLog(@"%@", charNum);
+            [self.wholeNumberDigits addObject:charNum];
         }
-        self.wholeNumberDigits = wholeDigits;
+
+        NSLog(@"whole digits: %@", self.wholeNumberDigits);
         
         //pull apart decimal part into digits
         NSString *decValString = decPart.stringValue;
@@ -57,10 +62,11 @@
         
         self.digitViews = [NSMutableArray array];
         
-        for (NSNumber *digi in self.wholeNumberDigits) {
-            //create new DigitView
-            //add new DigitView to self.digitViews array
-            //add to view at correct position
+        for (NSNumber *digit in self.wholeNumberDigits) {
+            DigitView *newDigit = [[DigitView alloc] initWithFrame:CGRectMake(xPos, 0, 35, 100) andValue:digit];
+            [self.digitViews addObject:newDigit];
+            [self addSubview:newDigit];
+            xPos = xPos*35;
         }
         
         for (NSNumber *digi in self.decimalNumberDigits) {
