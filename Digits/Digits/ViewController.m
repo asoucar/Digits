@@ -206,8 +206,9 @@ bool decimalUsed = false;
     
     BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(300, 100, labelLength, 100)
                                     andValue:[NSDecimalNumber decimalNumberWithString:self.numberDisplay.text]];
-    newNumber.backgroundColor = [UIColor blackColor];
-    
+    newNumber.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:newNumber];
+    [self.onScreenNums addObject:newNumber];
 
     /*
     UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, labelY, labelLength, 100)];

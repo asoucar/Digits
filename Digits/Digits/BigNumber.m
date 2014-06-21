@@ -34,6 +34,7 @@
     self.value = value;
     if (self) {
         self.wholeNumberDigits = [[NSMutableArray alloc] init];
+        self.decimalNumberDigits = [[NSMutableArray alloc] init];
         int xPos = 0;
         
         NSDecimalNumberHandler *behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:0 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:NO];
@@ -42,36 +43,55 @@
         
         //pull apart whole part into digits
         NSString *wholeValString = wholePart.stringValue;
-        NSMutableArray *wholeDigits = [[NSMutableArray alloc] init];
+        //NSMutableArray *wholeDigits = [[NSMutableArray alloc] init];
         for (int i =0; i < wholeValString.length; i++){
-            NSString *charNum = [NSString stringWithFormat:@"%c",[wholeValString characterAtIndex:wholeValString.length - i]];
-            wholeDigits[i] = charNum;
+            NSString *charNum = [NSString stringWithFormat:@"%c",[wholeValString characterAtIndex:i]];
+            self.wholeNumberDigits[i] = charNum;
         }
 
         NSLog(@"whole digits: %@", self.wholeNumberDigits);
         
         //pull apart decimal part into digits
         NSString *decValString = decPart.stringValue;
-        NSMutableArray *decDigits = [[NSMutableArray alloc] init];
+        //NSMutableArray *decDigits = [[NSMutableArray alloc] init];
         for (int i =0; i < decValString.length; i++){
             NSString *charNum = [NSString stringWithFormat:@"%c",[decValString characterAtIndex:i]];
-            decDigits[i] = charNum;
+            self.decimalNumberDigits[i] = charNum;
         }
-        self.decimalNumberDigits = decDigits;
+        NSLog(@"decimal digits: %@", self.decimalNumberDigits);
         
         self.digitViews = [[NSMutableArray alloc] init];
         
-        for (NSNumber *digit in self.wholeNumberDigits) {
-            DigitView *newDigit = [[DigitView alloc] initWithFrame:CGRectMake(xPos, 0, 35, 100) andValue:digit];
+        for (NSString *digit in self.wholeNumberDigits) {
+            NSLog(@"digit: %@", digit);
+            DigitView *newDigit = [[DigitView alloc] initWithFrame:CGRectMake(xPos, 0, 35, 100) andValue:[NSDecimalNumber decimalNumberWithString:digit]];
             [self.digitViews addObject:newDigit];
             [self addSubview:newDigit];
-            xPos = xPos*35;
+            newDigit.text = digit;
+            NSLog(@"new digit: %@", newDigit.text);
+            xPos = xPos+35;
         }
         
-        for (NSNumber *digi in self.decimalNumberDigits) {
-            //create new DigitView
-            //add new DigitView to self.digitViews array
-            //add to view at correct position
+        for (NSString *digit in self.decimalNumberDigits) {
+            NSLog(@"digit: %@", digit);
+            if ([digit isEqualToString:@"0"]) {
+                NSLog(@"no 0");
+            }
+            else if ([digit isEqualToString:@"."]) {
+                UILabel *decimal = [[UILabel alloc] initWithFrame:CGRectMake(xPos, 0, 35, 100)];
+                [self.digitViews addObject:decimal];
+                [self addSubview:decimal];
+                decimal.text = digit;
+                xPos = xPos+35;
+            }
+            else{
+            DigitView *newDigit = [[DigitView alloc] initWithFrame:CGRectMake(xPos, 0, 35, 100) andValue:[NSDecimalNumber decimalNumberWithString:digit]];
+            [self.digitViews addObject:newDigit];
+            [self addSubview:newDigit];
+            newDigit.text = digit;
+                xPos = xPos+35;
+            }
+        
         }
     }
     

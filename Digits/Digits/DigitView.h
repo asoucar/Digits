@@ -12,6 +12,6 @@
 
 @property (nonatomic, strong) NSNumber *value;
 
-- (id)initWithFrame:(CGRect)frame andValue:(NSNumber *)value;
+- (id)initWithFrame:(CGRect)frame andValue:(NSDecimalNumber *)value;
 
 @end

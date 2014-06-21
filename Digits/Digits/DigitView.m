@@ -25,18 +25,20 @@
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame andValue:(NSNumber *)value
+- (id)initWithFrame:(CGRect)frame andValue:(NSDecimalNumber *)value
 {
+
     self = [super initWithFrame:frame];
-    self.value = value;
     if (self) {
         // Initialization code
+        self.value = value;
         
         UISwipeGestureRecognizer *gesture2 = [[UISwipeGestureRecognizer alloc]
                                               initWithTarget:self
                                               action:@selector(numberSwiped:)];
         
     }
+    NSLog(@"%@", self);
     return self;
 }
 
