@@ -127,7 +127,7 @@ bool decimalUsed = false;
                 int labelLength = 35*sumVal.stringValue.length;
                 
                 UILabel *sumLabel = [[UILabel alloc] initWithFrame:CGRectMake(otherLabel.frame.origin.x, otherLabel.frame.origin.y, labelLength, 100)];
-                sumLabel.backgroundColor = [UIColor blackColor];
+                //sumLabel.backgroundColor = [UIColor blackColor];
                 sumLabel.text = sumVal.stringValue;
                 sumLabel.textColor = [UIColor whiteColor];
                 sumLabel.font = [UIFont fontWithName:@"Futura" size:50];
@@ -206,7 +206,7 @@ bool decimalUsed = false;
     
     UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, labelY, labelLength, 100)];
     //labelY = labelY+150;
-    newLabel.backgroundColor = [UIColor blackColor];
+    //newLabel.backgroundColor = [UIColor blackColor];
     newLabel.text = self.numberDisplay.text;
     newLabel.textColor = [UIColor whiteColor];
     newLabel.font = [UIFont fontWithName:@"Futura" size:50];
