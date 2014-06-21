@@ -42,25 +42,24 @@
         
         //pull apart whole part into digits
         NSString *wholeValString = wholePart.stringValue;
-        NSMutableArray *wholeDigits;
-        for (int i = 0; i < wholeValString.length; i++){
-            NSString *charNum = [NSString stringWithString:[wholeValString string]];
-            NSLog(@"%@", charNum);
-            [self.wholeNumberDigits addObject:charNum];
+        NSMutableArray *wholeDigits = [[NSMutableArray alloc] init];
+        for (int i =0; i < wholeValString.length; i++){
+            NSString *charNum = [NSString stringWithFormat:@"%c",[wholeValString characterAtIndex:wholeValString.length - i]];
+            wholeDigits[i] = charNum;
         }
 
         NSLog(@"whole digits: %@", self.wholeNumberDigits);
         
         //pull apart decimal part into digits
         NSString *decValString = decPart.stringValue;
-        NSMutableArray *decDigits;
+        NSMutableArray *decDigits = [[NSMutableArray alloc] init];
         for (int i =0; i < decValString.length; i++){
-            NSNumber *charNum = [NSNumber numberWithChar:[decValString characterAtIndex:i]];
+            NSString *charNum = [NSString stringWithFormat:@"%c",[decValString characterAtIndex:i]];
             decDigits[i] = charNum;
         }
         self.decimalNumberDigits = decDigits;
         
-        self.digitViews = [NSMutableArray array];
+        self.digitViews = [[NSMutableArray alloc] init];
         
         for (NSNumber *digit in self.wholeNumberDigits) {
             DigitView *newDigit = [[DigitView alloc] initWithFrame:CGRectMake(xPos, 0, 35, 100) andValue:digit];
