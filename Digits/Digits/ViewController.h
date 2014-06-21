@@ -7,12 +7,11 @@
 // 
 
 #import <UIKit/UIKit.h>
+#import "BigNumber.h"
 
 @interface ViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UIView *numbersView;
 @property (weak, nonatomic) IBOutlet UIView *calculator;
-@property (strong, nonatomic) IBOutlet UIView *mainView;
 @property (weak, nonatomic) IBOutlet UILabel *numberDisplay;
 @property (weak, nonatomic) IBOutlet UIButton *makeNumber;
 
