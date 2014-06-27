@@ -87,18 +87,17 @@
                 xPos = xPos+35;
             }
             else{
-            DigitView *newDigit = [[DigitView alloc] initWithFrame:CGRectMake(xPos, 0, 35, 50) andValue:[NSDecimalNumber decimalNumberWithString:digit]];
+            NSDecimalNumber *value = [NSDecimalNumber decimalNumberWithString:digit];
+            value = [value decimalNumberByMultiplyingByPowerOf10:((short)(-1*[self.decimalNumberDigits indexOfObject:digit]))];
+            DigitView *newDigit = [[DigitView alloc] initWithFrame:CGRectMake(xPos, 0, 35, 50) andValue:value];
             [self.digitViews addObject:newDigit];
             [self addSubview:newDigit];
             newDigit.text = digit;
             newDigit.textColor = [UIColor whiteColor];
             newDigit.font = [UIFont fontWithName:@"Futura" size:50];
             xPos = xPos+35;
-            UISwipeGestureRecognizer *gesture2 = [[UISwipeGestureRecognizer alloc]
-                                                    initWithTarget:self
-                                                    action:@selector(numberSwiped:)];
+            UITapGestureRecognizer *gesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberTapped:)];
             [newDigit addGestureRecognizer:gesture2];
-            newDigit.userInteractionEnabled = YES;
             }
         
         }
