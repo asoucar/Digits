@@ -94,7 +94,7 @@ bool decimalUsed = false;
             gesture.enabled = YES;
             
             
-            BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(number.frame.origin.x, number.frame.origin.y, labelLength, 50)andValue:decNum1 ];
+            BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(number.frame.origin.x, number.frame.origin.y, labelLength, 80)andValue:decNum1 ];
             newNumber.userInteractionEnabled = YES;
             
             UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
@@ -146,7 +146,7 @@ bool decimalUsed = false;
             gesture.enabled = YES;
             
             
-            BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(number.frame.origin.x, number.frame.origin.y, labelLength, 50)andValue:decNum1 ];
+            BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(number.frame.origin.x, number.frame.origin.y, labelLength, 80)andValue:decNum1 ];
             newNumber.userInteractionEnabled = YES;
             
             UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
@@ -168,11 +168,25 @@ bool decimalUsed = false;
 - (void)labelDragged:(UIPanGestureRecognizer *)gesture
 {
 	BigNumber *firstNumber = (BigNumber *)gesture.view;
-	CGPoint translation = [gesture translationInView:firstNumber];
     
-	// move label
-	firstNumber.center = CGPointMake(firstNumber.center.x + translation.x,
-                               firstNumber.center.y + translation.y);
+    //move number
+    CGPoint translation = [gesture translationInView:self.view];
+    CGPoint imageViewPosition = firstNumber.center;
+    imageViewPosition.x += translation.x;
+    imageViewPosition.y += translation.y;
+    
+    CGFloat checkOriginX = firstNumber.frame.origin.x + translation.x;
+    CGFloat checkOriginY = firstNumber.frame.origin.y + translation.y;
+    
+    CGRect rectToCheckBounds = CGRectMake(checkOriginX, checkOriginY, firstNumber.frame.size.width, firstNumber.frame.size.height);
+    
+    CGRect draggableFrame = CGRectMake(0, 25, self.view.frame.size.width, self.view.frame.size.height-180);
+    if (CGRectContainsRect(draggableFrame, rectToCheckBounds)){
+        firstNumber.center = imageViewPosition;
+        [gesture setTranslation:CGPointZero inView:self.view];
+    }
+    
+
     NSNumber *firstNumberDecimalLoc = [NSNumber numberWithFloat:((firstNumber.frame.origin.x)+[firstNumber.decimalPosition floatValue])];
 
     
@@ -187,9 +201,9 @@ bool decimalUsed = false;
                 NSDecimalNumber *decNum2 = otherNumber.value;
                 
                 NSDecimalNumber *sumVal = [decNum2 decimalNumberByAdding:decNum1];
-                int labelLength = 35*sumVal.stringValue.length;
+                int labelLength = 60*sumVal.stringValue.length;
                 
-                BigNumber *sumNumber = [[BigNumber alloc] initWithFrame:CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, labelLength, 50)andValue:sumVal ];
+                BigNumber *sumNumber = [[BigNumber alloc] initWithFrame:CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, labelLength, 80)andValue:sumVal ];
                 sumNumber.userInteractionEnabled = YES;
                 
                 UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
@@ -225,15 +239,16 @@ bool decimalUsed = false;
 	[gesture setTranslation:CGPointZero inView:firstNumber];
 }
 
-- (void)decomposeBigNumberWithNewValue:(NSDecimalNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir
+- (void)decomposeBigNumberWithNewValue:(NSDecimalNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir andOffset:(int)offest
 {
+    NSLog(@"offest decomp: %i",offest);
     NSDecimalNumber *decNum1 = prevNum.value;
     NSDecimalNumber *decNum2 = [NSDecimalNumber decimalNumberWithDecimal:val.decimalValue];
     
     NSDecimalNumber *subVal = [decNum1 decimalNumberBySubtracting:decNum2];
-    int labelLength = 35*subVal.stringValue.length;
+    int labelLength = 60*subVal.stringValue.length;
     
-    BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y, labelLength, 50) andValue:subVal];
+    BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y, labelLength, 80) andValue:subVal];
     subNumber.userInteractionEnabled = YES;
     
     UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
@@ -253,17 +268,17 @@ bool decimalUsed = false;
     int addX = 0;
     int addY = 0;
     if ([dir isEqualToString:@"up"]) {
-        addY = -50;
+        addY = -80;
     }
     else if ([dir isEqualToString:@"down"]) {
-        addY = 50;
+        addY = 80;
     }
     else if ([dir isEqualToString:@"right"]) {
-        addX = labelLength + 30;
+        addX = labelLength + 75;
     }
     
-    labelLength = 35*decNum2.stringValue.length;
-    BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(subNumber.frame.origin.x + addX, subNumber.frame.origin.y + addY, labelLength, 50) andValue:decNum2];
+    labelLength = 60*decNum2.stringValue.length;
+    BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(subNumber.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, labelLength, 80) andValue:decNum2];
 
     newNum.userInteractionEnabled = YES;
     
@@ -306,7 +321,7 @@ bool decimalUsed = false;
 
 - (IBAction)submitPressed:(UIButton *)sender {
     
-    int labelLength = (35*self.numberDisplay.text.length);
+    int labelLength = (60*self.numberDisplay.text.length);
     int lowerX = 50;
     int upperX = 768-(labelLength);
     int labelX = lowerX + arc4random() % (upperX - lowerX);

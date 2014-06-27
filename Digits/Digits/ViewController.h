@@ -34,6 +34,6 @@
 - (IBAction)subtractDivTen:(id)sender;
 - (IBAction)submitNumDecimalMoversPressed:(id)sender;
 
-- (void)decomposeBigNumberWithNewValue:(NSNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir;
+- (void)decomposeBigNumberWithNewValue:(NSNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir andOffset:(int)offset;
 
 @end
