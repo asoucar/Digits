@@ -216,9 +216,11 @@ bool decimalUsed = false;
     [prevNum removeFromSuperview];
     
     // add it
-    [self.view addSubview:subNumber];
-    [self.onScreenNums addObject:subNumber];
-    
+    if ([subVal compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
+        [self.view addSubview:subNumber];
+        [self.onScreenNums addObject:subNumber];
+    }
+
     int addX = 0;
     int addY = 0;
     if ([dir isEqualToString:@"up"]) {
@@ -242,8 +244,11 @@ bool decimalUsed = false;
     [newNum addGestureRecognizer:gesture4];
     
     // add it
-    [self.view addSubview:newNum];
-    [self.onScreenNums addObject:newNum];
+    if ([newNum.value compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
+        [self.view addSubview:newNum];
+        [self.onScreenNums addObject:newNum];
+    }
+    
 }
 
 - (IBAction)clearNumber:(UIButton *)sender {
