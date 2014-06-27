@@ -7,6 +7,7 @@
 //
 
 #import "BigNumber.h"
+#import "ViewController.h"
 
 @interface BigNumber()
 
@@ -137,6 +138,14 @@
         //and remove this digit from big number
         NSLog(@"swipe right");
         
+        if (gesture.enabled) {
+            gesture.enabled = NO;
+            NSLog(@"swipe right inside if");
+            ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
+            
+            [mainViewController decomposeBigNumberWithNewValue:((DigitView *)(gesture.view)).value andOrigNum:self andDir:@"right"];
+        }
+
         
     }
     else if (vel.y < 0) {
@@ -145,8 +154,15 @@
         //and subtract value from first big number
         //and remove this digit from big number
         NSLog(@"swipe up");
-    
-        
+
+        if (gesture.enabled) {
+            gesture.enabled = NO;
+            NSLog(@"swipe up inside if");
+            ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
+            
+            [mainViewController decomposeBigNumberWithNewValue:((DigitView *)(gesture.view)).value andOrigNum:self andDir:@"up"];
+        }
+
     }
     else if (vel.y > 0) {
         //tell big number to tell view controller to create a new big number
@@ -155,8 +171,13 @@
         //and remove this digit from big number
         NSLog(@"swipe down");
         
-        gesture.enabled = NO;
-        
+        if (gesture.enabled) {
+            NSLog(@"swipe down inside if");
+            gesture.enabled = NO;
+            ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
+            
+            [mainViewController decomposeBigNumberWithNewValue:((DigitView *)(gesture.view)).value andOrigNum:self andDir:@"down"];
+        }
     }
 }
 

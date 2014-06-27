@@ -194,9 +194,56 @@ bool decimalUsed = false;
     
 	// reset translation
 	[gesture setTranslation:CGPointZero inView:firstNumber];
+}
+
+- (void)decomposeBigNumberWithNewValue:(NSNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir
+{
+    NSDecimalNumber *decNum1 = prevNum.value;
+    NSDecimalNumber *decNum2 = [NSDecimalNumber decimalNumberWithDecimal:val.decimalValue];
     
+    NSDecimalNumber *subVal = [decNum1 decimalNumberBySubtracting:decNum2];
+    int labelLength = 35*subVal.stringValue.length;
     
+    BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y, labelLength, 50) andValue:subVal];
+    subNumber.userInteractionEnabled = YES;
     
+    UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+                                        initWithTarget:self
+                                        action:@selector(labelDragged:)];
+    [subNumber addGestureRecognizer:gesture3];
+    
+    [self.onScreenNums removeObject:prevNum];
+    [prevNum removeFromSuperview];
+    
+    // add it
+    [self.view addSubview:subNumber];
+    [self.onScreenNums addObject:subNumber];
+    
+    int addX = 0;
+    int addY = 0;
+    if ([dir isEqualToString:@"up"]) {
+        addY = -50;
+    }
+    else if ([dir isEqualToString:@"down"]) {
+        addY = 50;
+    }
+    else if ([dir isEqualToString:@"right"]) {
+        addX = labelLength + 30;
+    }
+    
+    labelLength = 35*decNum2.stringValue.length;
+    BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(subNumber.frame.origin.x + addX, subNumber.frame.origin.y + addY, labelLength, 50) andValue:decNum2];
+
+    newNum.userInteractionEnabled = YES;
+    
+    UIPanGestureRecognizer *gesture4 = [[UIPanGestureRecognizer alloc]
+                                        initWithTarget:self
+                                        action:@selector(labelDragged:)];
+    [newNum addGestureRecognizer:gesture4];
+    
+    // add it
+    [self.view addSubview:newNum];
+    [self.onScreenNums addObject:newNum];
 }
 
 - (IBAction)clearNumber:(UIButton *)sender {

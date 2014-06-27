@@ -23,4 +23,6 @@
 - (IBAction)showCalc:(UIButton *)sender;
 
 
+- (void)decomposeBigNumberWithNewValue:(NSNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir;
+
 @end
