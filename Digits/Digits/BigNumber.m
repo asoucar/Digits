@@ -60,7 +60,10 @@
         self.digitViews = [[NSMutableArray alloc] init];
         
         for (NSString *digit in self.wholeNumberDigits) {
-            DigitView *newDigit = [[DigitView alloc] initWithFrame:CGRectMake(xPos, 0, 35, 50) andValue:[NSDecimalNumber decimalNumberWithString:digit]];
+            NSDecimalNumber *value = [NSDecimalNumber decimalNumberWithString:digit];
+            value = [value decimalNumberByMultiplyingByPowerOf10:((short)([self.wholeNumberDigits count]-[self.wholeNumberDigits indexOfObject:digit]-1))];
+            
+            DigitView *newDigit = [[DigitView alloc] initWithFrame:CGRectMake(xPos, 0, 35, 50) andValue:value];
             [self.digitViews addObject:newDigit];
             [self addSubview:newDigit];
             newDigit.text = digit;
@@ -92,7 +95,12 @@
             newDigit.text = digit;
             newDigit.textColor = [UIColor whiteColor];
             newDigit.font = [UIFont fontWithName:@"Futura" size:50];
-                xPos = xPos+35;
+            xPos = xPos+35;
+            UISwipeGestureRecognizer *gesture2 = [[UISwipeGestureRecognizer alloc]
+                                                    initWithTarget:self
+                                                    action:@selector(numberSwiped:)];
+            [newDigit addGestureRecognizer:gesture2];
+            newDigit.userInteractionEnabled = YES;
             }
         
         }
@@ -119,6 +127,7 @@
         NSLog(@"swipe right");
     }
 }
+
 
 /*
 // Only override drawRect: if you perform custom drawing.
