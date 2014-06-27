@@ -12,6 +12,7 @@
 @interface BigNumber : UIView
 
 @property (nonatomic, strong) NSDecimalNumber *value;
+@property (nonatomic, strong) NSNumber *decimalPosition;
 
 - (id)initWithFrame:(CGRect)frame andValue:(NSDecimalNumber*)value;
 

@@ -38,7 +38,6 @@
                                               action:@selector(numberSwiped:)];
         
     }
-    NSLog(@"%@", self);
     return self;
 }
 
@@ -49,6 +48,7 @@
         //with value of this digit
         //and subtract value from first big number
         //and remove this digit from big number
+        NSLog(@"swipe up/down");
     }
     if (gesture.direction == UISwipeGestureRecognizerDirectionRight) {
         //tell big number to tell view controller to create a new big number

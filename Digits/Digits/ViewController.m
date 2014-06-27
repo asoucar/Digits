@@ -64,17 +64,33 @@ bool decimalUsed = false;
 	mult.center = CGPointMake(mult.center.x + translation.x,
                                mult.center.y + translation.y);
     [gesture setTranslation:CGPointZero inView:mult];
-    for (UILabel *label in self.onScreenNums)
+    for (BigNumber *number in self.onScreenNums)
     {
-        if (CGRectIntersectsRect(mult.frame, label.frame)) {
-            NSDecimalNumber *decNum1 = [NSDecimalNumber decimalNumberWithString:label.text];
+        if (CGRectIntersectsRect(mult.frame, number.frame)) {
+            NSDecimalNumber *decNum1 = number.value;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:1];
-            label.text = decNum1.stringValue;
+            number.value = decNum1;
             int labelLength = 35*decNum1.stringValue.length;
-            label.frame = CGRectMake(label.frame.origin.x, label.frame.origin.y, labelLength, 100);
             mult.center = CGPointMake(50, 120);
             gesture.enabled = NO;
             gesture.enabled = YES;
+            
+            
+            BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(number.frame.origin.x, number.frame.origin.y, labelLength, 50)andValue:decNum1 ];
+            newNumber.userInteractionEnabled = YES;
+            
+            UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+                                                initWithTarget:self
+                                                action:@selector(labelDragged:)];
+            [newNumber addGestureRecognizer:gesture3];
+            
+            [self.onScreenNums removeObject:number];
+            [number removeFromSuperview];
+            
+            // add it
+            [self.view addSubview:newNumber];
+            [self.onScreenNums addObject:newNumber];
+            
         }
     }
 
@@ -89,64 +105,77 @@ bool decimalUsed = false;
 	div.center = CGPointMake(div.center.x + translation.x,
                               div.center.y + translation.y);
     [gesture setTranslation:CGPointZero inView:div];
-    for (UILabel *label in self.onScreenNums)
+    for (BigNumber *number in self.onScreenNums)
     {
-        if (CGRectIntersectsRect(div.frame, label.frame))
+        if (CGRectIntersectsRect(div.frame, number.frame))
         {
-            NSDecimalNumber *decNum1 = [NSDecimalNumber decimalNumberWithString:label.text];
+            NSDecimalNumber *decNum1 = number.value;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:-1];
-            label.text = decNum1.stringValue;
+            number.value = decNum1;
             int labelLength = 35*decNum1.stringValue.length;
-            label.frame = CGRectMake(label.frame.origin.x, label.frame.origin.y, labelLength, 100);
             div.center = CGPointMake(50, 50);
             gesture.enabled = NO;
             gesture.enabled = YES;
-        }
+            
+            
+            BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(number.frame.origin.x, number.frame.origin.y, labelLength, 50)andValue:decNum1 ];
+            newNumber.userInteractionEnabled = YES;
+            
+            UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+                                                initWithTarget:self
+                                                action:@selector(labelDragged:)];
+            [newNumber addGestureRecognizer:gesture3];
+            
+            [self.onScreenNums removeObject:number];
+            [number removeFromSuperview];
+            
+            // add it
+            [self.view addSubview:newNumber];
+            [self.onScreenNums addObject:newNumber];        }
     }
 
 }
 
 - (void)labelDragged:(UIPanGestureRecognizer *)gesture
 {
-	UILabel *label = (UILabel *)gesture.view;
-	CGPoint translation = [gesture translationInView:label];
+	BigNumber *firstNumber = (BigNumber *)gesture.view;
+	CGPoint translation = [gesture translationInView:firstNumber];
     
 	// move label
-	label.center = CGPointMake(label.center.x + translation.x,
-                               label.center.y + translation.y);
+	firstNumber.center = CGPointMake(firstNumber.center.x + translation.x,
+                               firstNumber.center.y + translation.y);
+    NSNumber *firstNumberDecimalLoc = [NSNumber numberWithFloat:((firstNumber.frame.origin.x)+[firstNumber.decimalPosition floatValue])];
+
     
-    for (UILabel *otherLabel in self.onScreenNums) {
-        if (label != otherLabel && CGRectIntersectsRect(label.frame, otherLabel.frame)) {
-            //pretending alignment
-            if (YES) {
+    for (BigNumber *otherNumber in self.onScreenNums) {
+        NSNumber *otherNumberDecimalLoc = [NSNumber numberWithFloat:((otherNumber.frame.origin.x)+[otherNumber.decimalPosition floatValue])];
+
+        if (firstNumber != otherNumber && CGRectIntersectsRect(firstNumber.frame, otherNumber.frame)) {
+            int decimalLocDiff = abs([firstNumberDecimalLoc intValue]-[otherNumberDecimalLoc intValue]);
+            if (decimalLocDiff <= 2) {
                 
-                NSDecimalNumber *decNum1 = [NSDecimalNumber decimalNumberWithString:label.text];
-                NSDecimalNumber *decNum2 = [NSDecimalNumber decimalNumberWithString:otherLabel.text];
+                NSDecimalNumber *decNum1 = firstNumber.value;
+                NSDecimalNumber *decNum2 = otherNumber.value;
                 
                 NSDecimalNumber *sumVal = [decNum2 decimalNumberByAdding:decNum1];
                 int labelLength = 35*sumVal.stringValue.length;
                 
-                UILabel *sumLabel = [[UILabel alloc] initWithFrame:CGRectMake(otherLabel.frame.origin.x, otherLabel.frame.origin.y, labelLength, 100)];
-                //sumLabel.backgroundColor = [UIColor blackColor];
-                sumLabel.text = sumVal.stringValue;
-                sumLabel.textColor = [UIColor whiteColor];
-                sumLabel.font = [UIFont fontWithName:@"Futura" size:50];
-                
-                sumLabel.userInteractionEnabled = YES;
+                BigNumber *sumNumber = [[BigNumber alloc] initWithFrame:CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, labelLength, 50)andValue:sumVal ];
+                sumNumber.userInteractionEnabled = YES;
                 
                 UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                                     initWithTarget:self
                                                     action:@selector(labelDragged:)];
-                [sumLabel addGestureRecognizer:gesture3];
+                [sumNumber addGestureRecognizer:gesture3];
                 
-                [self.onScreenNums removeObject:label];
-                [self.onScreenNums removeObject:otherLabel];
-                [label removeFromSuperview];
-                [otherLabel removeFromSuperview];
+                [self.onScreenNums removeObject:firstNumber];
+                [self.onScreenNums removeObject:otherNumber];
+                [firstNumber removeFromSuperview];
+                [otherNumber removeFromSuperview];
                 
                 // add it
-                [self.view addSubview:sumLabel];
-                [self.onScreenNums addObject:sumLabel];
+                [self.view addSubview:sumNumber];
+                [self.onScreenNums addObject:sumNumber];
                 
                 break;
             }
@@ -155,8 +184,8 @@ bool decimalUsed = false;
             
             //for not aligned
             
-//            otherLabel.center = CGPointMake(otherLabel.center.x + translation.x,
-//                                                otherLabel.center.y + translation.y);
+            otherNumber.center = CGPointMake(otherNumber.center.x + translation.x,
+                                                otherNumber.center.y + translation.y);
             }
         }
 
@@ -164,7 +193,7 @@ bool decimalUsed = false;
     
     
 	// reset translation
-	[gesture setTranslation:CGPointZero inView:label];
+	[gesture setTranslation:CGPointZero inView:firstNumber];
     
     
     
@@ -204,31 +233,15 @@ bool decimalUsed = false;
     int upperY = 300;
     int labelY = lowerY + arc4random() % (upperY - lowerY);
     
-    BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(300, 100, labelLength, 100)
+    BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(labelX, labelY, labelLength, 50)
                                     andValue:[NSDecimalNumber decimalNumberWithString:self.numberDisplay.text]];
-    newNumber.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:newNumber];
     [self.onScreenNums addObject:newNumber];
-
-    /*
-    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, labelY, labelLength, 100)];
-    //labelY = labelY+150;
-    //newLabel.backgroundColor = [UIColor blackColor];
-    newLabel.text = self.numberDisplay.text;
-    newLabel.textColor = [UIColor whiteColor];
-    newLabel.font = [UIFont fontWithName:@"Futura" size:50];
-    
-    newLabel.userInteractionEnabled = YES;
-    
     UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
-                                                        initWithTarget:self
-                                                        action:@selector(labelDragged:)];
-    [newLabel addGestureRecognizer:gesture3];
-    
-    // add it
-    [self.view addSubview:newLabel];
-    [self.onScreenNums addObject:newLabel];
-    */
+                                        initWithTarget:self
+                                        action:@selector(labelDragged:)];
+    [newNumber addGestureRecognizer:gesture3];
+
     self.numberDisplay.text = @"";
     decimalUsed = false;
     numDigits = 0;
