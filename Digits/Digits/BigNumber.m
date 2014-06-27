@@ -55,6 +55,7 @@
             NSString *charNum = [NSString stringWithFormat:@"%c",[decValString characterAtIndex:i]];
             self.decimalNumberDigits[i] = charNum;
         }
+        //remove the leading 0 of the decimal numbers.
         [self.decimalNumberDigits removeObjectAtIndex:0];
 
         self.digitViews = [[NSMutableArray alloc] init];
@@ -96,8 +97,9 @@
             newDigit.textColor = [UIColor whiteColor];
             newDigit.font = [UIFont fontWithName:@"Futura" size:50];
             xPos = xPos+35;
-            UITapGestureRecognizer *gesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberTapped:)];
-            [newDigit addGestureRecognizer:gesture2];
+                            newDigit.userInteractionEnabled = YES;
+                UITapGestureRecognizer *gesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberTapped:)];
+                [newDigit addGestureRecognizer:gesture2];
             }
         
         }
