@@ -28,27 +28,25 @@
     if (self) {
         // Initialization code
         self.value = value;
+        self.isDigitSelected = false;
         
     }
     return self;
 }
 
-- (void) numberSwiped:(UISwipeGestureRecognizer *)gesture
+- (void)selected
 {
-    if (gesture.direction == UISwipeGestureRecognizerDirectionUp || gesture.direction == UISwipeGestureRecognizerDirectionDown) {
-        //tell big number to tell view controller to create a new big number
-        //with value of this digit
-        //and subtract value from first big number
-        //and remove this digit from big number
-        NSLog(@"swipe up/down");
-    }
-    if (gesture.direction == UISwipeGestureRecognizerDirectionRight) {
-        //tell big number to tell view controller to create a new big number
-        //with value of whole number with digits to right of this number, inclusive
-        //and subtract value from first big number
-        //and remove this digit from big number
-    }
+    self.isDigitSelected = true;
+    self.textColor = [UIColor blackColor];
 }
+
+- (void) deselect
+{
+    self.isDigitSelected = false;
+    self.textColor = [UIColor whiteColor];
+    [self removeGestureRecognizer:[self.gestureRecognizers objectAtIndex:1]];
+}
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

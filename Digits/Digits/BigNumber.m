@@ -15,6 +15,8 @@
 
 @property (nonatomic, strong) NSMutableArray *digitViews;
 
+@property BOOL movable;
+
 @end
 
 @implementation BigNumber
@@ -33,6 +35,7 @@
     self = [super initWithFrame:frame];
     self.value = value;
     if (self) {
+        self.movable = true;
         self.wholeNumberDigits = [[NSMutableArray alloc] init];
         self.decimalNumberDigits = [[NSMutableArray alloc] init];
         int xPos = 0;
@@ -111,24 +114,52 @@
 
 - (void) numberTapped:(UITapGestureRecognizer *)gesture
 {
+    self.movable = true;
     DigitView *tappedNum =(DigitView *)(gesture.view);
     NSLog(@"tap: %@", tappedNum.value);
     
-    tappedNum.textColor = [UIColor blackColor];
-    UIPanGestureRecognizer *dragger = [self.gestureRecognizers objectAtIndex:0];
-    dragger.enabled = !dragger.enabled;
+    for (DigitView *digit in self.digitViews) {
+        if (![digit.text isEqualToString: @"."]) {
+            if (!(digit == tappedNum) && digit.isDigitSelected) {
+                [digit deselect];
+            }
+            else if (digit == tappedNum && !digit.isDigitSelected) {
+                [digit selected];
+                UIPanGestureRecognizer *gesture2 = [[UIPanGestureRecognizer alloc]
+                                                    initWithTarget:self
+                                                    action:@selector(numberSwiped:)];
+                
+                [tappedNum addGestureRecognizer:gesture2];
+                self.movable = false;
+            }
+            else if (digit == tappedNum && digit.isDigitSelected) {
+                [digit deselect];
+            }
+        }
+    }
+    /*
+    if (!tappedNum.isDigitSelected) {
+        NSLog(@"select");
+        [tappedNum selected];
+    }
     
-    UIPanGestureRecognizer *gesture2 = [[UIPanGestureRecognizer alloc]
-     initWithTarget:self
-     action:@selector(numberSwiped:)];
-    
-    [tappedNum addGestureRecognizer:gesture2];
+    for (DigitView *digit in self.digitViews) {
+        if (![digit.text isEqualToString: @"."]) {
+            if (digit.isDigitSelected) {
+                self.movable = false;
+            }
 
+        }
+    }
+     */
+    UIPanGestureRecognizer *dragger = [self.gestureRecognizers objectAtIndex:0];
+    dragger.enabled = self.movable;
 }
 
 
 - (void) numberSwiped:(UIPanGestureRecognizer *)gesture
 {
+            gesture.enabled = NO;
     CGPoint vel = [gesture velocityInView:self];
     if (vel.x > 0 && vel.x > ABS(vel.y)) {
         //tell big number to tell view controller to create a new big number
@@ -145,6 +176,7 @@
         //and subtract value from first big number
         //and remove this digit from big number
         NSLog(@"swipe up");
+        
     
         
     }
@@ -154,8 +186,6 @@
         //and subtract value from first big number
         //and remove this digit from big number
         NSLog(@"swipe down");
-        
-        gesture.enabled = NO;
         
     }
 }
