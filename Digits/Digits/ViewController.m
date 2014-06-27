@@ -139,11 +139,25 @@ bool decimalUsed = false;
 - (void)labelDragged:(UIPanGestureRecognizer *)gesture
 {
 	BigNumber *firstNumber = (BigNumber *)gesture.view;
-	CGPoint translation = [gesture translationInView:firstNumber];
     
-	// move label
-	firstNumber.center = CGPointMake(firstNumber.center.x + translation.x,
-                               firstNumber.center.y + translation.y);
+    //move number
+    CGPoint translation = [gesture translationInView:self.view];
+    CGPoint imageViewPosition = firstNumber.center;
+    imageViewPosition.x += translation.x;
+    imageViewPosition.y += translation.y;
+    
+    CGFloat checkOriginX = firstNumber.frame.origin.x + translation.x;
+    CGFloat checkOriginY = firstNumber.frame.origin.y + translation.y;
+    
+    CGRect rectToCheckBounds = CGRectMake(checkOriginX, checkOriginY, firstNumber.frame.size.width, firstNumber.frame.size.height);
+    
+    CGRect draggableFrame = CGRectMake(0, 25, self.view.frame.size.width, self.view.frame.size.height-180);
+    if (CGRectContainsRect(draggableFrame, rectToCheckBounds)){
+        firstNumber.center = imageViewPosition;
+        [gesture setTranslation:CGPointZero inView:self.view];
+    }
+    
+
     NSNumber *firstNumberDecimalLoc = [NSNumber numberWithFloat:((firstNumber.frame.origin.x)+[firstNumber.decimalPosition floatValue])];
 
     
