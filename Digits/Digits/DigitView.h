@@ -11,7 +11,11 @@
 @interface DigitView : UILabel
 
 @property (nonatomic, strong) NSNumber *value;
+@property BOOL isDigitSelected;
 
 - (id)initWithFrame:(CGRect)frame andValue:(NSDecimalNumber *)value;
+
+- (void)selected;
+- (void)deselect;
 
 @end
