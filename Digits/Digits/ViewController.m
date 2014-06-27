@@ -67,6 +67,12 @@ bool decimalUsed = false;
     for (BigNumber *number in self.onScreenNums)
     {
         if (CGRectIntersectsRect(mult.frame, number.frame)) {
+            
+            NSNumber *numberDecimalLoc = [NSNumber numberWithFloat:((number.frame.origin.x)+[number.decimalPosition floatValue])];
+            int arrowAllign = abs([numberDecimalLoc intValue]-(int)mult.frame.origin.x);
+
+            if(arrowAllign <=10){
+
             NSDecimalNumber *decNum1 = number.value;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:1];
             number.value = decNum1;
@@ -90,6 +96,7 @@ bool decimalUsed = false;
             // add it
             [self.view addSubview:newNumber];
             [self.onScreenNums addObject:newNumber];
+            }
             
         }
     }
