@@ -76,10 +76,12 @@ bool decimalUsed = false;
     {
         if (CGRectIntersectsRect(mult.frame, number.frame)) {
             
-            NSNumber *numberDecimalLoc = [NSNumber numberWithFloat:((number.frame.origin.x)+[number.decimalPosition floatValue])];
+            NSNumber *numberDecimalLoc = [NSNumber numberWithFloat:((number.frame.origin.x)+[number.decimalPosition floatValue])+30];
             int arrowAllign = abs([numberDecimalLoc intValue]-(int)mult.frame.origin.x);
-
-            if(arrowAllign <=10){
+            NSLog(@"dec pos %@", numberDecimalLoc);
+            NSLog(@"arrow allign %i",(int)mult.frame.origin.x);
+            NSLog(@"arrow allign %i",arrowAllign);
+            if(arrowAllign <=5){
 
             NSDecimalNumber *decNum1 = number.value;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:1];
