@@ -311,6 +311,15 @@ bool decimalUsed = false;
         [v removeFromSuperview];
     }
     [self.onScreenNums removeAllObjects];
+    
+    self.numTimesTenDecMovers = 0;
+    self.numDivTenDecMovers = 0;
+    self.divCount.text = [NSString stringWithFormat:@"%d", self.numDivTenDecMovers];
+    self.multCount.text = [NSString stringWithFormat:@"%d", self.numTimesTenDecMovers];
+    self.divCount.hidden = YES;
+    self.multCount.hidden = true;
+    self.divBy10.hidden = YES;
+    self.multBy10.hidden = true;
 }
 
 - (IBAction)decimalPressed:(UIButton *)sender {
