@@ -15,6 +15,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *numberDisplay;
 @property (weak, nonatomic) IBOutlet UIButton *makeNumber;
 
+@property (weak, nonatomic) IBOutlet UIView *decimalMoverCreator;
+@property (weak, nonatomic) IBOutlet UILabel *times10NumDisplay;
+@property (weak, nonatomic) IBOutlet UILabel *divide10NumDisplay;
+@property (weak, nonatomic) IBOutlet UILabel *multCount;
+@property (weak, nonatomic) IBOutlet UILabel *divCount;
+
 - (IBAction)clearNumber:(UIButton *)sender;
 - (IBAction)decimalPressed:(UIButton *)sender;
 - (IBAction)numberPressed:(UIButton *)sender;
@@ -22,6 +28,11 @@
 - (IBAction)clearPresssed:(UIButton *)sender;
 - (IBAction)showCalc:(UIButton *)sender;
 
+- (IBAction)addTimesTen:(id)sender;
+- (IBAction)subtractTimesTen:(id)sender;
+- (IBAction)addDivTen:(id)sender;
+- (IBAction)subtractDivTen:(id)sender;
+- (IBAction)submitNumDecimalMoversPressed:(id)sender;
 
 - (void)decomposeBigNumberWithNewValue:(NSNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir;
 
