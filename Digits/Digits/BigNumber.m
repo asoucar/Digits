@@ -51,7 +51,7 @@
             NSString *charNum = [NSString stringWithFormat:@"%c",[wholeValString characterAtIndex:i]];
             self.wholeNumberDigits[i] = charNum;
         }
-        self.decimalPosition = [NSNumber numberWithInt:wholeValString.length*35];
+        self.decimalPosition = [NSNumber numberWithInt:wholeValString.length*60];
         
         //pull apart decimal part into digits
         NSString *decValString = decPart.stringValue;
@@ -68,13 +68,13 @@
             NSDecimalNumber *value = [NSDecimalNumber decimalNumberWithString:digit];
             value = [value decimalNumberByMultiplyingByPowerOf10:((short)([self.wholeNumberDigits count]-[self.wholeNumberDigits indexOfObject:digit]-1))];
             
-            DigitView *newDigit = [[DigitView alloc] initWithFrame:CGRectMake(xPos, 0, 35, 50) andValue:value];
+            DigitView *newDigit = [[DigitView alloc] initWithFrame:CGRectMake(xPos, 0, 60, 80) andValue:value];
             [self.digitViews addObject:newDigit];
             [self addSubview:newDigit];
             newDigit.text = digit;
             newDigit.textColor = [UIColor whiteColor];
-            newDigit.font = [UIFont fontWithName:@"Futura" size:50];
-            xPos = xPos+35;
+            newDigit.font = [UIFont fontWithName:@"Futura" size:100];
+            xPos = xPos+60;
             newDigit.userInteractionEnabled = YES;
             UITapGestureRecognizer *gesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberTapped:)];
             [newDigit addGestureRecognizer:gesture2];
@@ -82,25 +82,25 @@
         
         for (NSString *digit in self.decimalNumberDigits) {
             if ([digit isEqualToString:@"."]) {
-                UILabel *decimal = [[UILabel alloc] initWithFrame:CGRectMake(xPos, 0, 35, 50)];
+                UILabel *decimal = [[UILabel alloc] initWithFrame:CGRectMake(xPos, 0, 60, 80)];
                 [self.digitViews addObject:decimal];
                 [self addSubview:decimal];
                 decimal.text = digit;
                 decimal.textAlignment = UITextAlignmentCenter;
                 decimal.textColor = [UIColor whiteColor];
-                decimal.font = [UIFont fontWithName:@"Futura" size:50];
-                xPos = xPos+35;
+                decimal.font = [UIFont fontWithName:@"Futura" size:100];
+                xPos = xPos+60;
             }
             else{
             NSDecimalNumber *value = [NSDecimalNumber decimalNumberWithString:digit];
             value = [value decimalNumberByMultiplyingByPowerOf10:((short)(-1*[self.decimalNumberDigits indexOfObject:digit]))];
-            DigitView *newDigit = [[DigitView alloc] initWithFrame:CGRectMake(xPos, 0, 35, 50) andValue:value];
+            DigitView *newDigit = [[DigitView alloc] initWithFrame:CGRectMake(xPos, 0, 60, 80) andValue:value];
             [self.digitViews addObject:newDigit];
             [self addSubview:newDigit];
             newDigit.text = digit;
             newDigit.textColor = [UIColor whiteColor];
-            newDigit.font = [UIFont fontWithName:@"Futura" size:50];
-            xPos = xPos+35;
+            newDigit.font = [UIFont fontWithName:@"Futura" size:100];
+            xPos = xPos+60;
                             newDigit.userInteractionEnabled = YES;
                 UITapGestureRecognizer *gesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberTapped:)];
                 [newDigit addGestureRecognizer:gesture2];
@@ -184,8 +184,7 @@
             }
             
             ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
-            
-            [mainViewController decomposeBigNumberWithNewValue:newNum andOrigNum:self andDir:@"right"];
+            [mainViewController decomposeBigNumberWithNewValue:newNum andOrigNum:self andDir:@"right" andOffset:0];
         }
 
         
@@ -201,8 +200,13 @@
             gesture.enabled = NO;
             NSLog(@"swipe up inside if");
             ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
-            
-            [mainViewController decomposeBigNumberWithNewValue:[NSDecimalNumber decimalNumberWithDecimal:((DigitView *)(gesture.view)).value.decimalValue] andOrigNum:self andDir:@"up"];
+            int offset = 60*([self.digitViews indexOfObject:((DigitView *)(gesture.view))]);
+            if ([NSDecimalNumber decimalNumberWithDecimal:((DigitView *)(gesture.view)).value.decimalValue].doubleValue < 1) {
+                offset = self.wholeNumberDigits.count*60-120;
+            }
+                        NSLog(@"offset: %i", offset);
+
+            [mainViewController decomposeBigNumberWithNewValue:[NSDecimalNumber decimalNumberWithDecimal:((DigitView *)(gesture.view)).value.decimalValue] andOrigNum:self andDir:@"up" andOffset:offset];
         }
 
     }
@@ -217,8 +221,14 @@
             NSLog(@"swipe down inside if");
             gesture.enabled = NO;
             ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
+            int offset = 60*([self.digitViews indexOfObject:((DigitView *)(gesture.view))]);
+            if ([NSDecimalNumber decimalNumberWithDecimal:((DigitView *)(gesture.view)).value.decimalValue].doubleValue < 1) {
+                NSLog(@"less than 1");
+                offset = (self.wholeNumberDigits.count - 1)*60;
+            }
+            NSLog(@"offset: %i", offset);
             
-            [mainViewController decomposeBigNumberWithNewValue:[NSDecimalNumber decimalNumberWithDecimal:((DigitView *)(gesture.view)).value.decimalValue] andOrigNum:self andDir:@"down"];
+            [mainViewController decomposeBigNumberWithNewValue:[NSDecimalNumber decimalNumberWithDecimal:((DigitView *)(gesture.view)).value.decimalValue] andOrigNum:self andDir:@"down" andOffset:offset];
         }
     }
 }
