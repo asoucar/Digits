@@ -11,6 +11,10 @@
 @interface ViewController ()
 
 @property (nonatomic, strong) NSMutableArray *onScreenNums;
+@property (nonatomic) int numTimesTenDecMovers;
+@property (nonatomic) int numDivTenDecMovers;
+@property (nonatomic, strong) UIImageView *multBy10;
+@property (nonatomic, strong) UIImageView *divBy10;
 
 @end
 
@@ -24,6 +28,9 @@ bool decimalUsed = false;
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     self.calculator.hidden=true;
+    self.decimalMoverCreator.hidden = true;
+    self.numTimesTenDecMovers = 0;
+    self.numDivTenDecMovers = 0;
     
     self.onScreenNums = [NSMutableArray array];
     
@@ -34,25 +41,26 @@ bool decimalUsed = false;
                                         initWithTarget:self
                                         action:@selector(divDragged:)];
     
+    self.divBy10 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"rightArrow.jpeg"]];
+    self.multBy10 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"leftArrow.jpeg"]];
     
+    self.divBy10.userInteractionEnabled = YES;
+    self.multBy10.userInteractionEnabled = YES;
+    self.divBy10.frame = CGRectMake(65, 25, 70, 50);
+    self.divBy10.backgroundColor = [UIColor clearColor];
+    self.multBy10.frame = CGRectMake(65, 95, 70, 50);
+    self.multBy10.backgroundColor = [UIColor clearColor];
     
-    UIImageView *divBy10 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"rightArrow.jpeg"]];
-    UIImageView *multBy10 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"leftArrow.jpeg"]];
+    [self.multBy10 addGestureRecognizer:gesture1];
+    [self.divBy10 addGestureRecognizer:gesture2];
     
-    divBy10.userInteractionEnabled = YES;
-    multBy10.userInteractionEnabled = YES;
-    
-    divBy10.frame = CGRectMake(15, 25, 70, 50);
-    divBy10.backgroundColor = [UIColor clearColor];
-    multBy10.frame = CGRectMake(15, 95, 70, 50);
-    multBy10.backgroundColor = [UIColor clearColor];
-    
-    [multBy10 addGestureRecognizer:gesture1];
-    [divBy10 addGestureRecognizer:gesture2];
-    
-    [self.view addSubview:divBy10];
-    [self.view addSubview:multBy10];
+    [self.view addSubview:self.divBy10];
+    [self.view addSubview:self.multBy10];
 
+    self.divBy10.hidden = YES;
+    self.multBy10.hidden = YES;
+    self.multCount.hidden = YES;
+    self.divCount.hidden = YES;
 }
 
 - (void)multDragged:(UIPanGestureRecognizer *)gesture
@@ -77,7 +85,17 @@ bool decimalUsed = false;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:1];
             number.value = decNum1;
             int labelLength = 60*decNum1.stringValue.length;
-            mult.center = CGPointMake(50, 120);
+            mult.center = CGPointMake(100, 120);
+            self.numTimesTenDecMovers -= 1;
+            self.multCount.text = [NSString stringWithFormat:@"%d", self.numTimesTenDecMovers];
+            if (self.numDivTenDecMovers <= 0) {
+                self.divBy10.hidden = YES;
+                self.divCount.hidden = YES;
+            }
+            if (self.numTimesTenDecMovers <= 0) {
+                self.multBy10.hidden = YES;
+                self.multCount.hidden = YES;
+            }
             gesture.enabled = NO;
             gesture.enabled = YES;
             
@@ -120,7 +138,17 @@ bool decimalUsed = false;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:-1];
             number.value = decNum1;
             int labelLength = 60*decNum1.stringValue.length;
-            div.center = CGPointMake(50, 50);
+            div.center = CGPointMake(100, 50);
+            self.numDivTenDecMovers -= 1;
+            self.divCount.text = [NSString stringWithFormat:@"%d", self.numDivTenDecMovers];
+            if (self.numDivTenDecMovers <= 0) {
+                self.divBy10.hidden = YES;
+                self.divCount.hidden = YES;
+            }
+            if (self.numTimesTenDecMovers <= 0) {
+                self.multBy10.hidden = YES;
+                self.multCount.hidden = YES;
+            }
             gesture.enabled = NO;
             gesture.enabled = YES;
             
@@ -138,7 +166,8 @@ bool decimalUsed = false;
             
             // add it
             [self.view addSubview:newNumber];
-            [self.onScreenNums addObject:newNumber];        }
+            [self.onScreenNums addObject:newNumber];
+        }
     }
 
 }
@@ -332,6 +361,11 @@ bool decimalUsed = false;
         numDigits = 0;
         [self.makeNumber setTitle:@"Make" forState:UIControlStateNormal];
         self.calculator.hidden = true;
+        
+        //for decimal mover creator
+        self.times10NumDisplay.text = @"";
+        self.divide10NumDisplay.text = @"";
+        self.decimalMoverCreator.hidden = true;
     }
 }
 
@@ -345,10 +379,69 @@ bool decimalUsed = false;
         [sender setTitle:@"Close" forState:UIControlStateNormal];
         self.calculator.hidden=false;
         [self.view bringSubviewToFront:self.calculator];
+        
+        self.decimalMoverCreator.hidden = false;
+        [self.view bringSubviewToFront:self.decimalMoverCreator];
+        if ([self.times10NumDisplay.text isEqualToString:@""]) {
+            self.times10NumDisplay.text = @"0";
+        }
+        if ([self.divide10NumDisplay.text isEqualToString:@""]) {
+            self.divide10NumDisplay.text = @"0";
+        }
     }
     else{
         [sender setTitle:@"Make" forState:UIControlStateNormal];
         self.calculator.hidden=true;
+        self.decimalMoverCreator.hidden = true;
+    }
+}
+
+- (IBAction)addTimesTen:(id)sender {
+    int newNum =[NSDecimalNumber decimalNumberWithString:self.times10NumDisplay.text].intValue + 1;
+    self.times10NumDisplay.text = [NSString stringWithFormat:@"%d",newNum];
+}
+
+- (IBAction)subtractTimesTen:(id)sender {
+    int newNum =[NSDecimalNumber decimalNumberWithString:self.times10NumDisplay.text].intValue - 1;
+    if (newNum < 0) {
+        newNum = 0;
+    }
+    self.times10NumDisplay.text = [NSString stringWithFormat:@"%d",newNum];
+}
+
+- (IBAction)addDivTen:(id)sender {
+    int newNum =[NSDecimalNumber decimalNumberWithString:self.divide10NumDisplay.text].intValue + 1;
+    self.divide10NumDisplay.text = [NSString stringWithFormat:@"%d",newNum];
+}
+
+- (IBAction)subtractDivTen:(id)sender {
+    int newNum =[NSDecimalNumber decimalNumberWithString:self.divide10NumDisplay.text].intValue - 1;
+    if (newNum < 0) {
+        newNum = 0;
+    }
+    self.divide10NumDisplay.text = [NSString stringWithFormat:@"%d",newNum];
+}
+
+- (IBAction)submitNumDecimalMoversPressed:(id)sender {
+    self.numTimesTenDecMovers = [NSDecimalNumber decimalNumberWithString:self.times10NumDisplay.text].intValue;
+    self.numDivTenDecMovers = [NSDecimalNumber decimalNumberWithString:self.divide10NumDisplay.text].intValue;
+    self.times10NumDisplay.text = @"";
+    self.divide10NumDisplay.text = @"";
+    
+    self.divCount.text = [NSString stringWithFormat:@"%d", self.numDivTenDecMovers];
+    self.multCount.text = [NSString stringWithFormat:@"%d", self.numTimesTenDecMovers];
+    self.divCount.hidden = YES;
+    self.multCount.hidden = true;
+    self.divBy10.hidden = YES;
+    self.multBy10.hidden = true;
+    
+    if (self.numDivTenDecMovers > 0) {
+        self.divBy10.hidden = NO;
+        self.divCount.hidden = NO;
+    }
+    if (self.numTimesTenDecMovers > 0) {
+        self.multBy10.hidden = NO;
+        self.multCount.hidden = NO;
     }
 }
 
