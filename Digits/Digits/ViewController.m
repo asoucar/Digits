@@ -203,7 +203,18 @@ bool decimalUsed = false;
                 NSDecimalNumber *sumVal = [decNum2 decimalNumberByAdding:decNum1];
                 int labelLength = 60*sumVal.stringValue.length;
                 
-                BigNumber *sumNumber = [[BigNumber alloc] initWithFrame:CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, labelLength, 80)andValue:sumVal ];
+                int num1Length = decNum1.stringValue.length;
+                int num2Length = decNum2.stringValue.length;
+                CGRect sumFrame;
+                if (num1Length > num2Length) {
+                    sumFrame = CGRectMake(firstNumber.frame.origin.x, firstNumber.frame.origin.y, labelLength, 80);
+                }
+                else {
+                    sumFrame = CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, labelLength, 80);
+                }
+                
+                
+                BigNumber *sumNumber = [[BigNumber alloc] initWithFrame:sumFrame andValue:sumVal ];
                 sumNumber.userInteractionEnabled = YES;
                 
                 UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
