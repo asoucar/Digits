@@ -160,7 +160,6 @@
 
 - (void) numberSwiped:(UIPanGestureRecognizer *)gesture
 {
-            gesture.enabled = NO;
     CGPoint vel = [gesture velocityInView:self];
     if (vel.x > 0 && vel.x > ABS(vel.y)) {
         //tell big number to tell view controller to create a new big number
