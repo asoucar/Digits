@@ -217,9 +217,11 @@ bool decimalUsed = false;
     [prevNum removeFromSuperview];
     
     // add it
-    [self.view addSubview:subNumber];
-    [self.onScreenNums addObject:subNumber];
-    
+    if ([subVal compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
+        [self.view addSubview:subNumber];
+        [self.onScreenNums addObject:subNumber];
+    }
+
     int addX = 0;
     int addY = 0;
     if ([dir isEqualToString:@"up"]) {
@@ -243,8 +245,11 @@ bool decimalUsed = false;
     [newNum addGestureRecognizer:gesture4];
     
     // add it
-    [self.view addSubview:newNum];
-    [self.onScreenNums addObject:newNum];
+    if ([newNum.value compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
+        [self.view addSubview:newNum];
+        [self.onScreenNums addObject:newNum];
+    }
+    
 }
 
 - (IBAction)clearNumber:(UIButton *)sender {
@@ -264,7 +269,7 @@ bool decimalUsed = false;
 }
 
 - (IBAction)numberPressed:(UIButton *)sender {
-    NSString *number = sender.currentTitle;\
+    NSString *number = sender.currentTitle;
     if (numDigits < 8) {
         self.numberDisplay.text = [self.numberDisplay.text stringByAppendingString:number];
         numDigits++;
@@ -281,22 +286,32 @@ bool decimalUsed = false;
     int upperY = 300;
     int labelY = lowerY + arc4random() % (upperY - lowerY);
     
-    BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(labelX, labelY, labelLength, 80)
-                                    andValue:[NSDecimalNumber decimalNumberWithString:self.numberDisplay.text]];
-    [self.view addSubview:newNumber];
-    [self.onScreenNums addObject:newNumber];
-    UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
-                                        initWithTarget:self
-                                        action:@selector(labelDragged:)];
-    [newNumber addGestureRecognizer:gesture3];
-
-    self.numberDisplay.text = @"";
-    decimalUsed = false;
-    numDigits = 0;
-    [self.makeNumber setTitle:@"Make" forState:UIControlStateNormal];
-    self.calculator.hidden = true;
+    CGRect potentialFrame = CGRectMake(300, 50, labelLength, 50);
     
-
+    BOOL isANumInSpawnSpot = NO;
+    for (BigNumber *oldNum in self.onScreenNums) {
+        if (CGRectIntersectsRect(oldNum.frame, potentialFrame)) {
+            isANumInSpawnSpot = YES;
+        }
+    }
+    
+    if (!isANumInSpawnSpot) {
+        BigNumber *newNumber = [[BigNumber alloc] initWithFrame:potentialFrame
+                                                       andValue:[NSDecimalNumber decimalNumberWithString:self.numberDisplay.text]];
+        [self.view addSubview:newNumber];
+        newNumber.center = CGPointMake(384, 75);
+        [self.onScreenNums addObject:newNumber];
+        UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+                                            initWithTarget:self
+                                            action:@selector(labelDragged:)];
+        [newNumber addGestureRecognizer:gesture3];
+        
+        self.numberDisplay.text = @"";
+        decimalUsed = false;
+        numDigits = 0;
+        [self.makeNumber setTitle:@"Make" forState:UIControlStateNormal];
+        self.calculator.hidden = true;
+    }
 }
 
 - (IBAction)clearPresssed:(UIButton *)sender {
