@@ -70,12 +70,10 @@
             newDigit.textColor = [UIColor whiteColor];
             newDigit.font = [UIFont fontWithName:@"Futura" size:50];
             xPos = xPos+35;
-            UISwipeGestureRecognizer *gesture2 = [[UISwipeGestureRecognizer alloc]
-                                                  initWithTarget:self
-                                                  action:@selector(numberSwiped:)];
-            [newDigit addGestureRecognizer:gesture2];
             newDigit.userInteractionEnabled = YES;
-        }
+            UITapGestureRecognizer *gesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberTapped:)];
+            [newDigit addGestureRecognizer:gesture2];
+            }
         
         for (NSString *digit in self.decimalNumberDigits) {
             if ([digit isEqualToString:@"."]) {
@@ -110,21 +108,54 @@
     return self;
 }
 
-- (void) numberSwiped:(UISwipeGestureRecognizer *)gesture
+- (void) numberTapped:(UITapGestureRecognizer *)gesture
 {
-    if (gesture.direction == UISwipeGestureRecognizerDirectionUp || gesture.direction == UISwipeGestureRecognizerDirectionDown) {
-        //tell big number to tell view controller to create a new big number
-        //with value of this digit
-        //and subtract value from first big number
-        //and remove this digit from big number
-        NSLog(@"swipe up/down");
-    }
-    if (gesture.direction == UISwipeGestureRecognizerDirectionRight) {
+    DigitView *tappedNum =(DigitView *)(gesture.view);
+    NSLog(@"tap: %@", tappedNum.value);
+    
+    tappedNum.textColor = [UIColor blackColor];
+    UIPanGestureRecognizer *dragger = [self.gestureRecognizers objectAtIndex:0];
+    dragger.enabled = !dragger.enabled;
+    
+    UIPanGestureRecognizer *gesture2 = [[UIPanGestureRecognizer alloc]
+     initWithTarget:self
+     action:@selector(numberSwiped:)];
+    
+    [tappedNum addGestureRecognizer:gesture2];
+
+}
+
+
+- (void) numberSwiped:(UIPanGestureRecognizer *)gesture
+{
+    CGPoint vel = [gesture velocityInView:self];
+    if (vel.x > 0 && vel.x > ABS(vel.y)) {
         //tell big number to tell view controller to create a new big number
         //with value of whole number with digits to right of this number, inclusive
         //and subtract value from first big number
         //and remove this digit from big number
         NSLog(@"swipe right");
+        
+        
+    }
+    else if (vel.y < 0) {
+        //tell big number to tell view controller to create a new big number
+        //with value of this digit
+        //and subtract value from first big number
+        //and remove this digit from big number
+        NSLog(@"swipe up");
+    
+        
+    }
+    else if (vel.y > 0) {
+        //tell big number to tell view controller to create a new big number
+        //with value of this digit
+        //and subtract value from first big number
+        //and remove this digit from big number
+        NSLog(@"swipe down");
+        
+        gesture.enabled = NO;
+        
     }
 }
 

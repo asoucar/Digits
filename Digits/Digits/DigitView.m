@@ -17,10 +17,6 @@
     if (self) {
         // Initialization code
         
-        UISwipeGestureRecognizer *gesture2 = [[UISwipeGestureRecognizer alloc]
-                                            initWithTarget:self
-                                            action:@selector(numberSwiped:)];
-        
     }
     return self;
 }
@@ -32,10 +28,6 @@
     if (self) {
         // Initialization code
         self.value = value;
-        
-        UISwipeGestureRecognizer *gesture2 = [[UISwipeGestureRecognizer alloc]
-                                              initWithTarget:self
-                                              action:@selector(numberSwiped:)];
         
     }
     return self;
