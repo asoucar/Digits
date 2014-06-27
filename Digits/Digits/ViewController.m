@@ -196,7 +196,7 @@ bool decimalUsed = false;
 	[gesture setTranslation:CGPointZero inView:firstNumber];
 }
 
-- (void)decomposeBigNumberWithNewValue:(NSNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir
+- (void)decomposeBigNumberWithNewValue:(NSDecimalNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir
 {
     NSDecimalNumber *decNum1 = prevNum.value;
     NSDecimalNumber *decNum2 = [NSDecimalNumber decimalNumberWithDecimal:val.decimalValue];

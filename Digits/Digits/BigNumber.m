@@ -171,9 +171,21 @@
         if (gesture.enabled) {
             gesture.enabled = NO;
             NSLog(@"swipe right inside if");
+            
+            //calculate new value
+            int indexOfTap = [self.digitViews indexOfObject:((DigitView *)(gesture.view))];
+            
+            NSDecimalNumber *newNum = [NSDecimalNumber decimalNumberWithString:@"0"];
+            for (indexOfTap; indexOfTap < self.digitViews.count; indexOfTap++) {
+                DigitView *dig = [self.digitViews objectAtIndex:indexOfTap];
+                if (![dig.text isEqualToString:@"."]) {
+                    newNum = [newNum decimalNumberByAdding:[NSDecimalNumber decimalNumberWithDecimal:dig.value.decimalValue]];
+                }
+            }
+            
             ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
             
-            [mainViewController decomposeBigNumberWithNewValue:((DigitView *)(gesture.view)).value andOrigNum:self andDir:@"right"];
+            [mainViewController decomposeBigNumberWithNewValue:newNum andOrigNum:self andDir:@"right"];
         }
 
         
@@ -190,7 +202,7 @@
             NSLog(@"swipe up inside if");
             ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
             
-            [mainViewController decomposeBigNumberWithNewValue:((DigitView *)(gesture.view)).value andOrigNum:self andDir:@"up"];
+            [mainViewController decomposeBigNumberWithNewValue:[NSDecimalNumber decimalNumberWithDecimal:((DigitView *)(gesture.view)).value.decimalValue] andOrigNum:self andDir:@"up"];
         }
 
     }
@@ -206,7 +218,7 @@
             gesture.enabled = NO;
             ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
             
-            [mainViewController decomposeBigNumberWithNewValue:((DigitView *)(gesture.view)).value andOrigNum:self andDir:@"down"];
+            [mainViewController decomposeBigNumberWithNewValue:[NSDecimalNumber decimalNumberWithDecimal:((DigitView *)(gesture.view)).value.decimalValue] andOrigNum:self andDir:@"down"];
         }
     }
 }
