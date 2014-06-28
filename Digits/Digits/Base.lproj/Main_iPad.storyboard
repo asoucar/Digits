@@ -340,7 +340,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="leftArrow.jpeg" width="300" height="300"/>
+        <image name="leftArrow.jpeg" width="325" height="300"/>
         <image name="rightArrow.jpeg" width="300" height="300"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
