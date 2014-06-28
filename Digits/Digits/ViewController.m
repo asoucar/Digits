@@ -108,6 +108,7 @@ bool decimalUsed = false;
             // add it
             [self.view addSubview:newNumber];
             [self.onScreenNums addObject:newNumber];
+            [newNumber wobbleAnimation];
             
         }
     }
@@ -160,6 +161,7 @@ bool decimalUsed = false;
             // add it
             [self.view addSubview:newNumber];
             [self.onScreenNums addObject:newNumber];
+            [newNumber wobbleAnimation];
         }
     }
 
@@ -230,6 +232,7 @@ bool decimalUsed = false;
                 // add it
                 [self.view addSubview:sumNumber];
                 [self.onScreenNums addObject:sumNumber];
+                [sumNumber wobbleAnimation];
                 
                 break;
             }
@@ -274,6 +277,7 @@ bool decimalUsed = false;
     if ([subVal compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
         [self.view addSubview:subNumber];
         [self.onScreenNums addObject:subNumber];
+        [subNumber wobbleAnimation];
     }
 
     int addX = 0;
@@ -302,6 +306,7 @@ bool decimalUsed = false;
     if ([newNum.value compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
         [self.view addSubview:newNum];
         [self.onScreenNums addObject:newNum];
+        [newNum wobbleAnimation];
     }
     
 }
@@ -368,6 +373,7 @@ bool decimalUsed = false;
                                             initWithTarget:self
                                             action:@selector(labelDragged:)];
         [newNumber addGestureRecognizer:gesture3];
+        [newNumber wobbleAnimation];
         
         self.numberDisplay.text = @"";
         decimalUsed = false;
