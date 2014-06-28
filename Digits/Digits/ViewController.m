@@ -74,14 +74,15 @@ bool decimalUsed = false;
     [gesture setTranslation:CGPointZero inView:mult];
     for (BigNumber *number in self.onScreenNums)
     {
-        if (CGRectIntersectsRect(mult.frame, number.frame)) {
-            
-            NSNumber *numberDecimalLoc = [NSNumber numberWithFloat:((number.frame.origin.x)+[number.decimalPosition floatValue])+30];
-            int arrowAllign = abs([numberDecimalLoc intValue]-(int)mult.frame.origin.x);
-            NSLog(@"dec pos %@", numberDecimalLoc);
-            NSLog(@"arrow allign %i",(int)mult.frame.origin.x);
-            NSLog(@"arrow allign %i",arrowAllign);
-            if(arrowAllign <=5){
+        int decShift = 0;
+        
+        NSNumber *numberDecimalLoc = [NSNumber numberWithFloat:((number.frame.origin.x)+[number.decimalPosition floatValue])+decShift];
+        int arrowAllign = abs([numberDecimalLoc intValue]-((int)mult.frame.origin.x));
+        NSLog(@"arrow allign %i",arrowAllign);
+        
+        CGRect projectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y, number.frame.size.width+60, number.frame.size.height);
+
+        if (CGRectIntersectsRect(mult.frame, projectedFrame) && (arrowAllign <=5)) {
 
             NSDecimalNumber *decNum1 = number.value;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:1];
@@ -116,7 +117,6 @@ bool decimalUsed = false;
             // add it
             [self.view addSubview:newNumber];
             [self.onScreenNums addObject:newNumber];
-            }
             
         }
     }
@@ -342,14 +342,8 @@ bool decimalUsed = false;
 - (IBAction)submitPressed:(UIButton *)sender {
     
     int labelLength = (60*self.numberDisplay.text.length);
-    int lowerX = 50;
-    int upperX = 768-(labelLength);
-    int labelX = lowerX + arc4random() % (upperX - lowerX);
-    int lowerY = 50;
-    int upperY = 300;
-    int labelY = lowerY + arc4random() % (upperY - lowerY);
-    
-    CGRect potentialFrame = CGRectMake(300, 50, labelLength, 50);
+
+    CGRect potentialFrame = CGRectMake(300, 50, labelLength, 80);
     
     BOOL isANumInSpawnSpot = NO;
     for (BigNumber *oldNum in self.onScreenNums) {
@@ -363,6 +357,7 @@ bool decimalUsed = false;
                                                        andValue:[NSDecimalNumber decimalNumberWithString:self.numberDisplay.text]];
         [self.view addSubview:newNumber];
         newNumber.center = CGPointMake(384, 75);
+        newNumber.backgroundColor = [UIColor blackColor];
         [self.onScreenNums addObject:newNumber];
         UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                             initWithTarget:self
