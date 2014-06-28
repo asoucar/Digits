@@ -407,7 +407,7 @@ bool decimalUsed = false;
         }
     }
     
-    if (!isANumInSpawnSpot) {
+    if (!isANumInSpawnSpot && ![self.numberDisplay.text isEqualToString:@""]) {
         BigNumber *newNumber = [[BigNumber alloc] initWithFrame:potentialFrame
                                                        andValue:[NSDecimalNumber decimalNumberWithString:self.numberDisplay.text]];
         [self.view addSubview:newNumber];
