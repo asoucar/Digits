@@ -75,10 +75,12 @@ bool decimalUsed = false;
     for (BigNumber *number in self.onScreenNums)
     {
         int decShift = 0;
+        if(number.decimalNumberDigits.count > 0){
+            decShift = 30;
+        }
         
         NSNumber *numberDecimalLoc = [NSNumber numberWithFloat:((number.frame.origin.x)+[number.decimalPosition floatValue])+decShift];
         int arrowAllign = abs([numberDecimalLoc intValue]-((int)mult.frame.origin.x));
-        NSLog(@"arrow allign %i",arrowAllign);
         
         CGRect projectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y, number.frame.size.width+60, number.frame.size.height);
 
@@ -136,8 +138,18 @@ bool decimalUsed = false;
     [gesture setTranslation:CGPointZero inView:div];
     for (BigNumber *number in self.onScreenNums)
     {
-        if (CGRectIntersectsRect(div.frame, number.frame))
-        {
+        int decShift = 0;
+        if(number.decimalNumberDigits.count > 0){
+            decShift = 30;
+        }
+        
+        NSNumber *numberDecimalLoc = [NSNumber numberWithFloat:((number.frame.origin.x)+[number.decimalPosition floatValue])+decShift];
+        int arrowAllign = abs([numberDecimalLoc intValue]-((int)div.frame.origin.x+div.frame.size.width));
+        NSLog(@"arrow allign: %i", arrowAllign);
+        
+        CGRect projectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y, number.frame.size.width+60, number.frame.size.height);
+        
+        if (CGRectIntersectsRect(div.frame, projectedFrame) && (arrowAllign <=5)) {
             NSDecimalNumber *decNum1 = number.value;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:-1];
             number.value = decNum1;
@@ -270,7 +282,6 @@ bool decimalUsed = false;
 
 - (void)decomposeBigNumberWithNewValue:(NSDecimalNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir andOffset:(int)offest
 {
-    NSLog(@"offest decomp: %i",offest);
     NSDecimalNumber *decNum1 = prevNum.value;
     NSDecimalNumber *decNum2 = [NSDecimalNumber decimalNumberWithDecimal:val.decimalValue];
     
@@ -377,7 +388,6 @@ bool decimalUsed = false;
                                                        andValue:[NSDecimalNumber decimalNumberWithString:self.numberDisplay.text]];
         [self.view addSubview:newNumber];
         newNumber.center = CGPointMake(384, 75);
-        newNumber.backgroundColor = [UIColor blackColor];
         [self.onScreenNums addObject:newNumber];
         UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                             initWithTarget:self

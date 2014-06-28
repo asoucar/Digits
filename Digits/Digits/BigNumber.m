@@ -14,7 +14,6 @@
 @interface BigNumber()
 
 @property (nonatomic, strong) NSMutableArray *wholeNumberDigits;
-@property (nonatomic, strong) NSMutableArray *decimalNumberDigits;
 
 @property (nonatomic, strong) NSMutableArray *digitViews;
 
