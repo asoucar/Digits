@@ -110,6 +110,7 @@ bool decimalUsed = false;
             [self.onScreenNums addObject:newNumber];
             [newNumber wobbleAnimation];
             
+            break;
         }
     }
 
@@ -162,6 +163,8 @@ bool decimalUsed = false;
             [self.view addSubview:newNumber];
             [self.onScreenNums addObject:newNumber];
             [newNumber wobbleAnimation];
+            
+            break;
         }
     }
 
@@ -186,6 +189,9 @@ bool decimalUsed = false;
     if (CGRectContainsRect(draggableFrame, rectToCheckBounds)){
         firstNumber.center = imageViewPosition;
         [gesture setTranslation:CGPointZero inView:self.view];
+    }
+    else {
+        [firstNumber wobbleAnimation];
     }
     
 
