@@ -224,7 +224,7 @@ bool decimalUsed = false;
 
         if (firstNumber != otherNumber && CGRectIntersectsRect(firstNumber.frame, otherNumber.frame)) {
             int decimalLocDiff = abs([firstNumberDecimalLoc intValue]-[otherNumberDecimalLoc intValue]);
-            if (decimalLocDiff <= 2) {
+            if (decimalLocDiff <= 5) {
                 
                 NSDecimalNumber *decNum1 = firstNumber.value;
                 NSDecimalNumber *decNum2 = otherNumber.value;
