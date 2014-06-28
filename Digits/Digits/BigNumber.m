@@ -9,6 +9,8 @@
 #import "BigNumber.h"
 #import "ViewController.h"
 
+#define RADIANS(degrees) ((degrees * M_PI) / 180.0)
+
 @interface BigNumber()
 
 @property (nonatomic, strong) NSMutableArray *wholeNumberDigits;
@@ -233,6 +235,21 @@
     }
 }
 
+- (void)wobbleAnimation
+{
+    CGAffineTransform leftWobble = CGAffineTransformRotate(CGAffineTransformIdentity, RADIANS(-10.0));
+    CGAffineTransform rightWobble = CGAffineTransformRotate(CGAffineTransformIdentity, RADIANS(10.0));
+    
+    [UIView beginAnimations:@"wobble" context:(__bridge void *)(self)];
+    self.transform = leftWobble;  // starting point
+    [UIView setAnimationRepeatAutoreverses:YES];
+    [UIView setAnimationRepeatCount:2]; // adjustable
+    [UIView setAnimationDuration:0.1];
+    [UIView setAnimationDelegate:self];
+    self.transform = rightWobble; // end here & auto-reverse
+    [UIView commitAnimations];
+    self.transform = CGAffineTransformRotate(CGAffineTransformIdentity, RADIANS(0.0));
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.

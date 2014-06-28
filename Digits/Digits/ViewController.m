@@ -117,7 +117,9 @@ bool decimalUsed = false;
             // add it
             [self.view addSubview:newNumber];
             [self.onScreenNums addObject:newNumber];
+            [newNumber wobbleAnimation];
             
+            break;
         }
     }
 
@@ -169,6 +171,9 @@ bool decimalUsed = false;
             // add it
             [self.view addSubview:newNumber];
             [self.onScreenNums addObject:newNumber];
+            [newNumber wobbleAnimation];
+            
+            break;
         }
     }
 
@@ -193,6 +198,9 @@ bool decimalUsed = false;
     if (CGRectContainsRect(draggableFrame, rectToCheckBounds)){
         firstNumber.center = imageViewPosition;
         [gesture setTranslation:CGPointZero inView:self.view];
+    }
+    else {
+        [firstNumber wobbleAnimation];
     }
     
 
@@ -239,6 +247,7 @@ bool decimalUsed = false;
                 // add it
                 [self.view addSubview:sumNumber];
                 [self.onScreenNums addObject:sumNumber];
+                [sumNumber wobbleAnimation];
                 
                 break;
             }
@@ -283,6 +292,7 @@ bool decimalUsed = false;
     if ([subVal compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
         [self.view addSubview:subNumber];
         [self.onScreenNums addObject:subNumber];
+        [subNumber wobbleAnimation];
     }
 
     int addX = 0;
@@ -311,6 +321,7 @@ bool decimalUsed = false;
     if ([newNum.value compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
         [self.view addSubview:newNum];
         [self.onScreenNums addObject:newNum];
+        [newNum wobbleAnimation];
     }
     
 }
@@ -320,6 +331,15 @@ bool decimalUsed = false;
         [v removeFromSuperview];
     }
     [self.onScreenNums removeAllObjects];
+    
+    self.numTimesTenDecMovers = 0;
+    self.numDivTenDecMovers = 0;
+    self.divCount.text = [NSString stringWithFormat:@"%d", self.numDivTenDecMovers];
+    self.multCount.text = [NSString stringWithFormat:@"%d", self.numTimesTenDecMovers];
+    self.divCount.hidden = YES;
+    self.multCount.hidden = true;
+    self.divBy10.hidden = YES;
+    self.multBy10.hidden = true;
 }
 
 - (IBAction)decimalPressed:(UIButton *)sender {
@@ -363,6 +383,7 @@ bool decimalUsed = false;
                                             initWithTarget:self
                                             action:@selector(labelDragged:)];
         [newNumber addGestureRecognizer:gesture3];
+        [newNumber wobbleAnimation];
         
         self.numberDisplay.text = @"";
         decimalUsed = false;

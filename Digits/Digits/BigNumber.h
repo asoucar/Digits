@@ -15,5 +15,6 @@
 @property (nonatomic, strong) NSNumber *decimalPosition;
 
 - (id)initWithFrame:(CGRect)frame andValue:(NSDecimalNumber*)value;
+- (void)wobbleAnimation;
 
 @end
