@@ -203,7 +203,7 @@
             ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
             int offset = 60*([self.digitViews indexOfObject:((DigitView *)(gesture.view))]);
             if ([NSDecimalNumber decimalNumberWithDecimal:((DigitView *)(gesture.view)).value.decimalValue].doubleValue < 1) {
-                offset = self.wholeNumberDigits.count*60-120;
+                offset = (self.wholeNumberDigits.count - 1)*60;
             }
                         NSLog(@"offset: %i", offset);
 
@@ -224,7 +224,6 @@
             ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
             int offset = 60*([self.digitViews indexOfObject:((DigitView *)(gesture.view))]);
             if ([NSDecimalNumber decimalNumberWithDecimal:((DigitView *)(gesture.view)).value.decimalValue].doubleValue < 1) {
-                NSLog(@"less than 1");
                 offset = (self.wholeNumberDigits.count - 1)*60;
             }
             NSLog(@"offset: %i", offset);
