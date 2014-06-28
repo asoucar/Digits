@@ -402,9 +402,27 @@ bool decimalUsed = false;
         self.calculator.hidden = true;
         
         //for decimal mover creator
+        self.numTimesTenDecMovers = [NSDecimalNumber decimalNumberWithString:self.times10NumDisplay.text].intValue;
+        self.numDivTenDecMovers = [NSDecimalNumber decimalNumberWithString:self.divide10NumDisplay.text].intValue;
         self.times10NumDisplay.text = @"";
         self.divide10NumDisplay.text = @"";
-        self.decimalMoverCreator.hidden = true;
+        
+        self.divCount.text = [NSString stringWithFormat:@"%d", self.numDivTenDecMovers];
+        self.multCount.text = [NSString stringWithFormat:@"%d", self.numTimesTenDecMovers];
+        self.divCount.hidden = YES;
+        self.multCount.hidden = true;
+        self.divBy10.hidden = YES;
+        self.multBy10.hidden = true;
+        
+        if (self.numDivTenDecMovers > 0) {
+            self.divBy10.hidden = NO;
+            self.divCount.hidden = NO;
+        }
+        if (self.numTimesTenDecMovers > 0) {
+            self.multBy10.hidden = NO;
+            self.multCount.hidden = NO;
+        }
+        self.decimalMoverCreator.hidden = YES;
     }
 }
 
@@ -460,30 +478,6 @@ bool decimalUsed = false;
     }
     self.divide10NumDisplay.text = [NSString stringWithFormat:@"%d",newNum];
 }
-
-- (IBAction)submitNumDecimalMoversPressed:(id)sender {
-    self.numTimesTenDecMovers = [NSDecimalNumber decimalNumberWithString:self.times10NumDisplay.text].intValue;
-    self.numDivTenDecMovers = [NSDecimalNumber decimalNumberWithString:self.divide10NumDisplay.text].intValue;
-    self.times10NumDisplay.text = @"";
-    self.divide10NumDisplay.text = @"";
-    
-    self.divCount.text = [NSString stringWithFormat:@"%d", self.numDivTenDecMovers];
-    self.multCount.text = [NSString stringWithFormat:@"%d", self.numTimesTenDecMovers];
-    self.divCount.hidden = YES;
-    self.multCount.hidden = true;
-    self.divBy10.hidden = YES;
-    self.multBy10.hidden = true;
-    
-    if (self.numDivTenDecMovers > 0) {
-        self.divBy10.hidden = NO;
-        self.divCount.hidden = NO;
-    }
-    if (self.numTimesTenDecMovers > 0) {
-        self.multBy10.hidden = NO;
-        self.multCount.hidden = NO;
-    }
-}
-
 
 - (void)didReceiveMemoryWarning
 {
