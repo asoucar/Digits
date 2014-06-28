@@ -267,9 +267,33 @@ bool decimalUsed = false;
             {
             
             //for not aligned
-            
-            otherNumber.center = CGPointMake(otherNumber.center.x + translation.x,
-                                                otherNumber.center.y + translation.y);
+                BOOL anotherCollisionDetected = NO;
+                for (BigNumber *thirdNum in self.onScreenNums) {
+                    if (otherNumber != thirdNum && thirdNum != firstNumber){
+                        if (CGRectIntersectsRect(otherNumber.frame, thirdNum.frame)) {
+                            anotherCollisionDetected = YES;
+                        }
+                    }
+                }
+                CGFloat check2ndOriginX = otherNumber.frame.origin.x + translation.x;
+                CGFloat check2ndOriginY = otherNumber.frame.origin.y + translation.y;
+                
+                CGRect rectToCheckBounds = CGRectMake(check2ndOriginX, check2ndOriginY, otherNumber.frame.size.width, otherNumber.frame.size.height);
+                
+                CGRect draggableFrame = CGRectMake(0, 25, self.view.frame.size.width, self.view.frame.size.height-180);
+                if (!CGRectContainsRect(draggableFrame, rectToCheckBounds)){
+                    anotherCollisionDetected = YES;
+                }
+   
+                if (anotherCollisionDetected) {
+                    firstNumber.center = CGPointMake(firstNumber.center.x - translation.x,
+                                                     firstNumber.center.y - translation.y);
+                }
+                else{
+                    otherNumber.center = CGPointMake(otherNumber.center.x + translation.x,
+                                                 otherNumber.center.y + translation.y);
+                }
+
             }
         }
 
