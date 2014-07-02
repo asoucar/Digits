@@ -41,8 +41,8 @@ bool decimalUsed = false;
                                         initWithTarget:self
                                         action:@selector(divDragged:)];
     
-    self.divBy10 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"leftArrow.jpeg"]];
-    self.multBy10 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"rightArrow.jpeg"]];
+    self.divBy10 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"whiteLeftArrow.png"]];
+    self.multBy10 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"whiteRightArrow.png"]];
     
     self.divBy10.userInteractionEnabled = YES;
     self.multBy10.userInteractionEnabled = YES;
