@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		162A07D71964AE7600AE1548 /* whiteLeftArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 162A07D51964AE7600AE1548 /* whiteLeftArrow.png */; };
+		162A07D81964AE7600AE1548 /* whiteRightArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 162A07D61964AE7600AE1548 /* whiteRightArrow.png */; };
 		AB1870741954A70400606E51 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1870731954A70400606E51 /* Foundation.framework */; };
 		AB1870761954A70400606E51 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1870751954A70400606E51 /* CoreGraphics.framework */; };
 		AB1870781954A70400606E51 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1870771954A70400606E51 /* UIKit.framework */; };
@@ -39,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		162A07D51964AE7600AE1548 /* whiteLeftArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteLeftArrow.png; sourceTree = "<group>"; };
+		162A07D61964AE7600AE1548 /* whiteRightArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteRightArrow.png; sourceTree = "<group>"; };
 		AB1870701954A70400606E51 /* Digits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Digits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB1870731954A70400606E51 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AB1870751954A70400606E51 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -134,6 +138,8 @@
 				AB1870B01954FD5100606E51 /* BigNumber.m */,
 				AB1870B21954FD7F00606E51 /* DigitView.h */,
 				AB1870B31954FD7F00606E51 /* DigitView.m */,
+				162A07D51964AE7600AE1548 /* whiteLeftArrow.png */,
+				162A07D61964AE7600AE1548 /* whiteRightArrow.png */,
 				AB1870AD1954DB6300606E51 /* rightArrow.jpeg */,
 				AB1870AB1954DB2B00606E51 /* leftArrow.jpeg */,
 				AB18708E1954A70400606E51 /* Images.xcassets */,
@@ -247,8 +253,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				162A07D81964AE7600AE1548 /* whiteRightArrow.png in Resources */,
 				AB18708A1954A70400606E51 /* Main_iPad.storyboard in Resources */,
 				AB18708F1954A70400606E51 /* Images.xcassets in Resources */,
+				162A07D71964AE7600AE1548 /* whiteLeftArrow.png in Resources */,
 				AB1870871954A70400606E51 /* Main_iPhone.storyboard in Resources */,
 				AB1870AC1954DB2B00606E51 /* leftArrow.jpeg in Resources */,
 				AB1870AE1954DB6300606E51 /* rightArrow.jpeg in Resources */,
@@ -492,6 +500,7 @@
 				AB1870A71954A70400606E51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AB1870A81954A70400606E51 /* Build configuration list for PBXNativeTarget "DigitsTests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +509,7 @@
 				AB1870AA1954A70400606E51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
