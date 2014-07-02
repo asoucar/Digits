@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -254,7 +254,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="addTimesTen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vGW-oC-RbM"/>
+                                            <action selector="addDivTen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tgL-2K-SFI"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14M-ik-dPY">
@@ -267,7 +267,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="subtractTimesTen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tit-ho-VrS"/>
+                                            <action selector="subtractDivTen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3Vv-XX-syt"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kix-sh-BMb">
@@ -280,7 +280,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="subtractDivTen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KUf-ny-dKn"/>
+                                            <action selector="subtractTimesTen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="s46-q8-HfQ"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GYv-jp-nlj">
@@ -293,7 +293,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="addDivTen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T6n-QD-mdG"/>
+                                            <action selector="addTimesTen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GbJ-c5-8gF"/>
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="whiteLeftArrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="ibq-Fp-G8J">
@@ -335,11 +335,11 @@
                         <outlet property="calculator" destination="AQ2-my-E7C" id="34D-Jg-2g7"/>
                         <outlet property="decimalMoverCreator" destination="5fo-Td-tgr" id="Vyh-w3-YnO"/>
                         <outlet property="divCount" destination="z02-Rj-jm7" id="pC6-uC-jqj"/>
-                        <outlet property="divide10NumDisplay" destination="oyk-u3-XrN" id="qdY-uI-uGf"/>
+                        <outlet property="divide10NumDisplay" destination="Qbp-SG-Y5y" id="RNe-YL-FvL"/>
                         <outlet property="makeNumber" destination="Cd2-jC-UIj" id="34b-m4-2Fz"/>
                         <outlet property="multCount" destination="3jy-ao-YcX" id="hhk-SR-BPH"/>
                         <outlet property="numberDisplay" destination="TUt-Zm-GUZ" id="gRa-QL-wms"/>
-                        <outlet property="times10NumDisplay" destination="Qbp-SG-Y5y" id="k7H-3z-oHD"/>
+                        <outlet property="times10NumDisplay" destination="oyk-u3-XrN" id="DAv-IY-jf6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

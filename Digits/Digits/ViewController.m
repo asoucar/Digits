@@ -46,10 +46,8 @@ bool decimalUsed = false;
     
     self.divBy10.userInteractionEnabled = YES;
     self.multBy10.userInteractionEnabled = YES;
-    self.divBy10.frame = CGRectMake(65, 25, 70, 50);
-    self.divBy10.backgroundColor = [UIColor clearColor];
-    self.multBy10.frame = CGRectMake(65, 95, 70, 50);
-    self.multBy10.backgroundColor = [UIColor clearColor];
+    self.divBy10.frame = CGRectMake(65, 25, 65, 60);
+    self.multBy10.frame = CGRectMake(65, 95, 65, 60);
     
     [self.multBy10 addGestureRecognizer:gesture1];
     [self.divBy10 addGestureRecognizer:gesture2];
@@ -76,15 +74,17 @@ bool decimalUsed = false;
     {
         int decShift = 0;
         if(number.decimalNumberDigits.count > 0){
-            decShift = 30;
+            decShift = 17;
         }
         
         NSNumber *numberDecimalLoc = [NSNumber numberWithFloat:((number.frame.origin.x)+[number.decimalPosition floatValue])+decShift];
-        int arrowAllign = abs([numberDecimalLoc intValue]-((int)mult.frame.origin.x));
+        int arrowAllign = abs([numberDecimalLoc intValue]-((int)mult.frame.origin.x+14));
         
-        CGRect projectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y, number.frame.size.width+60, number.frame.size.height);
+        CGRect numberProjectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y+number.frame.size.height, number.frame.size.width+60, 10);
+        
+        CGRect multProjectedFrame = CGRectMake(mult.frame.origin.x, mult.frame.origin.y+30, mult.frame.size.width, 10);
 
-        if (CGRectIntersectsRect(mult.frame, projectedFrame) && (arrowAllign <=5)) {
+        if (CGRectIntersectsRect(multProjectedFrame, numberProjectedFrame) && (arrowAllign <=5)) {
 
             NSDecimalNumber *decNum1 = number.value;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:1];
@@ -140,17 +140,18 @@ bool decimalUsed = false;
     {
         int decShift = 0;
         if(number.decimalNumberDigits.count > 0){
-            decShift = 30;
+            decShift = 17;
         }
         
         NSNumber *numberDecimalLoc = [NSNumber numberWithFloat:((number.frame.origin.x)+[number.decimalPosition floatValue])+decShift];
-        int arrowAllign = abs([numberDecimalLoc intValue]-((int)div.frame.origin.x+div.frame.size.width));
+        int arrowAllign = abs([numberDecimalLoc intValue]-((int)div.frame.origin.x+div.frame.size.width-14));
         NSLog(@"arrow allign: %i", arrowAllign);
         
-        CGRect projectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y, number.frame.size.width+60, number.frame.size.height);
+        CGRect numberProjectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y+number.frame.size.height, number.frame.size.width+60, 10);
         
-        if (CGRectIntersectsRect(div.frame, projectedFrame) && (arrowAllign <=5)) {
-            NSDecimalNumber *decNum1 = number.value;
+        CGRect divProjectedFrame = CGRectMake(div.frame.origin.x, div.frame.origin.y+30, div.frame.size.width, 10);
+        
+        if (CGRectIntersectsRect(divProjectedFrame, numberProjectedFrame) && (arrowAllign <=5)) {            NSDecimalNumber *decNum1 = number.value;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:-1];
             number.value = decNum1;
             int labelLength = 60*decNum1.stringValue.length;
