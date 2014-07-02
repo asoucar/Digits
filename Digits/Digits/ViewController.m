@@ -351,7 +351,7 @@ bool decimalUsed = false;
         addY = -80;
     }
     else if ([dir isEqualToString:@"down"]) {
-        addY = 0;
+        addY = 80;
     }
     else if ([dir isEqualToString:@"right"]) {
         addX = labelLength + 75;
