@@ -46,8 +46,10 @@ bool decimalUsed = false;
     
     self.divBy10.userInteractionEnabled = YES;
     self.multBy10.userInteractionEnabled = YES;
-    self.divBy10.frame = CGRectMake(65, 25, 65, 60);
-    self.multBy10.frame = CGRectMake(65, 95, 65, 60);
+    self.divBy10.frame = CGRectMake(65, 25, 70, 70);
+    self.divBy10.backgroundColor = [UIColor clearColor];
+    self.multBy10.frame = CGRectMake(65, 95, 70, 70);
+    self.multBy10.backgroundColor = [UIColor clearColor];
     
     [self.multBy10 addGestureRecognizer:gesture1];
     [self.divBy10 addGestureRecognizer:gesture2];
