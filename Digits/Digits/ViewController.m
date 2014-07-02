@@ -92,6 +92,9 @@ bool decimalUsed = false;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:1];
             number.value = decNum1;
             int labelLength = 60*decNum1.stringValue.length;
+            if ([decNum1.stringValue rangeOfString:@"."].location != NSNotFound) {
+                labelLength -= 30;
+            }
             mult.center = CGPointMake(100, 120);
             self.numTimesTenDecMovers -= 1;
             self.multCount.text = [NSString stringWithFormat:@"%d", self.numTimesTenDecMovers];
@@ -157,6 +160,9 @@ bool decimalUsed = false;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:-1];
             number.value = decNum1;
             int labelLength = 60*decNum1.stringValue.length;
+            if ([decNum1.stringValue rangeOfString:@"."].location != NSNotFound) {
+                labelLength -= 30;
+            }
             div.center = CGPointMake(100, 50);
             self.numDivTenDecMovers -= 1;
             self.divCount.text = [NSString stringWithFormat:@"%d", self.numDivTenDecMovers];
@@ -234,7 +240,9 @@ bool decimalUsed = false;
                 
                 NSDecimalNumber *sumVal = [decNum2 decimalNumberByAdding:decNum1];
                 int labelLength = 60*sumVal.stringValue.length;
-                
+                if ([sumVal.stringValue rangeOfString:@"."].location != NSNotFound) {
+                    labelLength -= 30;
+                }
                 int num1Length = decNum1.stringValue.length;
                 int num2Length = decNum2.stringValue.length;
                 CGRect sumFrame;
@@ -314,9 +322,13 @@ bool decimalUsed = false;
     
     NSDecimalNumber *subVal = [decNum1 decimalNumberBySubtracting:decNum2];
     int labelLength = 60*subVal.stringValue.length;
+    if ([subVal.stringValue rangeOfString:@"."].location != NSNotFound) {
+        labelLength -= 30;
+    }
     
     BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y, labelLength, 80) andValue:subVal];
     subNumber.userInteractionEnabled = YES;
+    //subNumber.backgroundColor = [UIColor blackColor];
     
     UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                         initWithTarget:self
@@ -339,16 +351,20 @@ bool decimalUsed = false;
         addY = -80;
     }
     else if ([dir isEqualToString:@"down"]) {
-        addY = 80;
+        addY = 0;
     }
     else if ([dir isEqualToString:@"right"]) {
         addX = labelLength + 75;
     }
     
     labelLength = 60*decNum2.stringValue.length;
+    if ([decNum2.stringValue rangeOfString:@"."].location != NSNotFound) {
+        labelLength -= 30;
+    }
     BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(subNumber.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, labelLength, 80) andValue:decNum2];
 
     newNum.userInteractionEnabled = YES;
+    //newNum.backgroundColor = [UIColor grayColor];
     
     UIPanGestureRecognizer *gesture4 = [[UIPanGestureRecognizer alloc]
                                         initWithTarget:self
@@ -424,6 +440,7 @@ bool decimalUsed = false;
                                             action:@selector(labelDragged:)];
         [newNumber addGestureRecognizer:gesture3];
         [newNumber wobbleAnimation];
+        //newNumber.backgroundColor = [UIColor blackColor];
         
         self.numberDisplay.text = @"";
         decimalUsed = false;
