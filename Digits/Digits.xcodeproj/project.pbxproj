@@ -492,6 +492,7 @@
 				AB1870A71954A70400606E51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AB1870A81954A70400606E51 /* Build configuration list for PBXNativeTarget "DigitsTests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +501,7 @@
 				AB1870AA1954A70400606E51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
