@@ -397,6 +397,9 @@ bool decimalUsed = false;
 - (IBAction)submitPressed:(UIButton *)sender {
     
     int labelLength = (60*self.numberDisplay.text.length);
+    if ([self.numberDisplay.text rangeOfString:@"."].location != NSNotFound) {
+        labelLength -= 30;
+    }
 
     CGRect potentialFrame = CGRectMake(300, 50, labelLength, 80);
     
