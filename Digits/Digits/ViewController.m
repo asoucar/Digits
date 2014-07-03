@@ -443,10 +443,15 @@ bool decimalUsed = false;
     
     UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(subNumber.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, 60, 80)];
     cover.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
-    cover.text = digit;
     cover.textColor = [UIColor whiteColor];
     cover.font = [UIFont fontWithName:@"Futura" size:100];
     [self.view addSubview:cover];
+    if(newNum.value.floatValue < 1){
+        cover.text = @"0";
+        [self.view sendSubviewToBack:cover];
+    }
+    else
+        cover.text = digit;
     
     
     UIPanGestureRecognizer *gesture4 = [[UIPanGestureRecognizer alloc]
