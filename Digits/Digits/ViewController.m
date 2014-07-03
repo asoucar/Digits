@@ -427,7 +427,7 @@ bool decimalUsed = false;
         addY = -80;
     }
     else if ([dir isEqualToString:@"down"]) {
-        addY = 50;
+        addY = 0;
     }
     else if ([dir isEqualToString:@"right"]) {
         addX = labelLength + 75;
@@ -459,6 +459,17 @@ bool decimalUsed = false;
         [self.view addSubview:newNum];
         [self.onScreenNums addObject:newNum];
         [self.view sendSubviewToBack:newNum];
+        
+        
+        [UIView animateWithDuration:1.5
+                         animations:^{
+                             NSLog(@"animation start");
+                             [cover setTransform:CGAffineTransformMakeTranslation(0, 95)];
+                             [newNum setTransform:CGAffineTransformMakeTranslation(0, 95)];
+                         } completion:^(BOOL finished) {
+                             [cover removeFromSuperview];
+                         }];
+
     }
     
 }

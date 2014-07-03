@@ -152,7 +152,7 @@
                     }
                     NSLog(@"offset: %i", offset);
                     
-                    [mainViewController decomposeBigNumberWithNewValue:[NSDecimalNumber decimalNumberWithDecimal:digit.value.decimalValue] andOrigNum:self andDir:@"down" andOffset:offset];
+                    [mainViewController decomposeBigNumberWithNewValue:[NSDecimalNumber decimalNumberWithDecimal:digit.value.decimalValue] andOrigNum:self andDir:@"down" andOffset:offset andDigit:digit.text];
                     
                     break;
                 }
