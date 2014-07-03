@@ -18,4 +18,7 @@
 - (void)selected;
 - (void)deselect;
 
+- (id)fullNum;
+- (void)setFullNum:(id)fullNumber;
+
 @end

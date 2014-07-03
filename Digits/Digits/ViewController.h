@@ -36,5 +36,6 @@
 - (void)decomposeBigNumberWithNewValue:(NSNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir andOffset:(int)offset;
 - (BOOL)prefersStatusBarHidden;
 
+- (void)labelDragged:(UIPanGestureRecognizer *)gesture;
 
 @end
