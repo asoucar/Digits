@@ -402,8 +402,12 @@ bool decimalUsed = false;
     if ([subVal.stringValue rangeOfString:@"."].location != NSNotFound) {
         labelLength -= 30;
     }
+    int oldXOffsett = 0;
+    if (subVal.stringValue.length < prevNum.value.stringValue.length) {
+        oldXOffsett = 60;
+    }
     
-    BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y, labelLength, 80) andValue:subVal];
+    BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x+oldXOffsett, prevNum.frame.origin.y, labelLength, 80) andValue:subVal];
     subNumber.userInteractionEnabled = YES;
     subNumber.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
     
@@ -437,7 +441,7 @@ bool decimalUsed = false;
     if ([decNum2.stringValue rangeOfString:@"."].location != NSNotFound) {
         labelLength -= 30;
     }
-    BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(subNumber.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, labelLength, 80) andValue:decNum2];
+    BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, labelLength, 80) andValue:decNum2];
     newNum.userInteractionEnabled = YES;
     newNum.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
     
@@ -447,8 +451,8 @@ bool decimalUsed = false;
     [newNum addGestureRecognizer:gesture4];
     
     // add it
-    if ([newNum.value compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
-        UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(subNumber.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, 60, 80)];
+    if ([newNum.value compare:[NSNumber numberWithInt:0]] != NSOrderedSame && newNum.value != subNumber.value) {
+        UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, 60, 80)];
         cover.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
         cover.textColor = [UIColor whiteColor];
         cover.font = [UIFont fontWithName:@"Futura" size:100];
