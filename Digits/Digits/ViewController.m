@@ -530,7 +530,7 @@ bool decimalUsed = false;
         BigNumber *newNumber = [[BigNumber alloc] initWithFrame:potentialFrame
                                                        andValue:[NSDecimalNumber decimalNumberWithString:self.numberDisplay.text]];
         [self.view addSubview:newNumber];
-        newNumber.center = CGPointMake(384, 200);
+        newNumber.center = CGPointMake(384, 75);
         [self.onScreenNums addObject:newNumber];
         UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                             initWithTarget:self
