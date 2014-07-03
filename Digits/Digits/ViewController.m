@@ -409,7 +409,7 @@ bool decimalUsed = false;
     
     UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                         initWithTarget:self
-                                        action:@selector(labelDragged:)];
+                                        action:@selector(numberSwiped:)];
     [subNumber addGestureRecognizer:gesture3];
     
     [self.onScreenNums removeObject:prevNum];
@@ -451,7 +451,7 @@ bool decimalUsed = false;
     
     UIPanGestureRecognizer *gesture4 = [[UIPanGestureRecognizer alloc]
                                         initWithTarget:self
-                                        action:@selector(labelDragged:)];
+                                        action:@selector(numberSwiped:)];
     [newNum addGestureRecognizer:gesture4];
     
     // add it
