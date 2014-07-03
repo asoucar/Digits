@@ -46,9 +46,9 @@ bool decimalUsed = false;
     
     self.divBy10.userInteractionEnabled = YES;
     self.multBy10.userInteractionEnabled = YES;
-    self.divBy10.frame = CGRectMake(65, 25, 70, 50);
+    self.divBy10.frame = CGRectMake(65, 125, 65, 65);
     self.divBy10.backgroundColor = [UIColor clearColor];
-    self.multBy10.frame = CGRectMake(65, 95, 70, 50);
+    self.multBy10.frame = CGRectMake(65, 190, 65, 60);
     self.multBy10.backgroundColor = [UIColor clearColor];
     
     [self.multBy10 addGestureRecognizer:gesture1];
@@ -76,20 +76,25 @@ bool decimalUsed = false;
     {
         int decShift = 0;
         if(number.decimalNumberDigits.count > 0){
-            decShift = 30;
+            decShift = 17;
         }
         
         NSNumber *numberDecimalLoc = [NSNumber numberWithFloat:((number.frame.origin.x)+[number.decimalPosition floatValue])+decShift];
-        int arrowAllign = abs([numberDecimalLoc intValue]-((int)mult.frame.origin.x));
+        int arrowAllign = abs([numberDecimalLoc intValue]-((int)mult.frame.origin.x+14));
         
-        CGRect projectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y, number.frame.size.width+60, number.frame.size.height);
+        CGRect numberProjectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y+number.frame.size.height, number.frame.size.width+60, 10);
+        
+        CGRect multProjectedFrame = CGRectMake(mult.frame.origin.x, mult.frame.origin.y+30, mult.frame.size.width, 10);
 
-        if (CGRectIntersectsRect(mult.frame, projectedFrame) && (arrowAllign <=5)) {
+        if (CGRectIntersectsRect(multProjectedFrame, numberProjectedFrame) && (arrowAllign <=5)) {
 
             NSDecimalNumber *decNum1 = number.value;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:1];
             number.value = decNum1;
             int labelLength = 60*decNum1.stringValue.length;
+            if ([decNum1.stringValue rangeOfString:@"."].location != NSNotFound) {
+                labelLength -= 30;
+            }
             mult.center = CGPointMake(100, 120);
             self.numTimesTenDecMovers -= 1;
             self.multCount.text = [NSString stringWithFormat:@"%d", self.numTimesTenDecMovers];
@@ -140,20 +145,24 @@ bool decimalUsed = false;
     {
         int decShift = 0;
         if(number.decimalNumberDigits.count > 0){
-            decShift = 30;
+            decShift = 17;
         }
         
         NSNumber *numberDecimalLoc = [NSNumber numberWithFloat:((number.frame.origin.x)+[number.decimalPosition floatValue])+decShift];
-        int arrowAllign = abs([numberDecimalLoc intValue]-((int)div.frame.origin.x+div.frame.size.width));
+        int arrowAllign = abs([numberDecimalLoc intValue]-((int)div.frame.origin.x+div.frame.size.width-14));
         NSLog(@"arrow allign: %i", arrowAllign);
         
-        CGRect projectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y, number.frame.size.width+60, number.frame.size.height);
+        CGRect numberProjectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y+number.frame.size.height, number.frame.size.width+60, 10);
         
-        if (CGRectIntersectsRect(div.frame, projectedFrame) && (arrowAllign <=5)) {
-            NSDecimalNumber *decNum1 = number.value;
+        CGRect divProjectedFrame = CGRectMake(div.frame.origin.x, div.frame.origin.y+30, div.frame.size.width, 10);
+        
+        if (CGRectIntersectsRect(divProjectedFrame, numberProjectedFrame) && (arrowAllign <=5)) {            NSDecimalNumber *decNum1 = number.value;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:-1];
             number.value = decNum1;
             int labelLength = 60*decNum1.stringValue.length;
+            if ([decNum1.stringValue rangeOfString:@"."].location != NSNotFound) {
+                labelLength -= 30;
+            }
             div.center = CGPointMake(100, 50);
             self.numDivTenDecMovers -= 1;
             self.divCount.text = [NSString stringWithFormat:@"%d", self.numDivTenDecMovers];
@@ -231,7 +240,9 @@ bool decimalUsed = false;
                 
                 NSDecimalNumber *sumVal = [decNum2 decimalNumberByAdding:decNum1];
                 int labelLength = 60*sumVal.stringValue.length;
-                
+                if ([sumVal.stringValue rangeOfString:@"."].location != NSNotFound) {
+                    labelLength -= 30;
+                }
                 int num1Length = decNum1.stringValue.length;
                 int num2Length = decNum2.stringValue.length;
                 CGRect sumFrame;
@@ -317,9 +328,13 @@ bool decimalUsed = false;
     
     NSDecimalNumber *subVal = [decNum1 decimalNumberBySubtracting:decNum2];
     int labelLength = 60*subVal.stringValue.length;
+    if ([subVal.stringValue rangeOfString:@"."].location != NSNotFound) {
+        labelLength -= 30;
+    }
     
     BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y, labelLength, 80) andValue:subVal];
     subNumber.userInteractionEnabled = YES;
+    //subNumber.backgroundColor = [UIColor blackColor];
     
     UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                         initWithTarget:self
@@ -349,9 +364,13 @@ bool decimalUsed = false;
     }
     
     labelLength = 60*decNum2.stringValue.length;
+    if ([decNum2.stringValue rangeOfString:@"."].location != NSNotFound) {
+        labelLength -= 30;
+    }
     BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(subNumber.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, labelLength, 80) andValue:decNum2];
 
     newNum.userInteractionEnabled = YES;
+    //newNum.backgroundColor = [UIColor grayColor];
     
     UIPanGestureRecognizer *gesture4 = [[UIPanGestureRecognizer alloc]
                                         initWithTarget:self
@@ -403,6 +422,9 @@ bool decimalUsed = false;
 - (IBAction)submitPressed:(UIButton *)sender {
     
     int labelLength = (60*self.numberDisplay.text.length);
+    if ([self.numberDisplay.text rangeOfString:@"."].location != NSNotFound) {
+        labelLength -= 30;
+    }
 
     CGRect potentialFrame = CGRectMake(300, 50, labelLength, 80);
     
@@ -424,6 +446,7 @@ bool decimalUsed = false;
                                             action:@selector(numberSwiped:)];
         [newNumber addGestureRecognizer:gesture3];
         [newNumber wobbleAnimation];
+        //newNumber.backgroundColor = [UIColor blackColor];
         
         self.numberDisplay.text = @"";
         decimalUsed = false;

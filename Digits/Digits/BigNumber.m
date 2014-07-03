@@ -83,14 +83,14 @@
         
         for (NSString *digit in self.decimalNumberDigits) {
             if ([digit isEqualToString:@"."]) {
-                UILabel *decimal = [[UILabel alloc] initWithFrame:CGRectMake(xPos, 0, 60, 80)];
+                UILabel *decimal = [[UILabel alloc] initWithFrame:CGRectMake(xPos, 0, 30, 80)];
                 [self.digitViews addObject:decimal];
                 [self addSubview:decimal];
                 decimal.text = digit;
                 decimal.textAlignment = UITextAlignmentCenter;
                 decimal.textColor = [UIColor whiteColor];
                 decimal.font = [UIFont fontWithName:@"Futura" size:100];
-                xPos = xPos+60;
+                xPos = xPos+30;
             }
             else{
             NSDecimalNumber *value = [NSDecimalNumber decimalNumberWithString:digit];
