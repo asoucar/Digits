@@ -441,19 +441,6 @@ bool decimalUsed = false;
     newNum.userInteractionEnabled = YES;
     newNum.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
     
-    UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(subNumber.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, 60, 80)];
-    cover.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
-    cover.textColor = [UIColor whiteColor];
-    cover.font = [UIFont fontWithName:@"Futura" size:100];
-    [self.view addSubview:cover];
-    if(newNum.value.floatValue < 1){
-        cover.text = @"0";
-        [self.view sendSubviewToBack:cover];
-    }
-    else
-        cover.text = digit;
-    
-    
     UIPanGestureRecognizer *gesture4 = [[UIPanGestureRecognizer alloc]
                                         initWithTarget:self
                                         action:@selector(numberSwiped:)];
@@ -461,6 +448,17 @@ bool decimalUsed = false;
     
     // add it
     if ([newNum.value compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
+        UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(subNumber.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, 60, 80)];
+        cover.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
+        cover.textColor = [UIColor whiteColor];
+        cover.font = [UIFont fontWithName:@"Futura" size:100];
+        [self.view addSubview:cover];
+        if(newNum.value.floatValue < 1){
+            cover.text = @"0";
+            [self.view sendSubviewToBack:cover];
+        }
+        else
+            cover.text = digit;
         [self.view addSubview:newNum];
         [self.onScreenNums addObject:newNum];
         [self.view sendSubviewToBack:newNum];
