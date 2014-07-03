@@ -14,9 +14,11 @@
 @property (nonatomic, strong) NSDecimalNumber *value;
 @property (nonatomic, strong) NSNumber *decimalPosition;
 @property (nonatomic, strong) NSMutableArray *decimalNumberDigits;
+@property (nonatomic) BOOL hasCheckedPullVel;
 @property (nonatomic, strong) NSMutableArray *digitViews;
 
 - (id)initWithFrame:(CGRect)frame andValue:(NSDecimalNumber*)value;
+- (void) numberSwiped:(UIPanGestureRecognizer *)gesture;
 - (void)wobbleAnimation;
 
 @end

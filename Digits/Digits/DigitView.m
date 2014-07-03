@@ -7,7 +7,12 @@
 //
 
 #import "DigitView.h"
-#import "BigNumber.h"
+
+@interface DigitView ()
+
+@property (nonatomic) id fullNum;
+
+@end
 
 @implementation DigitView
 
@@ -45,6 +50,15 @@
     self.isDigitSelected = false;
     self.textColor = [UIColor whiteColor];
     [self removeGestureRecognizer:[self.gestureRecognizers objectAtIndex:1]];
+}
+
+- (id)fullNum
+{
+    return self.fullNum;
+}
+- (void)setFullNum:(id)fullNumber
+{
+    self.fullNum = fullNumber;
 }
 
 
