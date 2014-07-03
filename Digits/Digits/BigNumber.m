@@ -15,8 +15,6 @@
 
 @property (nonatomic, strong) NSMutableArray *wholeNumberDigits;
 
-@property (nonatomic, strong) NSMutableArray *digitViews;
-
 @property BOOL movable;
 
 @end
@@ -99,6 +97,7 @@
             [self.digitViews addObject:newDigit];
             [self addSubview:newDigit];
             newDigit.text = digit;
+            newDigit.backgroundColor = [UIColor colorWithRed:119 green:232 blue:136 alpha:0];
             newDigit.textColor = [UIColor whiteColor];
             newDigit.font = [UIFont fontWithName:@"Futura" size:100];
             xPos = xPos+60;
@@ -228,7 +227,8 @@
             }
             NSLog(@"offset: %i", offset);
             
-            [mainViewController decomposeBigNumberWithNewValue:[NSDecimalNumber decimalNumberWithDecimal:((DigitView *)(gesture.view)).value.decimalValue] andOrigNum:self andDir:@"down" andOffset:offset];
+            [mainViewController decomposeBigNumberWithNewValue:[NSDecimalNumber decimalNumberWithDecimal:((DigitView *)(gesture.view)).value.decimalValue] andOrigNum:self andDir:@"down" andOffset:offset
+                                                      andDigit:((DigitView *)(gesture.view)).text];
         }
     }
 }

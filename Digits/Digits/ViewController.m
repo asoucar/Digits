@@ -203,6 +203,7 @@ bool decimalUsed = false;
 - (void)labelDragged:(UIPanGestureRecognizer *)gesture
 {
 	BigNumber *firstNumber = (BigNumber *)gesture.view;
+    firstNumber.backgroundColor = [UIColor clearColor];
     
     //move number
     CGPoint translation = [gesture translationInView:self.view];
@@ -328,7 +329,7 @@ bool decimalUsed = false;
     
     BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y, labelLength, 80) andValue:subVal];
     subNumber.userInteractionEnabled = YES;
-    //subNumber.backgroundColor = [UIColor blackColor];
+    subNumber.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
     
     UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                         initWithTarget:self
@@ -351,7 +352,7 @@ bool decimalUsed = false;
         addY = -80;
     }
     else if ([dir isEqualToString:@"down"]) {
-        addY = 80;
+        addY = 50;
     }
     else if ([dir isEqualToString:@"right"]) {
         addX = labelLength + 75;
@@ -362,9 +363,13 @@ bool decimalUsed = false;
         labelLength -= 30;
     }
     BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(subNumber.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, labelLength, 80) andValue:decNum2];
-
     newNum.userInteractionEnabled = YES;
-    //newNum.backgroundColor = [UIColor grayColor];
+    newNum.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
+    
+    UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(subNumber.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, 60, 80)];
+    cover.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
+    [self.view addSubview:cover];
+    
     
     UIPanGestureRecognizer *gesture4 = [[UIPanGestureRecognizer alloc]
                                         initWithTarget:self
@@ -375,7 +380,79 @@ bool decimalUsed = false;
     if ([newNum.value compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
         [self.view addSubview:newNum];
         [self.onScreenNums addObject:newNum];
+        [self.view sendSubviewToBack:newNum];
         [newNum wobbleAnimation];
+    }
+    
+}
+
+- (void)decomposeBigNumberWithNewValue:(NSDecimalNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir andOffset:(int)offest andDigit:(NSString *)digit
+{
+    NSDecimalNumber *decNum1 = prevNum.value;
+    NSDecimalNumber *decNum2 = [NSDecimalNumber decimalNumberWithDecimal:val.decimalValue];
+    
+    NSDecimalNumber *subVal = [decNum1 decimalNumberBySubtracting:decNum2];
+    int labelLength = 60*subVal.stringValue.length;
+    if ([subVal.stringValue rangeOfString:@"."].location != NSNotFound) {
+        labelLength -= 30;
+    }
+    
+    BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y, labelLength, 80) andValue:subVal];
+    subNumber.userInteractionEnabled = YES;
+    subNumber.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
+    
+    UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+                                        initWithTarget:self
+                                        action:@selector(labelDragged:)];
+    [subNumber addGestureRecognizer:gesture3];
+    
+    [self.onScreenNums removeObject:prevNum];
+    [prevNum removeFromSuperview];
+    
+    // add it
+    if ([subVal compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
+        [self.view addSubview:subNumber];
+        [self.onScreenNums addObject:subNumber];
+    }
+    
+    int addX = 0;
+    int addY = 0;
+    if ([dir isEqualToString:@"up"]) {
+        addY = -80;
+    }
+    else if ([dir isEqualToString:@"down"]) {
+        addY = 50;
+    }
+    else if ([dir isEqualToString:@"right"]) {
+        addX = labelLength + 75;
+    }
+    
+    labelLength = 60*decNum2.stringValue.length;
+    if ([decNum2.stringValue rangeOfString:@"."].location != NSNotFound) {
+        labelLength -= 30;
+    }
+    BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(subNumber.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, labelLength, 80) andValue:decNum2];
+    newNum.userInteractionEnabled = YES;
+    newNum.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
+    
+    UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(subNumber.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, 60, 80)];
+    cover.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
+    cover.text = digit;
+    cover.textColor = [UIColor whiteColor];
+    cover.font = [UIFont fontWithName:@"Futura" size:100];
+    [self.view addSubview:cover];
+    
+    
+    UIPanGestureRecognizer *gesture4 = [[UIPanGestureRecognizer alloc]
+                                        initWithTarget:self
+                                        action:@selector(labelDragged:)];
+    [newNum addGestureRecognizer:gesture4];
+    
+    // add it
+    if ([newNum.value compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
+        [self.view addSubview:newNum];
+        [self.onScreenNums addObject:newNum];
+        [self.view sendSubviewToBack:newNum];
     }
     
 }
@@ -440,7 +517,6 @@ bool decimalUsed = false;
                                             action:@selector(labelDragged:)];
         [newNumber addGestureRecognizer:gesture3];
         [newNumber wobbleAnimation];
-        //newNumber.backgroundColor = [UIColor blackColor];
         
         self.numberDisplay.text = @"";
         decimalUsed = false;

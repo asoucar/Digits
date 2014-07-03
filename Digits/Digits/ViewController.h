@@ -34,6 +34,7 @@
 - (IBAction)subtractDivTen:(id)sender;
 
 - (void)decomposeBigNumberWithNewValue:(NSNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir andOffset:(int)offset;
+- (void)decomposeBigNumberWithNewValue:(NSNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir andOffset:(int)offset andDigit:(NSString *)digit;
 - (BOOL)prefersStatusBarHidden;
 
 
