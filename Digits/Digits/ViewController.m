@@ -414,7 +414,7 @@ bool decimalUsed = false;
             [self.view sendSubviewToBack:newNum];
             
             
-            [UIView animateWithDuration:1.5
+            [UIView animateWithDuration:0.75
                              animations:^{
                                  [cover setTransform:CGAffineTransformMakeTranslation(0, 95)];
                                  [newNum setTransform:CGAffineTransformMakeTranslation(0, 95)];
