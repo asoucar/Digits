@@ -14,7 +14,7 @@
 @interface BigNumber()
 
 @property (nonatomic, strong) NSMutableArray *wholeNumberDigits;
-
+@property int numNonZeroDigits;
 @property BOOL movable;
 
 @end
@@ -114,6 +114,7 @@
 - (void) numberSwiped:(UIPanGestureRecognizer *)gesture
 {
     BigNumber *firstNumber = (BigNumber*)gesture.view;
+    firstNumber.numNonZeroDigits = 0;
     CGPoint touchLocal = [gesture locationInView:gesture.view];
     
     if (!firstNumber.hasCheckedPullVel) {
@@ -132,29 +133,34 @@
     }
     
     if (self.movable) {
-        NSLog(@"moveable");
         ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
         [mainViewController labelDragged:gesture];
     }
     else
     {
-        NSLog(@"swipable");
         if (gesture.enabled) {
-            NSLog(@"swipe down inside if");
             gesture.enabled = NO;
             
             for (DigitView *digit in firstNumber.digitViews) {
-                if (CGRectContainsPoint(digit.frame, touchLocal)) {
-                    ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
-                    int offset = 60*([self.digitViews indexOfObject:digit]);
-                    if ([NSDecimalNumber decimalNumberWithDecimal:digit.value.decimalValue].doubleValue < 1) {
-                        offset = (self.wholeNumberDigits.count - 1)*60;
+                if (![digit.text isEqualToString:@"."]) {
+                    if (CGRectContainsPoint(digit.frame, touchLocal)) {
+                        ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
+                        int offset = 60*([self.digitViews indexOfObject:digit]);
+                        if ([NSDecimalNumber decimalNumberWithDecimal:digit.value.decimalValue].doubleValue < 1) {
+                            offset = (self.wholeNumberDigits.count - 1)*60;
+                        }
+                        for (DigitView *digit in firstNumber.digitViews) {
+                            NSLog(@"digit: %@",digit.text);
+                            if (![digit.text isEqualToString:@"0"] && ![digit.text isEqualToString:@"."]) {
+                                firstNumber.numNonZeroDigits +=1;
+                            }
+                        }
+                        NSLog(@"offset: %i", offset);
+                        if (firstNumber.numNonZeroDigits != 1) {
+                            [mainViewController decomposeBigNumberWithNewValue:[NSDecimalNumber decimalNumberWithDecimal:digit.value.decimalValue] andOrigNum:self andDir:@"down" andOffset:offset andDigit:digit.text];
+                        }
+                        break;
                     }
-                    NSLog(@"offset: %i", offset);
-                    
-                    [mainViewController decomposeBigNumberWithNewValue:[NSDecimalNumber decimalNumberWithDecimal:digit.value.decimalValue] andOrigNum:self andDir:@"down" andOffset:offset andDigit:digit.text];
-                    
-                    break;
                 }
             }
             firstNumber.hasCheckedPullVel = NO;

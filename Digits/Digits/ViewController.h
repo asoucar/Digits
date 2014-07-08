@@ -33,7 +33,8 @@
 - (IBAction)addDivTen:(id)sender;
 - (IBAction)subtractDivTen:(id)sender;
 
-- (void)decomposeBigNumberWithNewValue:(NSNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir andOffset:(int)offset;
+-(void)colorizeLabelForAWhile:(UILabel *)label withUIColor:(UIColor *)tempColor animated:(BOOL)animated;
+
 - (void)decomposeBigNumberWithNewValue:(NSNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir andOffset:(int)offset andDigit:(NSString *)digit;
 - (BOOL)prefersStatusBarHidden;
 
