@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSDecimalNumber *value;
 @property (nonatomic, strong) NSNumber *decimalPosition;
 @property (nonatomic, strong) NSMutableArray *decimalNumberDigits;
+@property (nonatomic, strong) NSMutableArray *wholeNumberDigits;
 @property (nonatomic) BOOL hasCheckedPullVel;
 @property (nonatomic, strong) NSMutableArray *digitViews;
 

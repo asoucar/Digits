@@ -13,7 +13,6 @@
 
 @interface BigNumber()
 
-@property (nonatomic, strong) NSMutableArray *wholeNumberDigits;
 @property int numNonZeroDigits;
 @property BOOL movable;
 
