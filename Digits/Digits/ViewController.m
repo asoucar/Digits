@@ -15,6 +15,7 @@
 @property (nonatomic) int numDivTenDecMovers;
 @property (nonatomic, strong) UIImageView *multBy10;
 @property (nonatomic, strong) UIImageView *divBy10;
+@property (nonatomic, strong) NSMutableArray *digitCovers;
 
 @end
 
@@ -22,7 +23,6 @@
 
 int numDigits =0;
 bool decimalUsed = false;
-bool isAdding = false;
 
 - (void)viewDidLoad
 {
@@ -32,6 +32,7 @@ bool isAdding = false;
     self.decimalMoverCreator.hidden = true;
     self.numTimesTenDecMovers = 0;
     self.numDivTenDecMovers = 0;
+    self.digitCovers = [[NSMutableArray alloc] init];
     
     self.onScreenNums = [NSMutableArray array];
     
@@ -235,7 +236,7 @@ bool isAdding = false;
 
         if (firstNumber != otherNumber && CGRectIntersectsRect(firstNumber.frame, otherNumber.frame)) {
             int decimalLocDiff = abs([firstNumberDecimalLoc intValue]-[otherNumberDecimalLoc intValue]);
-            if (decimalLocDiff <= 20 && (!isAdding)) {
+            if (decimalLocDiff <= 20) {
 
                 NSDecimalNumber *decNum1 = firstNumber.value;
                 NSDecimalNumber *decNum2 = otherNumber.value;
@@ -287,20 +288,36 @@ bool isAdding = false;
                 
                 [self.view addSubview:cover1];
                 [self.view addSubview:cover2];
-                
-                [UIView animateWithDuration:.75
-                                 animations:^{
-                                     isAdding = true;
-                                     [cover1 setTransform:CGAffineTransformMakeTranslation([otherNumberDecimalLoc intValue]-[firstNumberDecimalLoc intValue], 75*coverDir)];
-                                 } completion:^(BOOL finished) {
-                                     [cover1 removeFromSuperview];
-                                     [cover2 removeFromSuperview];
-                                     //add it
-                                     [self.view addSubview:sumNumber];
-                                     [self.onScreenNums addObject:sumNumber];
-                                     [sumNumber wobbleAnimation];
-                                     isAdding = false;
-                                 }];
+                // trying cascading addition
+                double delay = 0.0;
+                NSArray *reversedDigits = [[cover1.digitViews reverseObjectEnumerator] allObjects];
+                NSLog(@"reversed digits: %@",reversedDigits);
+                for (DigitView *digit in reversedDigits){
+                        [UIView animateWithDuration:0.25*cover1.digitViews.count+0.25 delay:delay options:UIViewAnimationTransitionNone animations:^{
+                        [digit setTransform:CGAffineTransformMakeTranslation([otherNumberDecimalLoc intValue]-[firstNumberDecimalLoc intValue], 75*coverDir)];
+                        }  completion:^(BOOL finished) {
+                            NSLog(@"cascade");
+                            if ([reversedDigits objectAtIndex:reversedDigits.count-1] == digit) {
+                                [cover1 removeFromSuperview];
+                                [cover2 removeFromSuperview];
+                                //add it
+                                [self.view addSubview:sumNumber];
+                                [self.onScreenNums addObject:sumNumber];
+                                [sumNumber wobbleAnimation];
+                                NSLog(@"complete");
+                                for (BigNumber *digitCover in self.digitCovers ) {
+                                    [digitCover removeFromSuperview];
+                                }
+                                [self.digitCovers removeAllObjects];
+                            } else {
+                                /*BigNumber *digitCover = [[BigNumber alloc] initWithFrame:digit.frame andValue:digit.value];
+                                [self.view addSubview:digitCover];
+                                [self.digitCovers addObject:digitCover];*/
+                            }
+                        }];
+                        delay +=0.25;
+                }
+
                 break;
             }
             else
