@@ -265,7 +265,7 @@ bool isAdding = false;
                 }
                 CGRect sumFrame;
                 if (decNum1.floatValue > decNum2.floatValue) {
-                    sumFrame = CGRectMake(firstNumber.frame.origin.x, otherNumber.frame.origin.y, labelLength, 80);
+                    sumFrame = CGRectMake(firstNum.frame.origin.x, otherNumber.frame.origin.y, labelLength, 80);
                 }
                 else {
                     sumFrame = CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, labelLength, 80);
@@ -274,7 +274,7 @@ bool isAdding = false;
                 BigNumber *sumNumber = [[BigNumber alloc] initWithFrame:sumFrame andValue:sumVal ];
                 sumNumber.userInteractionEnabled = YES;
                 
-                if (sumNumber.wholeNumberDigits.count > firstNumber.wholeNumberDigits.count && sumNumber.wholeNumberDigits.count > otherNumber.wholeNumberDigits.count) {
+                if (sumNumber.wholeNumberDigits.count > firstNum.wholeNumberDigits.count && sumNumber.wholeNumberDigits.count > otherNumber.wholeNumberDigits.count) {
                     NSLog(@"number shift");
                     sumNumber.frame = CGRectMake(otherNumber.frame.origin.x - 60, otherNumber.frame.origin.y, labelLength, 80);
                 }
@@ -286,19 +286,19 @@ bool isAdding = false;
                 
                 // add animation
                 CGRect coverFrame1;
-                coverFrame1 = CGRectMake(firstNumber.frame.origin.x, firstNumber.frame.origin.y, labelLength, 80);
-                BigNumber *cover1 = [[BigNumber alloc] initWithFrame:firstNumber.frame andValue:firstNumber.value];
+                coverFrame1 = CGRectMake(firstNum.frame.origin.x, firstNum.frame.origin.y, labelLength, 80);
+                BigNumber *cover1 = [[BigNumber alloc] initWithFrame:firstNum.frame andValue:firstNum.value];
                 
                 CGRect coverFrame2;
                 coverFrame2 = CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, otherNumber.frame.size.width, 80);
                 BigNumber *cover2 = [[BigNumber alloc] initWithFrame:otherNumber.frame andValue:otherNumber.value];
                 
                 int coverDir = 1;
-                if (firstNumber.frame.origin.y > otherNumber.frame.origin.y) {
+                if (firstNum.frame.origin.y > otherNumber.frame.origin.y) {
                     coverDir *= -1;
                 }
                 
-                [self.onScreenNums removeObject:firstNumber];
+                [self.onScreenNums removeObject:firstNum];
                 [self.onScreenNums removeObject:otherNumber];
                 [firstNum removeFromSuperview];
                 [otherNumber removeFromSuperview];
@@ -363,8 +363,7 @@ bool isAdding = false;
             }
         }
     }
-	// reset translation
-	[gesture setTranslation:CGPointZero inView:firstNumber];
+	return NO;
 
 }
 
