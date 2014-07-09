@@ -227,18 +227,32 @@ bool decimalUsed = false;
         [firstNumber wobbleAnimation];
     }
     
+    NSMutableArray *movedNums = [NSMutableArray arrayWithObject:firstNumber];
+    
+    BOOL hitWall = [self checkNumberCollisionWithNumber:firstNumber andTranslation:translation andMovedNums:movedNums andCanAdd:YES];
+    
+    if (hitWall) {
+        firstNumber.center = CGPointMake(firstNumber.center.x - translation.x,
+                                      firstNumber.center.y - translation.y);
+    }
+    
+	// reset translation
+	[gesture setTranslation:CGPointZero inView:firstNumber];
+}
 
-    NSNumber *firstNumberDecimalLoc = [NSNumber numberWithFloat:((firstNumber.frame.origin.x)+[firstNumber.decimalPosition floatValue])];
-
+- (BOOL) checkNumberCollisionWithNumber:(BigNumber *) firstNum andTranslation:(CGPoint)translation andMovedNums:(NSMutableArray*)movedNums andCanAdd:(BOOL)canAdd
+{
+    NSNumber *firstNumberDecimalLoc = [NSNumber numberWithFloat:((firstNum.frame.origin.x)+[firstNum.decimalPosition floatValue])];
     
     for (BigNumber *otherNumber in self.onScreenNums) {
         NSNumber *otherNumberDecimalLoc = [NSNumber numberWithFloat:((otherNumber.frame.origin.x)+[otherNumber.decimalPosition floatValue])];
-
-        if (firstNumber != otherNumber && CGRectIntersectsRect(firstNumber.frame, otherNumber.frame)) {
+        
+        if (firstNum != otherNumber && CGRectIntersectsRect(firstNum.frame, otherNumber.frame) && ![movedNums containsObject:otherNumber]) {
+            NSLog(@"firstNum: %@, otherNum: %@",firstNum.value, otherNumber.value);
             int decimalLocDiff = abs([firstNumberDecimalLoc intValue]-[otherNumberDecimalLoc intValue]);
-            if (decimalLocDiff <= 20) {
-
-                NSDecimalNumber *decNum1 = firstNumber.value;
+            if (decimalLocDiff <= 20 && canAdd) {
+                
+                NSDecimalNumber *decNum1 = firstNum.value;
                 NSDecimalNumber *decNum2 = otherNumber.value;
                 
                 NSDecimalNumber *sumVal = [decNum2 decimalNumberByAdding:decNum1];
@@ -248,7 +262,7 @@ bool decimalUsed = false;
                 }
                 CGRect sumFrame;
                 if (decNum1.floatValue > decNum2.floatValue) {
-                    sumFrame = CGRectMake(firstNumber.frame.origin.x, otherNumber.frame.origin.y, labelLength, 80);
+                    sumFrame = CGRectMake(firstNum.frame.origin.x, otherNumber.frame.origin.y, labelLength, 80);
                 }
                 else {
                     sumFrame = CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, labelLength, 80);
@@ -257,7 +271,7 @@ bool decimalUsed = false;
                 BigNumber *sumNumber = [[BigNumber alloc] initWithFrame:sumFrame andValue:sumVal ];
                 sumNumber.userInteractionEnabled = YES;
                 
-                if (sumNumber.wholeNumberDigits.count > firstNumber.wholeNumberDigits.count && sumNumber.wholeNumberDigits.count > otherNumber.wholeNumberDigits.count) {
+                if (sumNumber.wholeNumberDigits.count > firstNum.wholeNumberDigits.count && sumNumber.wholeNumberDigits.count > otherNumber.wholeNumberDigits.count) {
                     NSLog(@"number shift");
                     sumNumber.frame = CGRectMake(otherNumber.frame.origin.x - 60, otherNumber.frame.origin.y, labelLength, 80);
                 }
@@ -269,21 +283,21 @@ bool decimalUsed = false;
                 
                 // add animation
                 CGRect coverFrame1;
-                coverFrame1 = CGRectMake(firstNumber.frame.origin.x, firstNumber.frame.origin.y, labelLength, 80);
-                BigNumber *cover1 = [[BigNumber alloc] initWithFrame:firstNumber.frame andValue:firstNumber.value];
+                coverFrame1 = CGRectMake(firstNum.frame.origin.x, firstNum.frame.origin.y, labelLength, 80);
+                BigNumber *cover1 = [[BigNumber alloc] initWithFrame:firstNum.frame andValue:firstNum.value];
                 
                 CGRect coverFrame2;
                 coverFrame2 = CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, otherNumber.frame.size.width, 80);
                 BigNumber *cover2 = [[BigNumber alloc] initWithFrame:otherNumber.frame andValue:otherNumber.value];
                 
                 int coverDir = 1;
-                if (firstNumber.frame.origin.y > otherNumber.frame.origin.y) {
+                if (firstNum.frame.origin.y > otherNumber.frame.origin.y) {
                     coverDir *= -1;
                 }
                 
-                [self.onScreenNums removeObject:firstNumber];
+                [self.onScreenNums removeObject:firstNum];
                 [self.onScreenNums removeObject:otherNumber];
-                [firstNumber removeFromSuperview];
+                [firstNum removeFromSuperview];
                 [otherNumber removeFromSuperview];
                 
                 [self.view addSubview:cover1];
@@ -322,16 +336,22 @@ bool decimalUsed = false;
             }
             else
             {
-            
-            //for not aligned
-                BOOL anotherCollisionDetected = NO;
+                [movedNums addObject:otherNumber];
+                //for not aligned
+                BOOL wallCollisionDetected = NO;
                 for (BigNumber *thirdNum in self.onScreenNums) {
-                    if (otherNumber != thirdNum && thirdNum != firstNumber){
+                    if (otherNumber != thirdNum && thirdNum != firstNum && ![movedNums containsObject:thirdNum]){
                         if (CGRectIntersectsRect(otherNumber.frame, thirdNum.frame)) {
-                            anotherCollisionDetected = YES;
+                            BOOL hitWall = [self checkNumberCollisionWithNumber:otherNumber andTranslation:translation andMovedNums:movedNums andCanAdd:NO];
+                            if (hitWall) {
+                                wallCollisionDetected = YES;
+                            }
                         }
                     }
                 }
+
+                
+                
                 CGFloat check2ndOriginX = otherNumber.frame.origin.x + translation.x;
                 CGFloat check2ndOriginY = otherNumber.frame.origin.y + translation.y;
                 
@@ -339,24 +359,24 @@ bool decimalUsed = false;
                 
                 CGRect draggableFrame = CGRectMake(0, 25, self.view.frame.size.width, self.view.frame.size.height-180);
                 if (!CGRectContainsRect(draggableFrame, rectToCheckBounds)){
-                    anotherCollisionDetected = YES;
+                    wallCollisionDetected = YES;
                 }
-   
-                if (anotherCollisionDetected) {
-                    firstNumber.center = CGPointMake(firstNumber.center.x - translation.x,
-                                                     firstNumber.center.y - translation.y);
+                
+                if (wallCollisionDetected) {
+                    firstNum.center = CGPointMake(firstNum.center.x - translation.x,
+                                                     firstNum.center.y - translation.y);
+                    return YES;
                 }
                 else{
                     otherNumber.center = CGPointMake(otherNumber.center.x + translation.x,
-                                                 otherNumber.center.y + translation.y);
+                                                     otherNumber.center.y + translation.y);
+                    return NO;
                 }
-
+                
             }
         }
-
     }
-	// reset translation
-	[gesture setTranslation:CGPointZero inView:firstNumber];
+	return NO;
 
 }
 
@@ -381,96 +401,99 @@ bool decimalUsed = false;
             blocker = oldNum;
         }
     }
-    if (!isANumInSpawnSpot && !(CGRectIntersectsRect(prevNum.frame, spawnArea)) && !(CGRectIntersectsRect(prevNum.frame, bottomArea))) {
-        
-        NSDecimalNumber *decNum1 = prevNum.value;
-        NSDecimalNumber *decNum2 = [NSDecimalNumber decimalNumberWithDecimal:val.decimalValue];
-        
-        NSDecimalNumber *subVal = [decNum1 decimalNumberBySubtracting:decNum2];
-        int labelLength = 60*subVal.stringValue.length;
-        if ([subVal.stringValue rangeOfString:@"."].location != NSNotFound) {
-            labelLength -= 30;
+    if (!(CGRectIntersectsRect(prevNum.frame, spawnArea)) && !(CGRectIntersectsRect(prevNum.frame, bottomArea))) {
+        BOOL hitWall = NO;
+        if (isANumInSpawnSpot) {
+            blocker.center = CGPointMake(blocker.center.x, blocker.center.y+100);
+            NSMutableArray *moveNums = [NSMutableArray arrayWithObjects:blocker, prevNum, nil];
+            hitWall = [self checkNumberCollisionWithNumber:blocker andTranslation:CGPointMake(0, 100) andMovedNums:moveNums andCanAdd:NO];
         }
-        int oldXOffsett = 0;
-        if (prevNum.value.stringValue.length > subVal.stringValue.length && val.floatValue > 1) {
-            oldXOffsett = 60*(prevNum.value.stringValue.length - subVal.stringValue.length);
-        }
-        
-        BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x+oldXOffsett, prevNum.frame.origin.y, labelLength, 80) andValue:subVal];
-        subNumber.userInteractionEnabled = YES;
-        subNumber.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
-        
-        UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
-                                            initWithTarget:self
-                                            action:@selector(numberSwiped:)];
-        [subNumber addGestureRecognizer:gesture3];
-        
-        [self.onScreenNums removeObject:prevNum];
-        [prevNum removeFromSuperview];
-        
-        // add it
-        if ([subVal compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
-            [self.view addSubview:subNumber];
-            [self.onScreenNums addObject:subNumber];
-        }
-        
-        int addX = 0;
-        int addY = 0;
-        if ([dir isEqualToString:@"up"]) {
-            addY = -80;
-        }
-        else if ([dir isEqualToString:@"down"]) {
-            addY = 0;
-        }
-        else if ([dir isEqualToString:@"right"]) {
-            addX = labelLength + 75;
-        }
-        
-        labelLength = 60*decNum2.stringValue.length;
-        if ([decNum2.stringValue rangeOfString:@"."].location != NSNotFound) {
-            labelLength -= 30;
-        }
-        BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, labelLength, 80) andValue:decNum2];
-        newNum.userInteractionEnabled = YES;
-        newNum.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
-        
-        UIPanGestureRecognizer *gesture4 = [[UIPanGestureRecognizer alloc]
-                                            initWithTarget:self
-                                            action:@selector(numberSwiped:)];
-        [newNum addGestureRecognizer:gesture4];
-        
-        // add it
-        if ([newNum.value compare:[NSNumber numberWithInt:0]] != NSOrderedSame && newNum.value != subNumber.value) {
-            UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + addX +offest, subNumber.frame.origin.y, 60, 80)];
-            cover.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
-            cover.textColor = [UIColor whiteColor];
-            cover.font = [UIFont fontWithName:@"Futura" size:100];
-            [self.view addSubview:cover];
-            if(newNum.value.floatValue < 1){
-                cover.text = @"0";
-                [self.view sendSubviewToBack:cover];
-            } else {
-                cover.text = digit;
+        if (!hitWall) {
+            NSDecimalNumber *decNum1 = prevNum.value;
+            NSDecimalNumber *decNum2 = [NSDecimalNumber decimalNumberWithDecimal:val.decimalValue];
+            
+            NSDecimalNumber *subVal = [decNum1 decimalNumberBySubtracting:decNum2];
+            int labelLength = 60*subVal.stringValue.length;
+            if ([subVal.stringValue rangeOfString:@"."].location != NSNotFound) {
+                labelLength -= 30;
             }
-            [self.view addSubview:newNum];
-            [self.onScreenNums addObject:newNum];
-            [self.view sendSubviewToBack:newNum];
+            int oldXOffsett = 0;
+            if (prevNum.value.stringValue.length > subVal.stringValue.length && val.floatValue > 1) {
+                oldXOffsett = 60*(prevNum.value.stringValue.length - subVal.stringValue.length);
+            }
             
+            BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x+oldXOffsett, prevNum.frame.origin.y, labelLength, 80) andValue:subVal];
+            subNumber.userInteractionEnabled = YES;
+            subNumber.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
             
-            [UIView animateWithDuration:0.75
-                             animations:^{
-                                 [cover setTransform:CGAffineTransformMakeTranslation(0, 95)];
-                                 [newNum setTransform:CGAffineTransformMakeTranslation(0, 95)];
-                             } completion:^(BOOL finished) {
-                                 [cover removeFromSuperview];
-                             }];
+            UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+                                                initWithTarget:self
+                                                action:@selector(numberSwiped:)];
+            [subNumber addGestureRecognizer:gesture3];
+            
+            [self.onScreenNums removeObject:prevNum];
+            [prevNum removeFromSuperview];
+            
+            // add it
+            if ([subVal compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
+                [self.view addSubview:subNumber];
+                [self.onScreenNums addObject:subNumber];
+            }
+            
+            int addX = 0;
+            int addY = 0;
+            if ([dir isEqualToString:@"up"]) {
+                addY = -80;
+            }
+            else if ([dir isEqualToString:@"down"]) {
+                addY = 0;
+            }
+            else if ([dir isEqualToString:@"right"]) {
+                addX = labelLength + 75;
+            }
+            
+            labelLength = 60*decNum2.stringValue.length;
+            if ([decNum2.stringValue rangeOfString:@"."].location != NSNotFound) {
+                labelLength -= 30;
+            }
+            BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, labelLength, 80) andValue:decNum2];
+            newNum.userInteractionEnabled = YES;
+            newNum.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
+            
+            UIPanGestureRecognizer *gesture4 = [[UIPanGestureRecognizer alloc]
+                                                initWithTarget:self
+                                                action:@selector(numberSwiped:)];
+            [newNum addGestureRecognizer:gesture4];
+            
+            // add it
+            if ([newNum.value compare:[NSNumber numberWithInt:0]] != NSOrderedSame && newNum.value != subNumber.value) {
+                UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + addX +offest, subNumber.frame.origin.y, 60, 80)];
+                cover.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
+                cover.textColor = [UIColor whiteColor];
+                cover.font = [UIFont fontWithName:@"Futura" size:100];
+                [self.view addSubview:cover];
+                if(newNum.value.floatValue < 1){
+                    cover.text = @"0";
+                    [self.view sendSubviewToBack:cover];
+                } else {
+                    cover.text = digit;
+                }
+                [self.view addSubview:newNum];
+                [self.onScreenNums addObject:newNum];
+                [self.view sendSubviewToBack:newNum];
+                
+                
+                [UIView animateWithDuration:0.75
+                                 animations:^{
+                                     [cover setTransform:CGAffineTransformMakeTranslation(0, 95)];
+                                     [newNum setTransform:CGAffineTransformMakeTranslation(0, 95)];
+                                 } completion:^(BOOL finished) {
+                                     [cover removeFromSuperview];
+                                 }];
+                
+            }
 
         }
-    }
-    else if (isANumInSpawnSpot){
-        NSLog(@"blocker: %@", blocker.value);
-        [self colorizeLabelForAWhile:blocker withUIColor:[UIColor redColor] animated:YES];
-        
     }
     
 }
@@ -566,14 +589,16 @@ bool decimalUsed = false;
 
     CGRect potentialFrame = CGRectMake(300, 50, labelLength, 80);
     
-    BOOL isANumInSpawnSpot = NO;
+    BOOL hitWall = NO;
     for (BigNumber *oldNum in self.onScreenNums) {
         if (CGRectIntersectsRect(oldNum.frame, potentialFrame)) {
-            isANumInSpawnSpot = YES;
+            oldNum.center = CGPointMake(oldNum.center.x, oldNum.center.y+79);
+            NSMutableArray *moveNums = [NSMutableArray arrayWithObject:oldNum];
+            hitWall = [self checkNumberCollisionWithNumber:oldNum andTranslation:CGPointMake(0,79) andMovedNums:moveNums andCanAdd:NO];
         }
     }
     
-    if (!isANumInSpawnSpot && ![self.numberDisplay.text isEqualToString:@""]) {
+    if (!hitWall && ![self.numberDisplay.text isEqualToString:@""]) {
         BigNumber *newNumber = [[BigNumber alloc] initWithFrame:potentialFrame
                                                        andValue:[NSDecimalNumber decimalNumberWithString:self.numberDisplay.text]];
         [self.view addSubview:newNumber];
