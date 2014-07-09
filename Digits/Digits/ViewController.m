@@ -296,18 +296,17 @@ bool decimalUsed = false;
                 [firstNum removeFromSuperview];
                 [otherNumber removeFromSuperview];
 
-                [self.view addSubview:cover1];
                 [self.view addSubview:cover2];
+                [self.view addSubview:cover1];
                 
                 // trying cascading addition
                 double delay = 0.0;
                 NSArray *reversedDigits = [[cover1.digitViews reverseObjectEnumerator] allObjects];
                 NSArray *reversedCover = [[cover2.digitViews reverseObjectEnumerator] allObjects];
                 for (DigitView *digit in reversedDigits){
-                        [UIView animateWithDuration:0.5 delay:delay options:UIViewAnimationTransitionNone animations:^{
+                        [UIView animateWithDuration:.5 delay:delay options:UIViewAnimationTransitionNone animations:^{
                         [digit setTransform:CGAffineTransformMakeTranslation([otherNumberDecimalLoc intValue]-[firstNumberDecimalLoc intValue], 75*coverDir)];
                         }  completion:^(BOOL finished) {
-                            NSLog(@"cascade");
                             if ([reversedDigits objectAtIndex:reversedDigits.count-1] == digit) {
                                 [cover1 removeFromSuperview];
                                 [cover2 removeFromSuperview];
@@ -315,23 +314,31 @@ bool decimalUsed = false;
                                 [self.view addSubview:sumNumber];
                                 [self.onScreenNums addObject:sumNumber];
 
-                                NSLog(@"complete");
                                 for (BigNumber *digitCover in self.digitCovers ) {
                                     [digitCover removeFromSuperview];
                                 }
                                 [self.digitCovers removeAllObjects];
                             } else {
-                                CGRect digitFrameUnder = CGRectMake(digit.frame.origin.x, digit.frame.origin.y+80, 60, 80);
                                 for (DigitView *digitUnder in cover2.digitViews) {
-                                    NSLog(@"digit under value1: %@",digitUnder.value);
-                                    if (CGRectContainsRect(digit.frame, digitUnder.frame)) {
-                                        NSLog(@"digit under value2: %@",digitUnder.value);
+                                    if (![digitUnder.text isEqualToString:@"."] && ![digit.text isEqualToString:@"."]) {
+                                        if (CGRectIntersectsRect(digit.frame, digitUnder.frame)) {
+                                            NSDecimalNumber *sumVal = [digit.value decimalNumberByAdding:digitUnder.value];
+                                            NSString *trimmer = @"";
+                                            if (sumVal.floatValue < 1.0 && sumVal.floatValue > 0.0) {
+                                                trimmer = @"0.";
+                                            }
+                                            NSString* finalDigit = [sumVal.stringValue stringByTrimmingCharactersInSet: [NSCharacterSet characterSetWithCharactersInString:trimmer]];
+                                            if (finalDigit.length > 1) {
+                                                finalDigit = [finalDigit substringFromIndex: [finalDigit length] - 1];
+                                            }
+                                            
+                                            NSLog(@"final: %@", finalDigit);
+                                            //digit.text = finalDigit;
+                                        }
                                     }
                                 }
-                                //NSString *newValue = somehow calculate the right new digit for that place
-                                //digit.text = newValue;
                                 digit.frame = CGRectMake(digit.frame.origin.x, digit.frame.origin.y-20, 60, 120);
-                                digit.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1.0f];
+                                //digit.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1.0f];
                             }
                         }];
                         delay +=0.25;
