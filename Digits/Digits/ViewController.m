@@ -222,9 +222,7 @@ bool isAdding = false;
         firstNumber.center = imageViewPosition;
         [gesture setTranslation:CGPointZero inView:self.view];
     }
-    else {
-        [firstNumber wobbleAnimation];
-    }
+    
     
     NSMutableArray *movedNums = [NSMutableArray arrayWithObject:firstNumber];
     
@@ -247,7 +245,6 @@ bool isAdding = false;
         NSNumber *otherNumberDecimalLoc = [NSNumber numberWithFloat:((otherNumber.frame.origin.x)+[otherNumber.decimalPosition floatValue])];
         
         if (firstNum != otherNumber && CGRectIntersectsRect(firstNum.frame, otherNumber.frame) && ![movedNums containsObject:otherNumber]) {
-            NSLog(@"firstNum: %@, otherNum: %@",firstNum.value, otherNumber.value);
             int decimalLocDiff = abs([firstNumberDecimalLoc intValue]-[otherNumberDecimalLoc intValue]);
             if (decimalLocDiff <= 20 && canAdd) {
                 
@@ -579,9 +576,12 @@ bool isAdding = false;
     BOOL hitWall = NO;
     for (BigNumber *oldNum in self.onScreenNums) {
         if (CGRectIntersectsRect(oldNum.frame, potentialFrame)) {
-            oldNum.center = CGPointMake(oldNum.center.x, oldNum.center.y+79);
+            
             NSMutableArray *moveNums = [NSMutableArray arrayWithObject:oldNum];
             hitWall = [self checkNumberCollisionWithNumber:oldNum andTranslation:CGPointMake(0,79) andMovedNums:moveNums andCanAdd:NO];
+            if (!hitWall) {
+                oldNum.center = CGPointMake(oldNum.center.x, oldNum.center.y+79);
+            }
         }
     }
     
