@@ -15,6 +15,7 @@
 @property (nonatomic) int numDivTenDecMovers;
 @property (nonatomic, strong) UIImageView *multBy10;
 @property (nonatomic, strong) UIImageView *divBy10;
+@property (nonatomic, strong) NSMutableArray *digitCovers;
 
 @end
 
@@ -22,7 +23,6 @@
 
 int numDigits =0;
 bool decimalUsed = false;
-bool isAdding = false;
 
 - (void)viewDidLoad
 {
@@ -32,6 +32,7 @@ bool isAdding = false;
     self.decimalMoverCreator.hidden = true;
     self.numTimesTenDecMovers = 0;
     self.numDivTenDecMovers = 0;
+    self.digitCovers = [[NSMutableArray alloc] init];
     
     self.onScreenNums = [NSMutableArray array];
     
@@ -256,10 +257,6 @@ bool isAdding = false;
                 if ([sumVal.stringValue rangeOfString:@"."].location != NSNotFound) {
                     labelLength -= 30;
                 }
-                int sumOffset = 0;
-                if (sumVal.stringValue.length > decNum1.stringValue.length && sumVal.stringValue.length > decNum2.stringValue.length && firstNum.frame.origin.x > 80 && otherNumber.frame.origin.x > 80) {
-                    sumOffset = -60;
-                }
                 CGRect sumFrame;
                 if (decNum1.floatValue > decNum2.floatValue) {
                     sumFrame = CGRectMake(firstNum.frame.origin.x, otherNumber.frame.origin.y, labelLength, 80);
@@ -289,7 +286,6 @@ bool isAdding = false;
                 CGRect coverFrame2;
                 coverFrame2 = CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, otherNumber.frame.size.width, 80);
                 BigNumber *cover2 = [[BigNumber alloc] initWithFrame:otherNumber.frame andValue:otherNumber.value];
-                
                 int coverDir = 1;
                 if (firstNum.frame.origin.y > otherNumber.frame.origin.y) {
                     coverDir *= -1;
@@ -299,23 +295,42 @@ bool isAdding = false;
                 [self.onScreenNums removeObject:otherNumber];
                 [firstNum removeFromSuperview];
                 [otherNumber removeFromSuperview];
-                
+
                 [self.view addSubview:cover1];
                 [self.view addSubview:cover2];
                 
-                [UIView animateWithDuration:.75
-                                 animations:^{
-                                     isAdding = true;
-                                     [cover1 setTransform:CGAffineTransformMakeTranslation([otherNumberDecimalLoc intValue]-[firstNumberDecimalLoc intValue], 75*coverDir)];
-                                 } completion:^(BOOL finished) {
-                                     [cover1 removeFromSuperview];
-                                     [cover2 removeFromSuperview];
-                                     //add it
-                                     [self.view addSubview:sumNumber];
-                                     [self.onScreenNums addObject:sumNumber];
-                                     [sumNumber wobbleAnimation];
-                                     isAdding = false;
-                                 }];
+                // trying cascading addition
+                double delay = 0.0;
+                NSArray *reversedDigits = [[cover1.digitViews reverseObjectEnumerator] allObjects];
+                NSArray *reversedCover = [[cover2.digitViews reverseObjectEnumerator] allObjects];
+                NSLog(@"reversed digits: %@",reversedDigits);
+                for (DigitView *digit in reversedDigits){
+                        [UIView animateWithDuration:0.25*cover1.digitViews.count+0.25 delay:delay options:UIViewAnimationTransitionNone animations:^{
+                        [digit setTransform:CGAffineTransformMakeTranslation([otherNumberDecimalLoc intValue]-[firstNumberDecimalLoc intValue], 75*coverDir)];
+                        }  completion:^(BOOL finished) {
+                            NSLog(@"cascade");
+                            if ([reversedDigits objectAtIndex:reversedDigits.count-1] == digit) {
+                                [cover1 removeFromSuperview];
+                                [cover2 removeFromSuperview];
+                                //add it
+                                [self.view addSubview:sumNumber];
+                                [self.onScreenNums addObject:sumNumber];
+
+                                NSLog(@"complete");
+                                for (BigNumber *digitCover in self.digitCovers ) {
+                                    [digitCover removeFromSuperview];
+                                }
+                                [self.digitCovers removeAllObjects];
+                            } else {
+                                //NSString *newValue = somehow calculate the right new digit for that place
+                                //digit.text = newValue;
+                                digit.frame = CGRectMake(digit.frame.origin.x, digit.frame.origin.y-20, 60, 120);
+                                digit.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1.0f];
+                            }
+                        }];
+                        delay +=0.25;
+                }
+
                 break;
             }
             else
