@@ -289,7 +289,6 @@ bool decimalUsed = false;
                 CGRect coverFrame2;
                 coverFrame2 = CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, otherNumber.frame.size.width, 80);
                 BigNumber *cover2 = [[BigNumber alloc] initWithFrame:otherNumber.frame andValue:otherNumber.value];
-                
                 int coverDir = 1;
                 if (firstNum.frame.origin.y > otherNumber.frame.origin.y) {
                     coverDir *= -1;
@@ -299,12 +298,14 @@ bool decimalUsed = false;
                 [self.onScreenNums removeObject:otherNumber];
                 [firstNum removeFromSuperview];
                 [otherNumber removeFromSuperview];
-                
+
                 [self.view addSubview:cover1];
                 [self.view addSubview:cover2];
+                
                 // trying cascading addition
                 double delay = 0.0;
                 NSArray *reversedDigits = [[cover1.digitViews reverseObjectEnumerator] allObjects];
+                NSArray *reversedCover = [[cover2.digitViews reverseObjectEnumerator] allObjects];
                 NSLog(@"reversed digits: %@",reversedDigits);
                 for (DigitView *digit in reversedDigits){
                         [UIView animateWithDuration:0.25*cover1.digitViews.count+0.25 delay:delay options:UIViewAnimationTransitionNone animations:^{
@@ -317,16 +318,17 @@ bool decimalUsed = false;
                                 //add it
                                 [self.view addSubview:sumNumber];
                                 [self.onScreenNums addObject:sumNumber];
-                                [sumNumber wobbleAnimation];
+
                                 NSLog(@"complete");
                                 for (BigNumber *digitCover in self.digitCovers ) {
                                     [digitCover removeFromSuperview];
                                 }
                                 [self.digitCovers removeAllObjects];
                             } else {
-                                /*BigNumber *digitCover = [[BigNumber alloc] initWithFrame:digit.frame andValue:digit.value];
-                                [self.view addSubview:digitCover];
-                                [self.digitCovers addObject:digitCover];*/
+                                //NSString *newValue = somehow calculate the right new digit for that place
+                                //digit.text = newValue;
+                                digit.frame = CGRectMake(digit.frame.origin.x, digit.frame.origin.y-20, 60, 120);
+                                digit.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1.0f];
                             }
                         }];
                         delay +=0.25;
