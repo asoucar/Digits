@@ -306,9 +306,8 @@ bool decimalUsed = false;
                 double delay = 0.0;
                 NSArray *reversedDigits = [[cover1.digitViews reverseObjectEnumerator] allObjects];
                 NSArray *reversedCover = [[cover2.digitViews reverseObjectEnumerator] allObjects];
-                NSLog(@"reversed digits: %@",reversedDigits);
                 for (DigitView *digit in reversedDigits){
-                        [UIView animateWithDuration:0.25*cover1.digitViews.count+0.25 delay:delay options:UIViewAnimationTransitionNone animations:^{
+                        [UIView animateWithDuration:0.5 delay:delay options:UIViewAnimationTransitionNone animations:^{
                         [digit setTransform:CGAffineTransformMakeTranslation([otherNumberDecimalLoc intValue]-[firstNumberDecimalLoc intValue], 75*coverDir)];
                         }  completion:^(BOOL finished) {
                             NSLog(@"cascade");
@@ -325,6 +324,13 @@ bool decimalUsed = false;
                                 }
                                 [self.digitCovers removeAllObjects];
                             } else {
+                                CGRect digitFrameUnder = CGRectMake(digit.frame.origin.x, digit.frame.origin.y+80, 60, 80);
+                                for (DigitView *digitUnder in cover2.digitViews) {
+                                    NSLog(@"digit under value1: %@",digitUnder.value);
+                                    if (CGRectContainsRect(digit.frame, digitUnder.frame)) {
+                                        NSLog(@"digit under value2: %@",digitUnder.value);
+                                    }
+                                }
                                 //NSString *newValue = somehow calculate the right new digit for that place
                                 //digit.text = newValue;
                                 digit.frame = CGRectMake(digit.frame.origin.x, digit.frame.origin.y-20, 60, 120);
