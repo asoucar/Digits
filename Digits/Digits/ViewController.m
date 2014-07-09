@@ -22,6 +22,7 @@
 
 int numDigits =0;
 bool decimalUsed = false;
+bool isAdding = false;
 
 - (void)viewDidLoad
 {
@@ -264,30 +265,60 @@ bool decimalUsed = false;
                 }
                 CGRect sumFrame;
                 if (decNum1.floatValue > decNum2.floatValue) {
-                    sumFrame = CGRectMake(firstNum.frame.origin.x+sumOffset, otherNumber.frame.origin.y, labelLength, 80);
+                    sumFrame = CGRectMake(firstNumber.frame.origin.x, otherNumber.frame.origin.y, labelLength, 80);
                 }
                 else {
-                    sumFrame = CGRectMake(otherNumber.frame.origin.x+sumOffset, otherNumber.frame.origin.y, labelLength, 80);
+                    sumFrame = CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, labelLength, 80);
                 }
                 
                 BigNumber *sumNumber = [[BigNumber alloc] initWithFrame:sumFrame andValue:sumVal ];
                 sumNumber.userInteractionEnabled = YES;
+                
+                if (sumNumber.wholeNumberDigits.count > firstNumber.wholeNumberDigits.count && sumNumber.wholeNumberDigits.count > otherNumber.wholeNumberDigits.count) {
+                    NSLog(@"number shift");
+                    sumNumber.frame = CGRectMake(otherNumber.frame.origin.x - 60, otherNumber.frame.origin.y, labelLength, 80);
+                }
                 
                 UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                                     initWithTarget:self
                                                     action:@selector(numberSwiped:)];
                 [sumNumber addGestureRecognizer:gesture3];
                 
-                [self.onScreenNums removeObject:firstNum];
+                // add animation
+                CGRect coverFrame1;
+                coverFrame1 = CGRectMake(firstNumber.frame.origin.x, firstNumber.frame.origin.y, labelLength, 80);
+                BigNumber *cover1 = [[BigNumber alloc] initWithFrame:firstNumber.frame andValue:firstNumber.value];
+                
+                CGRect coverFrame2;
+                coverFrame2 = CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, otherNumber.frame.size.width, 80);
+                BigNumber *cover2 = [[BigNumber alloc] initWithFrame:otherNumber.frame andValue:otherNumber.value];
+                
+                int coverDir = 1;
+                if (firstNumber.frame.origin.y > otherNumber.frame.origin.y) {
+                    coverDir *= -1;
+                }
+                
+                [self.onScreenNums removeObject:firstNumber];
                 [self.onScreenNums removeObject:otherNumber];
                 [firstNum removeFromSuperview];
                 [otherNumber removeFromSuperview];
                 
-                // add it
-                [self.view addSubview:sumNumber];
-                [self.onScreenNums addObject:sumNumber];
-                [sumNumber wobbleAnimation];
+                [self.view addSubview:cover1];
+                [self.view addSubview:cover2];
                 
+                [UIView animateWithDuration:.75
+                                 animations:^{
+                                     isAdding = true;
+                                     [cover1 setTransform:CGAffineTransformMakeTranslation([otherNumberDecimalLoc intValue]-[firstNumberDecimalLoc intValue], 75*coverDir)];
+                                 } completion:^(BOOL finished) {
+                                     [cover1 removeFromSuperview];
+                                     [cover2 removeFromSuperview];
+                                     //add it
+                                     [self.view addSubview:sumNumber];
+                                     [self.onScreenNums addObject:sumNumber];
+                                     [sumNumber wobbleAnimation];
+                                     isAdding = false;
+                                 }];
                 break;
             }
             else
@@ -332,7 +363,9 @@ bool decimalUsed = false;
             }
         }
     }
-    return NO;
+	// reset translation
+	[gesture setTranslation:CGPointZero inView:firstNumber];
+
 }
 
 - (void) numberSwiped:(UIPanGestureRecognizer *)gesture

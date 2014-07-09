@@ -13,7 +13,6 @@
 
 @interface BigNumber()
 
-@property (nonatomic, strong) NSMutableArray *wholeNumberDigits;
 @property int numNonZeroDigits;
 @property BOOL movable;
 
@@ -64,11 +63,10 @@
         [self.decimalNumberDigits removeObjectAtIndex:0];
 
         self.digitViews = [[NSMutableArray alloc] init];
-        
+        int digitCount = 1;
         for (NSString *digit in self.wholeNumberDigits) {
             NSDecimalNumber *value = [NSDecimalNumber decimalNumberWithString:digit];
-            value = [value decimalNumberByMultiplyingByPowerOf10:((short)([self.wholeNumberDigits count]-[self.wholeNumberDigits indexOfObject:digit]-1))];
-            
+            value = [value decimalNumberByMultiplyingByPowerOf10:((short)([self.wholeNumberDigits count]-digitCount))];
             DigitView *newDigit = [[DigitView alloc] initWithFrame:CGRectMake(xPos, 0, 60, 80) andValue:value];
             [self.digitViews addObject:newDigit];
             [self addSubview:newDigit];
@@ -77,8 +75,9 @@
             newDigit.font = [UIFont fontWithName:@"Futura" size:100];
             xPos = xPos+60;
             newDigit.userInteractionEnabled = YES;
+            digitCount++;
         }
-        
+        digitCount = 1;
         for (NSString *digit in self.decimalNumberDigits) {
             if ([digit isEqualToString:@"."]) {
                 UILabel *decimal = [[UILabel alloc] initWithFrame:CGRectMake(xPos, 0, 30, 80)];
@@ -92,7 +91,7 @@
             }
             else{
             NSDecimalNumber *value = [NSDecimalNumber decimalNumberWithString:digit];
-            value = [value decimalNumberByMultiplyingByPowerOf10:((short)(-1*[self.decimalNumberDigits indexOfObject:digit]))];
+            value = [value decimalNumberByMultiplyingByPowerOf10:((short)(-1*digitCount))];
             DigitView *newDigit = [[DigitView alloc] initWithFrame:CGRectMake(xPos, 0, 60, 80) andValue:value];
             [self.digitViews addObject:newDigit];
             [self addSubview:newDigit];
@@ -102,6 +101,7 @@
             newDigit.font = [UIFont fontWithName:@"Futura" size:100];
             xPos = xPos+60;
             newDigit.userInteractionEnabled = YES;
+                digitCount++;
             }
         }
     }
@@ -155,7 +155,6 @@
                                 firstNumber.numNonZeroDigits +=1;
                             }
                         }
-                        NSLog(@"offset: %i", offset);
                         if (firstNumber.numNonZeroDigits != 1) {
                             [mainViewController decomposeBigNumberWithNewValue:[NSDecimalNumber decimalNumberWithDecimal:digit.value.decimalValue] andOrigNum:self andDir:@"down" andOffset:offset andDigit:digit.text];
                         }
