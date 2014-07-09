@@ -586,7 +586,7 @@ bool decimalUsed = false;
         labelLength += 60;
     }
 
-    CGRect potentialFrame = CGRectMake(300, 50, labelLength, 80);
+    CGRect potentialFrame = CGRectMake(300, 65, labelLength, 80);
     
     BOOL hitWall = NO;
     for (BigNumber *oldNum in self.onScreenNums) {
@@ -604,7 +604,7 @@ bool decimalUsed = false;
         BigNumber *newNumber = [[BigNumber alloc] initWithFrame:potentialFrame
                                                        andValue:[NSDecimalNumber decimalNumberWithString:self.numberDisplay.text]];
         [self.view addSubview:newNumber];
-        newNumber.center = CGPointMake(384, 75);
+        newNumber.center = CGPointMake(384, 90);
         [self.onScreenNums addObject:newNumber];
         UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                             initWithTarget:self
