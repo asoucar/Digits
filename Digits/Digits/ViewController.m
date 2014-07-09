@@ -111,24 +111,44 @@ bool decimalUsed = false;
             gesture.enabled = NO;
             gesture.enabled = YES;
             
-            
             BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(number.frame.origin.x, number.frame.origin.y, labelLength, 80)andValue:decNum1 ];
-            newNumber.userInteractionEnabled = YES;
-//            
-            UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
-                                                initWithTarget:self
-                                                action:@selector(numberSwiped:)];
-            [newNumber addGestureRecognizer:gesture3];
+            NSArray *objsForSelector = [NSArray arrayWithObjects:number, newNumber, nil];
             
-            [self.onScreenNums removeObject:number];
-            [number removeFromSuperview];
-            
-            // add it
-            [self.view addSubview:newNumber];
-            [self.onScreenNums addObject:newNumber];
-            [newNumber wobbleAnimation];
-            
-            break;
+            for (DigitView *digit in number.digitViews) {
+                if ([digit.text isEqualToString:@"."]) {
+                    CGPoint startLoc = digit.center;
+                    
+                    [UIView animateWithDuration:0.5 animations:^{
+                        digit.center = CGPointMake(startLoc.x + 35, startLoc.y+20);
+                        
+                    } completion:^(BOOL finished) {
+                        [UIView animateWithDuration:0.5 animations:^{
+                            digit.center = CGPointMake(startLoc.x + 70, startLoc.y);
+                        } completion:^(BOOL finished) {
+                            
+                            newNumber.userInteractionEnabled = YES;
+                            //
+                            UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+                                                                initWithTarget:self
+                                                                action:@selector(numberSwiped:)];
+                            [newNumber addGestureRecognizer:gesture3];
+                            
+                            [self.onScreenNums removeObject:number];
+                            [number removeFromSuperview];
+                            
+                            // add it
+                            [self.view addSubview:newNumber];
+                            [self.onScreenNums addObject:newNumber];
+                            [newNumber wobbleAnimation];
+
+                        }];
+
+                    }];
+                }
+            }
+
+        [self performSelector:@selector(presentNewNumFromDecimalMoverWithNumber:) withObject:objsForSelector afterDelay:1];
+          break;
         }
     }
 
@@ -179,25 +199,73 @@ bool decimalUsed = false;
             gesture.enabled = NO;
             gesture.enabled = YES;
             
-            
             BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(number.frame.origin.x, number.frame.origin.y, labelLength, 80)andValue:decNum1 ];
-            newNumber.userInteractionEnabled = YES;
             
-            UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
-                                                initWithTarget:self
-                                                action:@selector(numberSwiped:)];
-            [newNumber addGestureRecognizer:gesture3];
+            NSArray *objsForSelector = [NSArray arrayWithObjects:number, newNumber, nil];
             
-            [self.onScreenNums removeObject:number];
-            [number removeFromSuperview];
+            for (DigitView *digit in number.digitViews) {
+                if ([digit.text isEqualToString:@"."]) {
+                    CGPoint startLoc = digit.center;
+                    
+                    [UIView animateWithDuration:0.5 animations:^{
+                        digit.center = CGPointMake(startLoc.x - 35, startLoc.y+20);
+                        
+                    } completion:^(BOOL finished) {
+                        [UIView animateWithDuration:0.5 animations:^{
+                            digit.center = CGPointMake(startLoc.x - 70, startLoc.y);
+                        } completion:^(BOOL finished) {
+                            
+                            newNumber.userInteractionEnabled = YES;
+                            
+                            UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+                                                                initWithTarget:self
+                                                                action:@selector(numberSwiped:)];
+                            [newNumber addGestureRecognizer:gesture3];
+                            
+                            [self.onScreenNums removeObject:number];
+                            [number removeFromSuperview];
+                            
+                            // add it
+                            [self.view addSubview:newNumber];
+                            [self.onScreenNums addObject:newNumber];
+                            [newNumber wobbleAnimation];
+                            
+                        }];
+                        
+                    }];
+                }
+            }
             
-            // add it
-            [self.view addSubview:newNumber];
-            [self.onScreenNums addObject:newNumber];
-            [newNumber wobbleAnimation];
+            
+            
+            [self performSelector:@selector(presentNewNumFromDecimalMoverWithNumber:) withObject:objsForSelector afterDelay:1];
+
             
             break;
         }
+    }
+
+}
+
+- (void)presentNewNumFromDecimalMoverWithNumber:(NSArray*)numbers
+{
+    BigNumber *oldNum =(BigNumber*)[numbers objectAtIndex:0];
+    
+    if ([self.onScreenNums containsObject:oldNum]) {
+        BigNumber *newNum = (BigNumber*)[numbers objectAtIndex:1];
+        newNum.userInteractionEnabled = YES;
+        
+        UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+                                            initWithTarget:self
+                                            action:@selector(numberSwiped:)];
+        [newNum addGestureRecognizer:gesture3];
+        
+        [self.onScreenNums removeObject:oldNum];
+        [oldNum removeFromSuperview];
+        
+        // add it
+        [self.view addSubview:newNum];
+        [self.onScreenNums addObject:newNum];
     }
 
 }
