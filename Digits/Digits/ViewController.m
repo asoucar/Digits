@@ -223,9 +223,7 @@ bool decimalUsed = false;
         firstNumber.center = imageViewPosition;
         [gesture setTranslation:CGPointZero inView:self.view];
     }
-    else {
-        [firstNumber wobbleAnimation];
-    }
+    
     
     NSMutableArray *movedNums = [NSMutableArray arrayWithObject:firstNumber];
     
@@ -248,7 +246,6 @@ bool decimalUsed = false;
         NSNumber *otherNumberDecimalLoc = [NSNumber numberWithFloat:((otherNumber.frame.origin.x)+[otherNumber.decimalPosition floatValue])];
         
         if (firstNum != otherNumber && CGRectIntersectsRect(firstNum.frame, otherNumber.frame) && ![movedNums containsObject:otherNumber]) {
-            NSLog(@"firstNum: %@, otherNum: %@",firstNum.value, otherNumber.value);
             int decimalLocDiff = abs([firstNumberDecimalLoc intValue]-[otherNumberDecimalLoc intValue]);
             if (decimalLocDiff <= 20 && canAdd) {
                 
@@ -595,14 +592,17 @@ bool decimalUsed = false;
         labelLength += 60;
     }
 
-    CGRect potentialFrame = CGRectMake(300, 50, labelLength, 80);
+    CGRect potentialFrame = CGRectMake(300, 65, labelLength, 80);
     
     BOOL hitWall = NO;
     for (BigNumber *oldNum in self.onScreenNums) {
         if (CGRectIntersectsRect(oldNum.frame, potentialFrame)) {
-            oldNum.center = CGPointMake(oldNum.center.x, oldNum.center.y+79);
+            
             NSMutableArray *moveNums = [NSMutableArray arrayWithObject:oldNum];
             hitWall = [self checkNumberCollisionWithNumber:oldNum andTranslation:CGPointMake(0,79) andMovedNums:moveNums andCanAdd:NO];
+            if (!hitWall) {
+                oldNum.center = CGPointMake(oldNum.center.x, oldNum.center.y+79);
+            }
         }
     }
     
@@ -610,7 +610,7 @@ bool decimalUsed = false;
         BigNumber *newNumber = [[BigNumber alloc] initWithFrame:potentialFrame
                                                        andValue:[NSDecimalNumber decimalNumberWithString:self.numberDisplay.text]];
         [self.view addSubview:newNumber];
-        newNumber.center = CGPointMake(384, 75);
+        newNumber.center = CGPointMake(384, 90);
         [self.onScreenNums addObject:newNumber];
         UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                             initWithTarget:self
