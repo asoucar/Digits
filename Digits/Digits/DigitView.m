@@ -8,6 +8,10 @@
 
 #import "DigitView.h"
 
+#define DISSOLVE_TO_SELECTED_TIME .6
+#define DISSOLVE_TO_UNSELECTED_TIME .2
+#define SECONDS_UNTIL_DESELECT 3.0
+
 @interface DigitView ()
 
 @property (nonatomic) id fullNum;
@@ -42,13 +46,32 @@
 - (void)selected
 {
     self.isDigitSelected = true;
-    self.textColor = [UIColor blackColor];
+    
+    [UIView transitionWithView:self duration:DISSOLVE_TO_SELECTED_TIME options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+        self.textColor = [UIColor blackColor];
+    } completion:^(BOOL finished) {
+    }];
+    
+    
+    self.deselectTimer  = [NSTimer scheduledTimerWithTimeInterval:SECONDS_UNTIL_DESELECT
+                                                           target:self
+                                                         selector:@selector(deselect)
+                                                         userInfo:nil
+                                                          repeats:NO];
 }
 
 - (void) deselect
 {
+    [self.deselectTimer invalidate];
+
     self.isDigitSelected = false;
-    self.textColor = [UIColor whiteColor];
+    
+    [UIView transitionWithView:self duration:DISSOLVE_TO_UNSELECTED_TIME options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+        self.textColor = [UIColor whiteColor];
+    } completion:^(BOOL finished) {
+    }];
+
+    
     [self removeGestureRecognizer:[self.gestureRecognizers objectAtIndex:1]];
 }
 
