@@ -160,21 +160,6 @@
         NSLog(@"swipe right");
         
     }
-    else if (vel.y < 0) {
-        //tell big number to tell view controller to create a new big number
-        //with value of this digit
-        //and subtract value from first big number
-        //and remove this digit from big number
-        NSLog(@"swipe up");
-        if (gesture.enabled) {
-            gesture.enabled = NO;
-            NSLog(@"swipe up inside if");
-            ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
-    
-            [mainViewController decomposeBigNumberWithNewValue:digit.value andOrigNum:self andDir:@"up" andOffset:offset andDigit:digit.text];
-        }
-        
-    }
     else if (vel.y > 0) {
         //tell big number to tell view controller to create a new big number
         //with value of this digit

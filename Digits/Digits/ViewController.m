@@ -275,8 +275,38 @@ bool decimalUsed = false;
 	BigNumber *firstNumber = (BigNumber *)gesture.view;
     firstNumber.backgroundColor = [UIColor clearColor];
     
-    //move number
+    //check if allowable movement
+    if (abs([gesture velocityInView:self.view].x) > 60 || abs([gesture velocityInView:self.view].y) > 60) {
+        CGPoint translation = [gesture translationInView:self.view];
+        if (abs(translation.x) > abs(translation.y)) {
+            translation.y = 0;
+        }
+        else if (abs(translation.y) > abs(translation.x)) {
+            translation.x = 0;
+        }
+        else
+        {
+            [gesture setTranslation:CGPointZero inView:firstNumber];
+        }
+
+    }
+    else
+    {
+        [gesture setTranslation:CGPointZero inView:firstNumber];
+    }
     CGPoint translation = [gesture translationInView:self.view];
+    if (abs(translation.x) > abs(translation.y)) {
+        translation.y = 0;
+    }
+    else if (abs(translation.y) > abs(translation.x)) {
+        translation.x = 0;
+    }
+    else
+    {
+        [gesture setTranslation:CGPointZero inView:firstNumber];
+    }
+    
+    //move number
     CGPoint imageViewPosition = firstNumber.center;
     imageViewPosition.x += translation.x;
     imageViewPosition.y += translation.y;
