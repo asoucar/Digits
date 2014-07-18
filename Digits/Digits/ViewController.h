@@ -21,6 +21,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *divide10NumDisplay;
 @property (weak, nonatomic) IBOutlet UILabel *multCount;
 @property (weak, nonatomic) IBOutlet UILabel *divCount;
+@property (weak, nonatomic) IBOutlet UIView *gridFrame;
+
+@property (strong, atomic) NSArray *xGridLines;
+@property (strong, atomic) NSArray *yGridLines;
 
 - (IBAction)clearNumber:(UIButton *)sender;
 - (IBAction)decimalPressed:(UIButton *)sender;

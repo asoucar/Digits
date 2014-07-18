@@ -28,6 +28,9 @@ bool decimalUsed = false;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    self.xGridLines = [NSArray arrayWithObjects:[NSNumber numberWithInt:154],[NSNumber numberWithInt:214],[NSNumber numberWithInt:274],[NSNumber numberWithInt:334],[NSNumber numberWithInt:394],[NSNumber numberWithInt:454],[NSNumber numberWithInt:514],[NSNumber numberWithInt:574],[NSNumber numberWithInt:634],[NSNumber numberWithInt:694],[NSNumber numberWithInt:754],[NSNumber numberWithInt:814],[NSNumber numberWithInt:894],nil];
+    self.yGridLines = [NSArray arrayWithObjects:[NSNumber numberWithInt:102],[NSNumber numberWithInt:182],[NSNumber numberWithInt:262],[NSNumber numberWithInt:342],[NSNumber numberWithInt:422],[NSNumber numberWithInt:502],[NSNumber numberWithInt:582],[NSNumber numberWithInt:662],nil];
+
     self.calculator.hidden=true;
     self.decimalMoverCreator.hidden = true;
     self.numTimesTenDecMovers = 0;
@@ -48,9 +51,9 @@ bool decimalUsed = false;
     
     self.divBy10.userInteractionEnabled = YES;
     self.multBy10.userInteractionEnabled = YES;
-    self.divBy10.frame = CGRectMake(350, 50, 65, 60);
+    self.divBy10.frame = CGRectMake(350, 33, 65, 60);
     self.divBy10.backgroundColor = [UIColor clearColor];
-    self.multBy10.frame = CGRectMake(565, 50, 65, 60);
+    self.multBy10.frame = CGRectMake(570, 33, 65, 60);
     self.multBy10.backgroundColor = [UIColor clearColor];
     
     [self.multBy10 addGestureRecognizer:gesture1];
@@ -274,6 +277,28 @@ bool decimalUsed = false;
 {
 	BigNumber *firstNumber = (BigNumber *)gesture.view;
     firstNumber.backgroundColor = [UIColor clearColor];
+    NSLog(@"%f",firstNumber.frame.origin.y);
+    int closestLineX = 0;
+    int distanceFromClosestX = 1000;
+    for (int i = 0; i < [self.xGridLines count]; i++) {
+        float distanceFromLine = abs(firstNumber.frame.origin.x - [self.xGridLines[i] floatValue]);
+        if (distanceFromLine < distanceFromClosestX) {
+            distanceFromClosestX = distanceFromLine;
+            closestLineX = [self.xGridLines[i] floatValue];
+        }
+        
+    }
+    
+    int closestLineY = 0;
+    int distanceFromClosestY = 1000;
+    for (int i = 0; i < [self.yGridLines count]; i++) {
+        float distanceFromLine = abs(firstNumber.frame.origin.y - [self.yGridLines[i] floatValue]);
+        if (distanceFromLine < distanceFromClosestY) {
+            distanceFromClosestY = distanceFromLine;
+            closestLineY = [self.yGridLines[i] floatValue];
+        }
+        
+    }
     
     CGPoint translation = [gesture translationInView:self.view];
     if (abs(translation.x) > abs(translation.y)) {
@@ -297,7 +322,7 @@ bool decimalUsed = false;
     
     CGRect rectToCheckBounds = CGRectMake(checkOriginX, checkOriginY, firstNumber.frame.size.width, firstNumber.frame.size.height);
     
-    CGRect draggableFrame = CGRectMake(0, 25, self.view.frame.size.width, self.view.frame.size.height-140);
+    CGRect draggableFrame = CGRectMake(self.gridFrame.frame.origin.x, self.gridFrame.frame.origin.y, self.gridFrame.frame.size.width, self.gridFrame.frame.size.height);
     if (CGRectContainsRect(draggableFrame, rectToCheckBounds)){
         firstNumber.center = imageViewPosition;
         [gesture setTranslation:CGPointZero inView:self.view];
@@ -311,6 +336,11 @@ bool decimalUsed = false;
     if (hitWall) {
         firstNumber.center = CGPointMake(firstNumber.center.x - translation.x,
                                       firstNumber.center.y - translation.y);
+    }
+    
+    if(gesture.state == UIGestureRecognizerStateEnded)
+    {
+        firstNumber.frame = CGRectMake(closestLineX, closestLineY, firstNumber.frame.size.width, firstNumber.frame.size.height);
     }
     
 	// reset translation
@@ -480,9 +510,9 @@ bool decimalUsed = false;
 
 - (void)decomposeBigNumberWithNewValue:(NSDecimalNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir andOffset:(int)offest andDigit:(NSString *)digit
 {
-    CGRect spawnArea = CGRectMake(300, 50, 540, 80);
+    CGRect spawnArea = CGRectMake(154, 102, 540, 80);
     BigNumber *blocker;
-    CGRect bottomArea = CGRectMake(0, self.view.frame.size.height-220, self.view.frame.size.width, self.view.frame.size.height);
+    CGRect bottomArea = CGRectMake(self.gridFrame.frame.origin.x, self.gridFrame.frame.size.height-60, self.gridFrame.frame.size.width, self.gridFrame.frame.size.height);
     CGRect swipeDownArea = CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y+80, prevNum.frame.size.width, 80);
     BOOL isANumInSpawnSpot = NO;
     for (BigNumber *oldNum in self.onScreenNums) {
@@ -677,7 +707,7 @@ bool decimalUsed = false;
         labelLength += 60;
     }
 
-    CGRect potentialFrame = CGRectMake(300, 65, labelLength, 80);
+    CGRect potentialFrame = CGRectMake(155, 102, labelLength, 80);
     
     BOOL hitWall = NO;
     for (BigNumber *oldNum in self.onScreenNums) {
@@ -695,7 +725,7 @@ bool decimalUsed = false;
         BigNumber *newNumber = [[BigNumber alloc] initWithFrame:potentialFrame
                                                        andValue:[NSDecimalNumber decimalNumberWithString:self.numberDisplay.text]];
         [self.view addSubview:newNumber];
-        newNumber.center = CGPointMake(self.view.center.y, 73);
+        //newNumber.center = CGPointMake(self.view.center.y, 73);
         [self.onScreenNums addObject:newNumber];
         DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                             initWithTarget:self

@@ -1491,6 +1491,7 @@
                         <outlet property="decimalMoverCreator" destination="5fo-Td-tgr" id="Vyh-w3-YnO"/>
                         <outlet property="divCount" destination="z02-Rj-jm7" id="pC6-uC-jqj"/>
                         <outlet property="divide10NumDisplay" destination="Qbp-SG-Y5y" id="RNe-YL-FvL"/>
+                        <outlet property="gridFrame" destination="FWr-a7-MSn" id="AD8-Ka-xcy"/>
                         <outlet property="makeNumber" destination="Cd2-jC-UIj" id="34b-m4-2Fz"/>
                         <outlet property="multCount" destination="3jy-ao-YcX" id="hhk-SR-BPH"/>
                         <outlet property="numberDisplay" destination="TUt-Zm-GUZ" id="gRa-QL-wms"/>
