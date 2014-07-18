@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSDecimalNumber *value;
 @property BOOL isDigitSelected;
+@property (nonatomic, strong) NSTimer* deselectTimer;
 
 - (id)initWithFrame:(CGRect)frame andValue:(NSDecimalNumber *)value;
 
