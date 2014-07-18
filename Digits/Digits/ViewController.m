@@ -130,7 +130,7 @@ bool decimalUsed = false;
                             //
                             UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                                                 initWithTarget:self
-                                                                action:@selector(numberSwiped:)];
+                                                                action:@selector(labelDragged::)];
                             [newNumber addGestureRecognizer:gesture3];
                             
                             [self.onScreenNums removeObject:number];
@@ -219,7 +219,7 @@ bool decimalUsed = false;
                             
                             UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                                                 initWithTarget:self
-                                                                action:@selector(numberSwiped:)];
+                                                                action:@selector(labelDragged:)];
                             [newNumber addGestureRecognizer:gesture3];
                             
                             [self.onScreenNums removeObject:number];
@@ -257,7 +257,7 @@ bool decimalUsed = false;
         
         UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                             initWithTarget:self
-                                            action:@selector(numberSwiped:)];
+                                            action:@selector(labelDragged:)];
         [newNum addGestureRecognizer:gesture3];
         
         [self.onScreenNums removeObject:oldNum];
@@ -343,7 +343,7 @@ bool decimalUsed = false;
                 
                 UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                                     initWithTarget:self
-                                                    action:@selector(numberSwiped:)];
+                                                    action:@selector(labelDragged:)];
                 [sumNumber addGestureRecognizer:gesture3];
                 
                 // add animation
@@ -467,7 +467,6 @@ bool decimalUsed = false;
 }
 
 
-
 - (void)decomposeBigNumberWithNewValue:(NSDecimalNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir andOffset:(int)offest andDigit:(NSString *)digit
 {
     CGRect spawnArea = CGRectMake(300, 50, 540, 80);
@@ -508,7 +507,7 @@ bool decimalUsed = false;
             
             UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                                 initWithTarget:self
-                                                action:@selector(numberSwiped:)];
+                                                action:@selector(labelDragged:)];
             [subNumber addGestureRecognizer:gesture3];
             
             [self.onScreenNums removeObject:prevNum];
@@ -542,7 +541,7 @@ bool decimalUsed = false;
             
             UIPanGestureRecognizer *gesture4 = [[UIPanGestureRecognizer alloc]
                                                 initWithTarget:self
-                                                action:@selector(numberSwiped:)];
+                                                action:@selector(labelDragged:)];
             [newNum addGestureRecognizer:gesture4];
             
             // add it
@@ -689,7 +688,7 @@ bool decimalUsed = false;
         [self.onScreenNums addObject:newNumber];
         UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
                                             initWithTarget:self
-                                            action:@selector(numberSwiped:)];
+                                            action:@selector(labelDragged:)];
         [newNumber addGestureRecognizer:gesture3];
         [newNumber wobbleAnimation];
     }

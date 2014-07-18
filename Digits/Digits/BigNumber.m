@@ -35,7 +35,7 @@
     self.value = value;
     if (self) {
         self.movable = true;
-        self.hasCheckedPullVel = NO;
+        //self.hasCheckedPullVel = NO;
         self.wholeNumberDigits = [[NSMutableArray alloc] init];
         self.decimalNumberDigits = [[NSMutableArray alloc] init];
         int xPos = 0;
@@ -75,6 +75,8 @@
             newDigit.font = [UIFont fontWithName:@"Futura" size:100];
             xPos = xPos+60;
             newDigit.userInteractionEnabled = YES;
+            UITapGestureRecognizer *gesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberTapped:)];
+            [newDigit addGestureRecognizer:gesture2];
             digitCount++;
         }
         digitCount = 1;
@@ -101,7 +103,10 @@
             newDigit.font = [UIFont fontWithName:@"Futura" size:100];
             xPos = xPos+60;
             newDigit.userInteractionEnabled = YES;
-                digitCount++;
+            UITapGestureRecognizer *gesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberTapped:)];
+            [newDigit addGestureRecognizer:gesture2];
+
+            digitCount++;
             }
         }
     }
@@ -110,66 +115,79 @@
     return self;
 }
 
+- (void) numberTapped:(UITapGestureRecognizer *)gesture
+{
+    self.movable = true;
+    DigitView *tappedNum =(DigitView *)(gesture.view);
+    NSLog(@"tap: %@", tappedNum.value);
+    
+    for (DigitView *digit in self.digitViews) {
+        if (![digit.text isEqualToString: @"."]) {
+            if (!(digit == tappedNum) && digit.isDigitSelected) {
+                [digit deselect];
+            }
+            else if (digit == tappedNum && !digit.isDigitSelected) {
+                [digit selected];
+                UIPanGestureRecognizer *gesture2 = [[UIPanGestureRecognizer alloc]
+                                                    initWithTarget:self
+                                                    action:@selector(numberSwiped:)];
+                
+                [tappedNum addGestureRecognizer:gesture2];
+                self.movable = false;
+            }
+            else if (digit == tappedNum && digit.isDigitSelected) {
+                [digit deselect];
+            }
+        }
+    }
+    
+    UIPanGestureRecognizer *dragger = [self.gestureRecognizers objectAtIndex:0];
+    dragger.enabled = self.movable;
+}
+
+
 
 - (void) numberSwiped:(UIPanGestureRecognizer *)gesture
 {
-    BigNumber *firstNumber = (BigNumber*)gesture.view;
-    firstNumber.numNonZeroDigits = 0;
-    CGPoint touchLocal = [gesture locationInView:gesture.view];
-    
-    if (!firstNumber.hasCheckedPullVel) {
-        CGPoint initialVel = [gesture velocityInView:self];
-        if (initialVel.y > 0) {
-            self.movable = NO;
-            NSLog(@"setmovetono");
-            firstNumber.hasCheckedPullVel = YES;
-        }
-        else
-        {
-            self.movable = YES;
-            NSLog(@"setmovetoyes");
-            firstNumber.hasCheckedPullVel = YES;
-        }
+    CGPoint vel = [gesture velocityInView:self];
+    DigitView *digit = (DigitView *)(gesture.view);
+    int offset = 60*([self.digitViews indexOfObject:digit]);
+    if (vel.x > 0 && vel.x > ABS(vel.y)) {
+        //tell big number to tell view controller to create a new big number
+        //with value of whole number with digits to right of this number, inclusive
+        //and subtract value from first big number
+        //and remove this digit from big number
+        NSLog(@"swipe right");
+        
     }
-    
-    if (self.movable) {
-        ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
-        [mainViewController labelDragged:gesture];
-    }
-    else
-    {
+    else if (vel.y < 0) {
+        //tell big number to tell view controller to create a new big number
+        //with value of this digit
+        //and subtract value from first big number
+        //and remove this digit from big number
+        NSLog(@"swipe up");
         if (gesture.enabled) {
             gesture.enabled = NO;
-            
-            for (DigitView *digit in firstNumber.digitViews) {
-                if (![digit.text isEqualToString:@"."]) {
-                    if (CGRectContainsPoint(digit.frame, touchLocal)) {
-                        ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
-                        int offset = 60*([self.digitViews indexOfObject:digit]);
-                        if ([NSDecimalNumber decimalNumberWithDecimal:digit.value.decimalValue].doubleValue < 1) {
-                            offset = (self.wholeNumberDigits.count - 1)*60;
-                        }
-                        for (DigitView *digit in firstNumber.digitViews) {
-                            NSLog(@"digit: %@",digit.text);
-                            if (![digit.text isEqualToString:@"0"] && ![digit.text isEqualToString:@"."]) {
-                                firstNumber.numNonZeroDigits +=1;
-                            }
-                        }
-                        if (firstNumber.numNonZeroDigits != 1) {
-                            [mainViewController decomposeBigNumberWithNewValue:[NSDecimalNumber decimalNumberWithDecimal:digit.value.decimalValue] andOrigNum:self andDir:@"down" andOffset:offset andDigit:digit.text];
-                        }
-                        break;
-                    }
-                }
-            }
-            firstNumber.hasCheckedPullVel = NO;
-            gesture.enabled = YES;
-        }
-    }
+            NSLog(@"swipe up inside if");
+            ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
     
-    if (gesture.state == UIGestureRecognizerStateEnded) {
-        firstNumber.hasCheckedPullVel = NO;
-        gesture.enabled = YES;
+            [mainViewController decomposeBigNumberWithNewValue:digit.value andOrigNum:self andDir:@"up" andOffset:offset andDigit:digit.text];
+        }
+        
+    }
+    else if (vel.y > 0) {
+        //tell big number to tell view controller to create a new big number
+        //with value of this digit
+        //and subtract value from first big number
+        //and remove this digit from big number
+        NSLog(@"swipe down");
+        if (gesture.enabled) {
+            NSLog(@"swipe down inside if");
+            gesture.enabled = NO;
+            ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
+
+            [mainViewController decomposeBigNumberWithNewValue:digit.value andOrigNum:self andDir:@"down" andOffset:offset andDigit:digit.text];
+        }
     }
 }
 
