@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BigNumber.h"
+#import "DirectionPanGestureRecognizer.h"
 
 @interface ViewController : UIViewController
 

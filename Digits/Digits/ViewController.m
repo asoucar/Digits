@@ -128,9 +128,9 @@ bool decimalUsed = false;
                             
                             newNumber.userInteractionEnabled = YES;
                             //
-                            UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+                            DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                                                 initWithTarget:self
-                                                                action:@selector(labelDragged::)];
+                                                                action:@selector(labelDragged:)];
                             [newNumber addGestureRecognizer:gesture3];
                             
                             [self.onScreenNums removeObject:number];
@@ -217,7 +217,7 @@ bool decimalUsed = false;
                             
                             newNumber.userInteractionEnabled = YES;
                             
-                            UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+                            DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                                                 initWithTarget:self
                                                                 action:@selector(labelDragged:)];
                             [newNumber addGestureRecognizer:gesture3];
@@ -255,7 +255,7 @@ bool decimalUsed = false;
         BigNumber *newNum = (BigNumber*)[numbers objectAtIndex:1];
         newNum.userInteractionEnabled = YES;
         
-        UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+        DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                             initWithTarget:self
                                             action:@selector(labelDragged:)];
         [newNum addGestureRecognizer:gesture3];
@@ -270,30 +270,11 @@ bool decimalUsed = false;
 
 }
 
-- (void)labelDragged:(UIPanGestureRecognizer *)gesture
+- (void)labelDragged:(DirectionPanGestureRecognizer *)gesture
 {
 	BigNumber *firstNumber = (BigNumber *)gesture.view;
     firstNumber.backgroundColor = [UIColor clearColor];
     
-    //check if allowable movement
-    if (abs([gesture velocityInView:self.view].x) > 60 || abs([gesture velocityInView:self.view].y) > 60) {
-        CGPoint translation = [gesture translationInView:self.view];
-        if (abs(translation.x) > abs(translation.y)) {
-            translation.y = 0;
-        }
-        else if (abs(translation.y) > abs(translation.x)) {
-            translation.x = 0;
-        }
-        else
-        {
-            [gesture setTranslation:CGPointZero inView:firstNumber];
-        }
-
-    }
-    else
-    {
-        [gesture setTranslation:CGPointZero inView:firstNumber];
-    }
     CGPoint translation = [gesture translationInView:self.view];
     if (abs(translation.x) > abs(translation.y)) {
         translation.y = 0;
@@ -371,7 +352,7 @@ bool decimalUsed = false;
                     sumNumber.frame = CGRectMake(otherNumber.frame.origin.x - 60, otherNumber.frame.origin.y, labelLength, 80);
                 }
                 
-                UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+                DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                                     initWithTarget:self
                                                     action:@selector(labelDragged:)];
                 [sumNumber addGestureRecognizer:gesture3];
@@ -535,7 +516,7 @@ bool decimalUsed = false;
             subNumber.userInteractionEnabled = YES;
             subNumber.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
             
-            UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+            DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                                 initWithTarget:self
                                                 action:@selector(labelDragged:)];
             [subNumber addGestureRecognizer:gesture3];
@@ -569,7 +550,7 @@ bool decimalUsed = false;
             newNum.userInteractionEnabled = YES;
             newNum.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
             
-            UIPanGestureRecognizer *gesture4 = [[UIPanGestureRecognizer alloc]
+            DirectionPanGestureRecognizer *gesture4 = [[DirectionPanGestureRecognizer alloc]
                                                 initWithTarget:self
                                                 action:@selector(labelDragged:)];
             [newNum addGestureRecognizer:gesture4];
@@ -716,7 +697,7 @@ bool decimalUsed = false;
         [self.view addSubview:newNumber];
         newNumber.center = CGPointMake(self.view.center.y, 73);
         [self.onScreenNums addObject:newNumber];
-        UIPanGestureRecognizer *gesture3 = [[UIPanGestureRecognizer alloc]
+        DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                             initWithTarget:self
                                             action:@selector(labelDragged:)];
         [newNumber addGestureRecognizer:gesture3];
