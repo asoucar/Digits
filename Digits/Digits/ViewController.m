@@ -301,10 +301,10 @@ bool decimalUsed = false;
     }
     
     CGPoint translation = [gesture translationInView:self.view];
-    if (abs(translation.x) > abs(translation.y)) {
+    if (gesture.direction == DirectionPanGestureRecognizerHorizontal) {
         translation.y = 0;
     }
-    else if (abs(translation.y) > abs(translation.x)) {
+    else if (gesture.direction == DirectionPangestureRecognizerVertical) {
         translation.x = 0;
     }
     else
@@ -338,9 +338,11 @@ bool decimalUsed = false;
                                       firstNumber.center.y - translation.y);
     }
     
-    if(gesture.state == UIGestureRecognizerStateEnded)
+    if(gesture.state != UIGestureRecognizerStateBegan && gesture.state != UIGestureRecognizerStateChanged)
     {
-        firstNumber.frame = CGRectMake(closestLineX, closestLineY, firstNumber.frame.size.width, firstNumber.frame.size.height);
+        [UIView animateWithDuration:0.5 animations:^{
+            firstNumber.frame = CGRectMake(closestLineX, closestLineY, firstNumber.frame.size.width, firstNumber.frame.size.height);
+        }];
     }
     
 	// reset translation
