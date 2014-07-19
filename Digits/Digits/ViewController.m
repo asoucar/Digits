@@ -454,7 +454,30 @@ bool decimalUsed = false;
                         }];
                         delay +=0.25;
                 }
-
+                int closestLineX = 0;
+                int distanceFromClosestX = 1000;
+                for (int i = 0; i < [self.xGridLines count]; i++) {
+                    float distanceFromLine = abs(sumNumber.frame.origin.x - [self.xGridLines[i] floatValue]);
+                    if (distanceFromLine < distanceFromClosestX) {
+                        distanceFromClosestX = distanceFromLine;
+                        closestLineX = [self.xGridLines[i] floatValue];
+                    }
+                    
+                }
+                
+                int closestLineY = 0;
+                int distanceFromClosestY = 1000;
+                for (int i = 0; i < [self.yGridLines count]; i++) {
+                    float distanceFromLine = abs(sumNumber.frame.origin.y - [self.yGridLines[i] floatValue]);
+                    if (distanceFromLine < distanceFromClosestY) {
+                        distanceFromClosestY = distanceFromLine;
+                        closestLineY = [self.yGridLines[i] floatValue];
+                    }
+                    
+                }
+                [UIView animateWithDuration:0.5 animations:^{
+                    sumNumber.frame = CGRectMake(closestLineX, closestLineY, sumNumber.frame.size.width, sumNumber.frame.size.height);
+                }];
                 break;
             }
             else
@@ -480,7 +503,7 @@ bool decimalUsed = false;
                 
                 CGRect rectToCheckBounds = CGRectMake(check2ndOriginX, check2ndOriginY, otherNumber.frame.size.width, otherNumber.frame.size.height);
                 
-                CGRect draggableFrame = CGRectMake(0, 25, self.view.frame.size.width, self.view.frame.size.height-180);
+                CGRect draggableFrame = CGRectMake(self.gridFrame.frame.origin.x, self.gridFrame.frame.origin.y, self.gridFrame.frame.size.width, self.gridFrame.frame.size.height);
                 if (!CGRectContainsRect(draggableFrame, rectToCheckBounds)){
                     wallCollisionDetected = YES;
                 }
