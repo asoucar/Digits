@@ -11,6 +11,7 @@
 @interface ViewController ()
 
 @property (nonatomic, strong) NSMutableArray *onScreenNums;
+@property (nonatomic) int verticalSpawnOffset;
 @property (nonatomic) int numTimesTenDecMovers;
 @property (nonatomic) int numDivTenDecMovers;
 @property (nonatomic, strong) UIImageView *multBy10;
@@ -34,6 +35,7 @@ bool decimalUsed = false;
     self.calculator.hidden=true;
     self.decimalMoverCreator.hidden = true;
     self.numTimesTenDecMovers = 0;
+    self.verticalSpawnOffset = 102;
     self.numDivTenDecMovers = 0;
     self.digitCovers = [[NSMutableArray alloc] init];
     
@@ -735,6 +737,7 @@ bool decimalUsed = false;
 }
 
 - (IBAction)submitPressed:(UIButton *)sender {
+    self.verticalSpawnOffset = 102;
     
     int labelLength = (60*self.numberDisplay.text.length);
     if ([self.numberDisplay.text rangeOfString:@"."].location != NSNotFound) {
@@ -744,21 +747,19 @@ bool decimalUsed = false;
         labelLength += 60;
     }
 
-    CGRect potentialFrame = CGRectMake(155, 102, labelLength, 80);
-    
-    BOOL hitWall = NO;
-    for (BigNumber *oldNum in self.onScreenNums) {
-        if (CGRectIntersectsRect(oldNum.frame, potentialFrame)) {
-            
-            NSMutableArray *moveNums = [NSMutableArray arrayWithObject:oldNum];
-            hitWall = [self checkNumberCollisionWithNumber:oldNum andTranslation:CGPointMake(0,79) andMovedNums:moveNums andCanAdd:NO];
-            if (!hitWall) {
-                oldNum.center = CGPointMake(oldNum.center.x, oldNum.center.y+79);
+    CGRect potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 80);
+    for (int i = 0; i<=8; i++) {
+        for (BigNumber *oldNum in self.onScreenNums) {
+            if (CGRectIntersectsRect(oldNum.frame, potentialFrame)) {
+                self.verticalSpawnOffset += 80;
+                potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 80);
             }
         }
     }
     
-    if (!hitWall && ![self.numberDisplay.text isEqualToString:@""]) {
+    BOOL hitWall = NO;
+    
+    if (!hitWall && ![self.numberDisplay.text isEqualToString:@""] && (self.verticalSpawnOffset < 700)) {
         BigNumber *newNumber = [[BigNumber alloc] initWithFrame:potentialFrame
                                                        andValue:[NSDecimalNumber decimalNumberWithString:self.numberDisplay.text]];
         [self.view addSubview:newNumber];

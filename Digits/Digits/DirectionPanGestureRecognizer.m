@@ -8,7 +8,7 @@
 
 #import "DirectionPanGestureRecognizer.h"
 
-int const static kDirectionPanThreshold = 10;
+int const static kDirectionPanThreshold = 30;
 
 @implementation DirectionPanGestureRecognizer
 
