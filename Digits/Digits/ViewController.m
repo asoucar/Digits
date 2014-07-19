@@ -589,6 +589,9 @@ bool decimalUsed = false;
             
             // add it
             if ([newNum.value compare:[NSNumber numberWithInt:0]] != NSOrderedSame && newNum.value != subNumber.value) {
+                [self.view insertSubview:newNum belowSubview:subNumber];
+                [self.onScreenNums addObject:newNum];
+                
                 UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + addX +offest, subNumber.frame.origin.y, 60, 80)];
                 cover.backgroundColor = [UIColor colorWithRed:77.0f/255.0f green:77.0f/255.0f blue:177.0f/255.0f alpha:1];
                 cover.textColor = [UIColor whiteColor];
@@ -599,9 +602,9 @@ bool decimalUsed = false;
                     [self.view sendSubviewToBack:cover];
                 } else {
                     cover.text = digit;
+                    [self.view bringSubviewToFront:cover];
                 }
-                [self.view addSubview:newNum];
-                [self.onScreenNums addObject:newNum];
+                
                 
                 
                 [UIView animateWithDuration:0.75
