@@ -158,8 +158,10 @@
 -(void) timedDeselect
 {
     for (DigitView *digit in self.digitViews) {
-        if (digit.isDigitSelected) {
-            [digit deselect];
+        if (![digit.text isEqualToString: @"."]) {
+            if (digit.isDigitSelected) {
+                [digit deselect];
+            }
         }
     }
     UIPanGestureRecognizer *dragger = [self.gestureRecognizers objectAtIndex:0];
