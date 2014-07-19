@@ -546,7 +546,7 @@ bool decimalUsed = false;
             
             BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x+oldXOffsett, prevNum.frame.origin.y, labelLength, 80) andValue:subVal];
             subNumber.userInteractionEnabled = YES;
-            subNumber.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
+            subNumber.backgroundColor = [UIColor colorWithRed:77.0f/255.0f green:77.0f/255.0f blue:177.0f/255.0f alpha:1];
             
             DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                                 initWithTarget:self
@@ -580,7 +580,7 @@ bool decimalUsed = false;
             }
             BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, labelLength, 80) andValue:decNum2];
             newNum.userInteractionEnabled = YES;
-            newNum.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
+            newNum.backgroundColor = [UIColor colorWithRed:77.0f/255.0f green:77.0f/255.0f blue:177.0f/255.0f alpha:1];
             
             DirectionPanGestureRecognizer *gesture4 = [[DirectionPanGestureRecognizer alloc]
                                                 initWithTarget:self
@@ -590,7 +590,7 @@ bool decimalUsed = false;
             // add it
             if ([newNum.value compare:[NSNumber numberWithInt:0]] != NSOrderedSame && newNum.value != subNumber.value) {
                 UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + addX +offest, subNumber.frame.origin.y, 60, 80)];
-                cover.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1];
+                cover.backgroundColor = [UIColor colorWithRed:77.0f/255.0f green:77.0f/255.0f blue:177.0f/255.0f alpha:1];
                 cover.textColor = [UIColor whiteColor];
                 cover.font = [UIFont fontWithName:@"Futura" size:100];
                 [self.view addSubview:cover];
@@ -602,7 +602,6 @@ bool decimalUsed = false;
                 }
                 [self.view addSubview:newNum];
                 [self.onScreenNums addObject:newNum];
-                [self.view sendSubviewToBack:newNum];
                 
                 
                 [UIView animateWithDuration:0.75
@@ -611,6 +610,15 @@ bool decimalUsed = false;
                                      [newNum setTransform:CGAffineTransformMakeTranslation(0, 80)];
                                  } completion:^(BOOL finished) {
                                      [cover removeFromSuperview];
+                                     [UIView animateWithDuration:0.5
+                                                       animations:^{
+                                                           [newNum setBackgroundColor:[UIColor clearColor]];
+                                                           [subNumber setBackgroundColor:[UIColor clearColor]];
+                                                       } completion:^(BOOL finished) {
+                        
+                                                           
+                                                       }];
+                                     
                                  }];
                 
             }
