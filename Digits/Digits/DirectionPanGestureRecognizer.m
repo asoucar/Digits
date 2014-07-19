@@ -8,7 +8,7 @@
 
 #import "DirectionPanGestureRecognizer.h"
 
-int const static kDirectionPanThreshold = 5;
+int const static kDirectionPanThreshold = 10;
 
 @implementation DirectionPanGestureRecognizer
 
@@ -23,6 +23,19 @@ int const static kDirectionPanThreshold = 5;
     _moveY += prevPoint.y - nowPoint.y;
     if (!_drag) {
         if (abs(_moveX) > kDirectionPanThreshold) {
+            _drag = YES;
+            _direction = DirectionPanGestureRecognizerHorizontal;
+            self.direction = DirectionPanGestureRecognizerHorizontal;
+        }else if (abs(_moveY) > kDirectionPanThreshold) {
+            _direction = DirectionPangestureRecognizerVertical;
+            self.direction = DirectionPangestureRecognizerVertical;
+            _drag = YES;
+
+        }
+    }
+    else
+    {
+        if (abs(_moveX) > kDirectionPanThreshold) {
             if (_direction == DirectionPangestureRecognizerVertical) {
                 self.state = UIGestureRecognizerStateFailed;
             }else {
@@ -35,6 +48,7 @@ int const static kDirectionPanThreshold = 5;
                 _drag = YES;
             }
         }
+
     }
 }
 
