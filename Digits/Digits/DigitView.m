@@ -52,18 +52,10 @@
     } completion:^(BOOL finished) {
     }];
     
-    
-    self.deselectTimer  = [NSTimer scheduledTimerWithTimeInterval:SECONDS_UNTIL_DESELECT
-                                                           target:self
-                                                         selector:@selector(deselect)
-                                                         userInfo:nil
-                                                          repeats:NO];
 }
 
 - (void) deselect
 {
-    [self.deselectTimer invalidate];
-
     self.isDigitSelected = false;
     
     [UIView transitionWithView:self duration:DISSOLVE_TO_UNSELECTED_TIME options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
@@ -71,7 +63,6 @@
     } completion:^(BOOL finished) {
     }];
 
-    
     [self removeGestureRecognizer:[self.gestureRecognizers objectAtIndex:1]];
 }
 

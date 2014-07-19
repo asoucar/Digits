@@ -10,6 +10,9 @@
 #import "ViewController.h"
 
 #define RADIANS(degrees) ((degrees * M_PI) / 180.0)
+#define DISSOLVE_TO_SELECTED_TIME .6
+#define DISSOLVE_TO_UNSELECTED_TIME .2
+#define SECONDS_UNTIL_DESELECT 3.0
 
 @interface BigNumber()
 
@@ -133,6 +136,7 @@
                                                     action:@selector(numberSwiped:)];
                 
                 [tappedNum addGestureRecognizer:gesture2];
+                
                 self.movable = false;
             }
             else if (digit == tappedNum && digit.isDigitSelected) {
@@ -141,7 +145,25 @@
         }
     }
     
+    NSTimer* deselectTimer = [NSTimer scheduledTimerWithTimeInterval:SECONDS_UNTIL_DESELECT
+                                                              target:self
+                                                            selector:@selector(timedDeselect)
+                                                            userInfo:nil
+                                                             repeats:NO];
+    
     UIPanGestureRecognizer *dragger = [self.gestureRecognizers objectAtIndex:0];
+    dragger.enabled = self.movable;
+}
+
+-(void) timedDeselect
+{
+    for (DigitView *digit in self.digitViews) {
+        if (digit.isDigitSelected) {
+            [digit deselect];
+        }
+    }
+    UIPanGestureRecognizer *dragger = [self.gestureRecognizers objectAtIndex:0];
+    self.movable = true;
     dragger.enabled = self.movable;
 }
 

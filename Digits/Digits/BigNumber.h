@@ -18,6 +18,8 @@
 @property (nonatomic) BOOL hasCheckedPullVel;
 @property (nonatomic, strong) NSMutableArray *digitViews;
 
+@property (nonatomic, strong) NSTimer* deselectTimer;
+
 - (id)initWithFrame:(CGRect)frame andValue:(NSDecimalNumber*)value;
 - (void) numberSwiped:(UIPanGestureRecognizer *)gesture;
 - (void)wobbleAnimation;
