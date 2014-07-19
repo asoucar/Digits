@@ -607,8 +607,8 @@ bool decimalUsed = false;
                 
                 [UIView animateWithDuration:0.75
                                  animations:^{
-                                     [cover setTransform:CGAffineTransformMakeTranslation(0, 95)];
-                                     [newNum setTransform:CGAffineTransformMakeTranslation(0, 95)];
+                                     [cover setTransform:CGAffineTransformMakeTranslation(0, 80)];
+                                     [newNum setTransform:CGAffineTransformMakeTranslation(0, 80)];
                                  } completion:^(BOOL finished) {
                                      [cover removeFromSuperview];
                                  }];
