@@ -136,7 +136,7 @@
                                                     action:@selector(numberSwiped:)];
                 
                 [tappedNum addGestureRecognizer:gesture2];
-                
+                [self.deselectTimer invalidate];
                 self.movable = false;
             }
             else if (digit == tappedNum && digit.isDigitSelected) {
@@ -145,7 +145,7 @@
         }
     }
     
-    NSTimer* deselectTimer = [NSTimer scheduledTimerWithTimeInterval:SECONDS_UNTIL_DESELECT
+    self.deselectTimer = [NSTimer scheduledTimerWithTimeInterval:SECONDS_UNTIL_DESELECT
                                                               target:self
                                                             selector:@selector(timedDeselect)
                                                             userInfo:nil
