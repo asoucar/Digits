@@ -98,7 +98,7 @@ bool decimalUsed = false;
             number.value = decNum1;
             int labelLength = 60*decNum1.stringValue.length;
             if ([decNum1.stringValue rangeOfString:@"."].location != NSNotFound) {
-                labelLength -= 30;
+                //labelLength -= 30;
             }
             mult.frame = CGRectMake(65, 190, 65, 60);
             self.numTimesTenDecMovers -= 1;
@@ -186,7 +186,7 @@ bool decimalUsed = false;
             number.value = decNum1;
             int labelLength = 60*decNum1.stringValue.length;
             if ([decNum1.stringValue rangeOfString:@"."].location != NSNotFound) {
-                labelLength -= 30;
+                //labelLength -= 30;
             }
             div.frame = CGRectMake(65, 125, 65, 60);
             self.numDivTenDecMovers -= 1;
@@ -366,7 +366,7 @@ bool decimalUsed = false;
                 NSDecimalNumber *sumVal = [decNum2 decimalNumberByAdding:decNum1];
                 int labelLength = 60*sumVal.stringValue.length;
                 if ([sumVal.stringValue rangeOfString:@"."].location != NSNotFound) {
-                    labelLength -= 30;
+                    //labelLength -= 30;
                 }
                 CGRect sumFrame;
                 if (decNum1.floatValue > decNum2.floatValue) {
@@ -537,7 +537,7 @@ bool decimalUsed = false;
             NSDecimalNumber *subVal = [decNum1 decimalNumberBySubtracting:decNum2];
             int labelLength = 60*subVal.stringValue.length;
             if ([subVal.stringValue rangeOfString:@"."].location != NSNotFound) {
-                labelLength -= 30;
+                //labelLength -= 30;
             }
             int oldXOffsett = 0;
             if (prevNum.value.stringValue.length > subVal.stringValue.length && val.floatValue > 1) {
@@ -576,7 +576,7 @@ bool decimalUsed = false;
             
             labelLength = 60*decNum2.stringValue.length;
             if ([decNum2.stringValue rangeOfString:@"."].location != NSNotFound) {
-                labelLength -= 30;
+                //labelLength -= 30;
             }
             BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, labelLength, 80) andValue:decNum2];
             newNum.userInteractionEnabled = YES;
@@ -714,7 +714,7 @@ bool decimalUsed = false;
     
     int labelLength = (60*self.numberDisplay.text.length);
     if ([self.numberDisplay.text rangeOfString:@"."].location != NSNotFound) {
-        labelLength -= 30;
+        //labelLength -= 30;
     }
     if([self.numberDisplay.text hasPrefix:@"."]){
         labelLength += 60;
