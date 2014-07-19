@@ -277,28 +277,6 @@ bool decimalUsed = false;
 {
 	BigNumber *firstNumber = (BigNumber *)gesture.view;
     firstNumber.backgroundColor = [UIColor clearColor];
-    NSLog(@"%f",firstNumber.frame.origin.y);
-    int closestLineX = 0;
-    int distanceFromClosestX = 1000;
-    for (int i = 0; i < [self.xGridLines count]; i++) {
-        float distanceFromLine = abs(firstNumber.frame.origin.x - [self.xGridLines[i] floatValue]);
-        if (distanceFromLine < distanceFromClosestX) {
-            distanceFromClosestX = distanceFromLine;
-            closestLineX = [self.xGridLines[i] floatValue];
-        }
-        
-    }
-    
-    int closestLineY = 0;
-    int distanceFromClosestY = 1000;
-    for (int i = 0; i < [self.yGridLines count]; i++) {
-        float distanceFromLine = abs(firstNumber.frame.origin.y - [self.yGridLines[i] floatValue]);
-        if (distanceFromLine < distanceFromClosestY) {
-            distanceFromClosestY = distanceFromLine;
-            closestLineY = [self.yGridLines[i] floatValue];
-        }
-        
-    }
     
     CGPoint translation = [gesture translationInView:self.view];
     if (gesture.direction == DirectionPanGestureRecognizerHorizontal) {
@@ -340,9 +318,32 @@ bool decimalUsed = false;
     
     if(gesture.state != UIGestureRecognizerStateBegan && gesture.state != UIGestureRecognizerStateChanged)
     {
+        for (BigNumber *snapNumber in self.onScreenNums) {
+        int closestLineX = 0;
+        int distanceFromClosestX = 1000;
+        for (int i = 0; i < [self.xGridLines count]; i++) {
+            float distanceFromLine = abs(snapNumber.frame.origin.x - [self.xGridLines[i] floatValue]);
+            if (distanceFromLine < distanceFromClosestX) {
+                distanceFromClosestX = distanceFromLine;
+                closestLineX = [self.xGridLines[i] floatValue];
+            }
+            
+        }
+        
+        int closestLineY = 0;
+        int distanceFromClosestY = 1000;
+        for (int i = 0; i < [self.yGridLines count]; i++) {
+            float distanceFromLine = abs(snapNumber.frame.origin.y - [self.yGridLines[i] floatValue]);
+            if (distanceFromLine < distanceFromClosestY) {
+                distanceFromClosestY = distanceFromLine;
+                closestLineY = [self.yGridLines[i] floatValue];
+            }
+            
+        }
         [UIView animateWithDuration:0.5 animations:^{
-            firstNumber.frame = CGRectMake(closestLineX, closestLineY, firstNumber.frame.size.width, firstNumber.frame.size.height);
+            snapNumber.frame = CGRectMake(closestLineX, closestLineY, snapNumber.frame.size.width, snapNumber.frame.size.height);
         }];
+        }
     }
     
 	// reset translation
