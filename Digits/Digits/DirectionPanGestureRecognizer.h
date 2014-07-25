@@ -22,5 +22,9 @@ typedef enum {
 }
 
 @property (nonatomic, assign) DirectionPangestureRecognizerDirection direction;
+@property (nonatomic) int verticalDirectionPanThreshold;
+@property (nonatomic) int horizontalDirectionPanThreshold;
+
+-(id) initWithTarget:(id)target action:(SEL)action threshold:(int)threshold;
 
 @end
