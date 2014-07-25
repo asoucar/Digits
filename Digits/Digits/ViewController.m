@@ -18,7 +18,6 @@
 @property (nonatomic) int targetDecimalLoc;
 @property (nonatomic) int numTimesTenDecMovers;
 @property (nonatomic) int numDivTenDecMovers;
-@property (nonatomic) BOOL targetMatched;
 @property (nonatomic, strong) UIImageView *multBy10;
 @property (nonatomic, strong) UIImageView *divBy10;
 @property (nonatomic, strong) NSMutableArray *digitCovers;
@@ -352,10 +351,9 @@ bool decimalUsed = false;
         [UIView animateWithDuration:0.5 animations:^{
             snapNumber.frame = CGRectMake(closestLineX, closestLineY, snapNumber.frame.size.width, snapNumber.frame.size.height);
         } completion:^(BOOL finished) {
-            if (CGRectIntersectsRect(snapNumber.frame, self.targetNumberFrame))
+            if (CGRectIntersectsRect(snapNumber.frame, self.targetNumberFrame) && [self doesTargetDecimalAndValueMatchNumber:firstNumber])
             {
                 NSLog(@"on target");
-                self.targetMatched = YES;
                 [UIView animateWithDuration:1.0
                                       delay:0.0
                                     options: UIViewAnimationCurveEaseOut
@@ -363,6 +361,11 @@ bool decimalUsed = false;
                                      self.gridFrame.alpha = 0.0;
                                      for (UILabel *v in self.targetNums) {
                                          v.alpha = 0.0;
+                                     }
+                                     for (UILabel *v in self.onScreenNums) {
+                                         if(v.frame.origin.x != firstNumber.frame.origin.x){
+                                             v.alpha = 0.0;
+                                         }
                                      }
                                  }
                                  completion:^(BOOL finished){
