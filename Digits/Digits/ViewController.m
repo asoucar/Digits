@@ -11,9 +11,14 @@
 @interface ViewController ()
 
 @property (nonatomic, strong) NSMutableArray *onScreenNums;
+@property (nonatomic, strong) NSMutableArray *targetNums;
+@property (nonatomic, strong) NSDecimalNumber *targetValue;
+@property (nonatomic) CGRect targetNumberFrame;
 @property (nonatomic) int verticalSpawnOffset;
+@property (nonatomic) int targetDecimalLoc;
 @property (nonatomic) int numTimesTenDecMovers;
 @property (nonatomic) int numDivTenDecMovers;
+@property (nonatomic) BOOL targetMatched;
 @property (nonatomic, strong) UIImageView *multBy10;
 @property (nonatomic, strong) UIImageView *divBy10;
 @property (nonatomic, strong) NSMutableArray *digitCovers;
@@ -40,6 +45,7 @@ bool decimalUsed = false;
     self.digitCovers = [[NSMutableArray alloc] init];
     
     self.onScreenNums = [NSMutableArray array];
+    self.targetNums = [NSMutableArray array];
     
     UIPanGestureRecognizer *gesture1 = [[UIPanGestureRecognizer alloc]
                                         initWithTarget:self
@@ -143,6 +149,7 @@ bool decimalUsed = false;
                             
                             // add it
                             [self.view addSubview:newNumber];
+                            [self.view bringSubviewToFront:newNumber];
                             [self.onScreenNums addObject:newNumber];
                             [newNumber wobbleAnimation];
 
@@ -300,10 +307,10 @@ bool decimalUsed = false;
     CGFloat checkOriginX = firstNumber.frame.origin.x + translation.x;
     CGFloat checkOriginY = firstNumber.frame.origin.y + translation.y;
     
-    CGRect rectToCheckBounds = CGRectMake(checkOriginX, checkOriginY, firstNumber.frame.size.width, firstNumber.frame.size.height);
+    CGRect rectToCheckBounds = CGRectMake(checkOriginX-2, checkOriginY+2, firstNumber.frame.size.width-2, firstNumber.frame.size.height-2);
     
     CGRect draggableFrame = CGRectMake(self.gridFrame.frame.origin.x, self.gridFrame.frame.origin.y, self.gridFrame.frame.size.width, self.gridFrame.frame.size.height);
-    if (CGRectContainsRect(draggableFrame, rectToCheckBounds)){
+    if (CGRectContainsRect(draggableFrame, rectToCheckBounds) && (!CGRectIntersectsRect(self.targetNumberFrame, rectToCheckBounds)||[self doesTargetDecimalAndValueMatchNumber:firstNumber])){
         firstNumber.center = imageViewPosition;
         [gesture setTranslation:CGPointZero inView:self.view];
     }
@@ -344,12 +351,50 @@ bool decimalUsed = false;
         }
         [UIView animateWithDuration:0.5 animations:^{
             snapNumber.frame = CGRectMake(closestLineX, closestLineY, snapNumber.frame.size.width, snapNumber.frame.size.height);
+        } completion:^(BOOL finished) {
+            if (CGRectIntersectsRect(snapNumber.frame, self.targetNumberFrame))
+            {
+                NSLog(@"on target");
+                self.targetMatched = YES;
+                [UIView animateWithDuration:1.0
+                                      delay:0.0
+                                    options: UIViewAnimationCurveEaseOut
+                                 animations:^{
+                                     self.gridFrame.alpha = 0.0;
+                                     for (UILabel *v in self.targetNums) {
+                                         v.alpha = 0.0;
+                                     }
+                                 }
+                                 completion:^(BOOL finished){
+                                     [UIView animateWithDuration:1.0
+                                                           delay:1.0
+                                                         options: UIViewAnimationCurveEaseOut
+                                                      animations:^{
+                                                          self.gridFrame.alpha = 1.0;
+                                                          firstNumber.alpha = 0.0;
+                                                          
+                                                      }  
+                                                      completion:^(BOOL finished){
+                                                          [self clearNumber:self];
+                                                          NSLog(@"Done!");
+                                                      }];
+                                 }];
+            }
         }];
         }
     }
     
 	// reset translation
 	[gesture setTranslation:CGPointZero inView:firstNumber];
+}
+
+- (BOOL) doesTargetDecimalAndValueMatchNumber:(BigNumber*) movedNum{
+    NSNumber *numberDecimalLoc = [NSNumber numberWithFloat:((movedNum.frame.origin.x)+[movedNum.decimalPosition floatValue])];
+    NSLog(@"number decimal loc: %@", numberDecimalLoc);
+    NSLog(@"target decimal loc: %d", self.targetDecimalLoc);
+    int decimalLocDiff = abs([numberDecimalLoc intValue]-self.targetDecimalLoc);
+    NSLog(@"decimal diff: %i", decimalLocDiff);
+    return ([movedNum.value isEqualToNumber:self.targetValue] && decimalLocDiff < 20);
 }
 
 - (BOOL) checkNumberCollisionWithNumber:(BigNumber *) firstNum andTranslation:(CGPoint)translation andMovedNums:(NSMutableArray*)movedNums andCanAdd:(BOOL)canAdd
@@ -538,7 +583,6 @@ bool decimalUsed = false;
 
 - (void)decomposeBigNumberWithNewValue:(NSDecimalNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir andOffset:(int)offest andDigit:(NSString *)digit
 {
-    CGRect spawnArea = CGRectMake(154, 102, 540, 80);
     BigNumber *blocker;
     CGRect bottomArea = CGRectMake(self.gridFrame.frame.origin.x, self.gridFrame.frame.size.height-60, self.gridFrame.frame.size.width, self.gridFrame.frame.size.height);
     CGRect swipeDownArea = CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y+80, prevNum.frame.size.width, 80);
@@ -549,7 +593,7 @@ bool decimalUsed = false;
             blocker = oldNum;
         }
     }
-    if (!(CGRectIntersectsRect(prevNum.frame, spawnArea)) && !(CGRectIntersectsRect(prevNum.frame, bottomArea))) {
+    if (!(CGRectIntersectsRect(prevNum.frame, bottomArea))) {
         BOOL hitWall = NO;
         if (isANumInSpawnSpot) {
             blocker.center = CGPointMake(blocker.center.x, blocker.center.y+100);
@@ -709,6 +753,11 @@ bool decimalUsed = false;
     }
     [self.onScreenNums removeAllObjects];
     
+    for (UILabel *v in self.targetNums) {
+        [v removeFromSuperview];
+    }
+    [self.targetNums removeAllObjects];
+    
     self.numTimesTenDecMovers = 0;
     self.numDivTenDecMovers = 0;
     self.divCount.text = [NSString stringWithFormat:@"%d", self.numDivTenDecMovers];
@@ -736,12 +785,84 @@ bool decimalUsed = false;
     }
 }
 
+- (IBAction)targetPressed:(UIButton *)sender{
+    
+    for (UILabel *v in self.targetNums) {
+        [v removeFromSuperview];
+    }
+    [self.targetNums removeAllObjects];
+
+    if ([self.numberDisplay.text hasPrefix:@"."]) {
+        NSString *withZero = [@"0" stringByAppendingString:self.numberDisplay.text];
+        self.numberDisplay.text = withZero;
+    }
+    
+    if ([self.numberDisplay.text rangeOfString:@"."].location == NSNotFound){
+        self.targetDecimalLoc = 753;
+    }
+    
+    NSMutableArray *targetNumberArray = [[NSMutableArray alloc] init];
+    for (int i =0; i < self.numberDisplay.text.length; i++){
+        NSString *charNum = [NSString stringWithFormat:@"%c",[self.numberDisplay.text characterAtIndex:i]];
+        targetNumberArray[i] = charNum;
+    }
+    float targetStartingX = 753 - 60*[targetNumberArray count];
+    self.targetValue = [NSDecimalNumber decimalNumberWithString:self.numberDisplay.text];
+    self.targetNumberFrame = CGRectMake(targetStartingX, 424, 58*[targetNumberArray count], 78);
+
+    for (NSString *digit in targetNumberArray) {
+        if ([digit isEqualToString:@"."]){
+            self.targetDecimalLoc = targetStartingX + 29;
+        }
+        UILabel *newDigit = [[UILabel alloc] initWithFrame:CGRectMake(targetStartingX, 424, 58, 78)];
+        newDigit.text = digit;
+        newDigit.textAlignment = UITextAlignmentCenter;
+        newDigit.font = [UIFont fontWithName:@"Futura" size:95];
+        [newDigit setBackgroundColor: [UIColor colorWithRed:140.0/255.0 green:93.0/255.0 blue:255.0/255.0 alpha:1.0]];
+        newDigit.textColor = [UIColor orangeColor];
+        [self.view addSubview:newDigit];
+        targetStartingX +=60;
+        [self.targetNums addObject:newDigit];
+        
+    }
+
+    self.numberDisplay.text = @"";
+    decimalUsed = false;
+    numDigits = 0;
+    [self.makeNumber setTitle:@"Make" forState:UIControlStateNormal];
+    self.calculator.hidden = true;
+    
+    //for decimal mover creator
+    self.numTimesTenDecMovers = [NSDecimalNumber decimalNumberWithString:self.times10NumDisplay.text].intValue;
+    self.numDivTenDecMovers = [NSDecimalNumber decimalNumberWithString:self.divide10NumDisplay.text].intValue;
+    self.times10NumDisplay.text = @"";
+    self.divide10NumDisplay.text = @"";
+    
+    self.divCount.text = [NSString stringWithFormat:@"%d", self.numDivTenDecMovers];
+    self.multCount.text = [NSString stringWithFormat:@"%d", self.numTimesTenDecMovers];
+    self.divCount.hidden = YES;
+    self.multCount.hidden = true;
+    self.divBy10.hidden = YES;
+    self.multBy10.hidden = true;
+    
+    if (self.numDivTenDecMovers > 0) {
+        self.divBy10.hidden = NO;
+        self.divCount.hidden = NO;
+    }
+    if (self.numTimesTenDecMovers > 0) {
+        self.multBy10.hidden = NO;
+        self.multCount.hidden = NO;
+    }
+    self.decimalMoverCreator.hidden = YES;
+
+}
+
 - (IBAction)submitPressed:(UIButton *)sender {
     self.verticalSpawnOffset = 102;
     
     int labelLength = (60*self.numberDisplay.text.length);
-    if ([self.numberDisplay.text rangeOfString:@"."].location != NSNotFound) {
-        //labelLength -= 30;
+    if ([self.numberDisplay.text hasSuffix:@"."]) {
+        labelLength -= 60;
     }
     if([self.numberDisplay.text hasPrefix:@"."]){
         labelLength += 60;
@@ -756,6 +877,7 @@ bool decimalUsed = false;
             }
         }
     }
+    
     
     BOOL hitWall = NO;
     
