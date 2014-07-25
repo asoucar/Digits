@@ -18,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UIView *calculator;
 @property (weak, nonatomic) IBOutlet UILabel *numberDisplay;
 @property (weak, nonatomic) IBOutlet UIButton *makeNumber;
+@property (weak, nonatomic) IBOutlet UIButton *restartButton;
+@property (weak, nonatomic) IBOutlet UIButton *menuButton;
 
 @property (weak, nonatomic) IBOutlet UIView *decimalMoverCreator;
 @property (weak, nonatomic) IBOutlet UILabel *times10NumDisplay;
@@ -43,6 +45,7 @@
 - (IBAction)subtractTimesTen:(id)sender;
 - (IBAction)addDivTen:(id)sender;
 - (IBAction)subtractDivTen:(id)sender;
+- (IBAction)restartButtonPressed:(UIButton *)sender;
 
 -(void)colorizeLabelForAWhile:(UILabel *)label withUIColor:(UIColor *)tempColor animated:(BOOL)animated;
 
@@ -50,6 +53,6 @@
 - (BOOL)prefersStatusBarHidden;
 
 - (void)labelDragged:(UIPanGestureRecognizer *)gesture;
-- (void)createLevelWithDictionary:(NSDictionary*)levelDict;
+- (void)createLevelWithLevelNum:(int)levNum;
 
 @end

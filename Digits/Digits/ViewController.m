@@ -23,6 +23,8 @@
 @property (nonatomic, strong) NSMutableArray *digitCovers;
 @property (nonatomic, strong) NSMutableArray *outerGridViews;
 
+@property (nonatomic) int lastLevelNum;
+
 @end
 
 @implementation ViewController
@@ -37,6 +39,7 @@ bool decimalUsed = false;
     self.xGridLines = [NSArray arrayWithObjects:[NSNumber numberWithInt:154],[NSNumber numberWithInt:214],[NSNumber numberWithInt:274],[NSNumber numberWithInt:334],[NSNumber numberWithInt:394],[NSNumber numberWithInt:454],[NSNumber numberWithInt:514],[NSNumber numberWithInt:574],[NSNumber numberWithInt:634],[NSNumber numberWithInt:694],[NSNumber numberWithInt:754],[NSNumber numberWithInt:814],[NSNumber numberWithInt:894],nil];
     self.yGridLines = [NSArray arrayWithObjects:[NSNumber numberWithInt:102],[NSNumber numberWithInt:182],[NSNumber numberWithInt:262],[NSNumber numberWithInt:342],[NSNumber numberWithInt:422],[NSNumber numberWithInt:502],[NSNumber numberWithInt:582],[NSNumber numberWithInt:662],nil];
     
+    self.lastLevelNum = 1;
     self.calculator.hidden=true;
     self.decimalMoverCreator.hidden = true;
     self.numTimesTenDecMovers = 0;
@@ -394,6 +397,7 @@ bool decimalUsed = false;
                                                       }  
                                                       completion:^(BOOL finished){
                                                           [self clearNumber:self];
+                                                          [self createLevelWithLevelNum:self.lastLevelNum + 1];
                                                           NSLog(@"Done!");
                                                       }];
                                  }];
@@ -1000,6 +1004,10 @@ bool decimalUsed = false;
     self.divide10NumDisplay.text = [NSString stringWithFormat:@"%d",newNum];
 }
 
+- (IBAction)restartButtonPressed:(UIButton *)sender {
+    [self createLevelWithLevelNum:self.lastLevelNum];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -1019,11 +1027,13 @@ bool decimalUsed = false;
     [segue.destinationViewController setDelegate:self];
 }
 
-- (void)createLevelWithDictionary:(NSDictionary*)levelDict
+- (void)createLevelWithLevelNum:(int)levNum;
 {
+    NSDictionary *levelDict = [self returnDictionaryForLevel:levNum];
     NSDecimalNumber *targetNum = [levelDict objectForKey:@"targetNumber"];
     NSArray *componentNums = [levelDict objectForKey:@"componentNumbers"];
     
+    self.lastLevelNum = levNum;
     [self clearNumber:nil];
     [self createTargetWithNum:targetNum];
     for (NSDecimalNumber *compNum in componentNums) {
@@ -1114,5 +1124,139 @@ bool decimalUsed = false;
     }
 
 }
+
+-(NSDictionary *)returnDictionaryForLevel:(int)levelNum {
+    
+    switch (levelNum) {
+            
+            // move
+        case 1:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"8"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"8"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            // add
+        case 2:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"5"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"2"],
+                      [NSDecimalNumber decimalNumberWithString:@"3"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            // line up, add
+        case 3:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"15"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"11"],
+                      [NSDecimalNumber decimalNumberWithString:@"4"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            // decompose
+        case 4:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"40"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"42"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            // decompose with distractors
+        case 5:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"30"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"137"],
+                      [NSDecimalNumber decimalNumberWithString:@"3041"],
+                      [NSDecimalNumber decimalNumberWithString:@"302"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            
+            // add, decompose
+        case 6:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"3"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"9"],
+                      [NSDecimalNumber decimalNumberWithString:@"4"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            // decompose, add
+        case 7:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"30"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"15"],
+                      [NSDecimalNumber decimalNumberWithString:@"26"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            // add, decompose, with distractor
+        case 8:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"30"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"15"],
+                      [NSDecimalNumber decimalNumberWithString:@"26"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            // add, decompose, with distractors
+        case 9:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"8"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"3"],
+                      [NSDecimalNumber decimalNumberWithString:@"9"],
+                      [NSDecimalNumber decimalNumberWithString:@"2"],
+                      [NSDecimalNumber decimalNumberWithString:@"7"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            // decompose with distractors
+        case 10:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"7"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"737"],
+                      [NSDecimalNumber decimalNumberWithString:@"7373"],
+                      [NSDecimalNumber decimalNumberWithString:@"3.7"],
+                      [NSDecimalNumber decimalNumberWithString:@"773"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            
+            // add, decompose, with distractors
+        case 11:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"2"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"18"],
+                      [NSDecimalNumber decimalNumberWithString:@"21"],
+                      [NSDecimalNumber decimalNumberWithString:@"24"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+    }
+    
+    
+    
+    // default returns level 1
+    return  [NSDictionary dictionaryWithObjectsAndKeys:
+             [NSDecimalNumber decimalNumberWithString:@"25"], @"targetNumber",
+             [NSArray arrayWithObjects:
+              [NSDecimalNumber decimalNumberWithString:@"25"],
+              [NSDecimalNumber decimalNumberWithString:@"3"], nil ], @"componentNumbers",
+             [NSNumber numberWithInt:0], @"numRightArrows",
+             [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+}
+
 
 @end
