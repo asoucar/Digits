@@ -152,7 +152,8 @@ bool decimalUsed = false;
                             //
                             DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                                                 initWithTarget:self
-                                                                action:@selector(labelDragged:)];
+                                                                action:@selector(labelDragged:)
+                                                                threshold:labelLength];
                             [newNumber addGestureRecognizer:gesture3];
                             
                             [self.onScreenNums removeObject:number];
@@ -242,7 +243,8 @@ bool decimalUsed = false;
                             
                             DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                                                 initWithTarget:self
-                                                                action:@selector(labelDragged:)];
+                                                                action:@selector(labelDragged:)
+                                                                threshold:labelLength];
                             [newNumber addGestureRecognizer:gesture3];
                             
                             [self.onScreenNums removeObject:number];
@@ -280,7 +282,8 @@ bool decimalUsed = false;
         
         DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                             initWithTarget:self
-                                            action:@selector(labelDragged:)];
+                                            action:@selector(labelDragged:)
+                                            threshold:[oldNum.digitViews count]*60];
         [newNum addGestureRecognizer:gesture3];
         
         [self.onScreenNums removeObject:oldNum];
@@ -360,7 +363,7 @@ bool decimalUsed = false;
             }
             
         }
-        [UIView animateWithDuration:0.5 animations:^{
+        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
             snapNumber.frame = CGRectMake(closestLineX, closestLineY, snapNumber.frame.size.width, snapNumber.frame.size.height);
         } completion:^(BOOL finished) {
             if (CGRectIntersectsRect(snapNumber.frame, self.targetNumberFrame) && [self doesTargetDecimalAndValueMatchNumber:firstNumber])
@@ -449,7 +452,8 @@ bool decimalUsed = false;
                 
                 DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                                     initWithTarget:self
-                                                    action:@selector(labelDragged:)];
+                                                    action:@selector(labelDragged:)
+                                                    threshold:labelLength];
                 [sumNumber addGestureRecognizer:gesture3];
                 
                 // add animation
@@ -635,7 +639,8 @@ bool decimalUsed = false;
             
             DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                                 initWithTarget:self
-                                                action:@selector(labelDragged:)];
+                                                action:@selector(labelDragged:)
+                                                threshold:labelLength];
             [subNumber addGestureRecognizer:gesture3];
             
             [self.onScreenNums removeObject:prevNum];
@@ -669,7 +674,8 @@ bool decimalUsed = false;
             
             DirectionPanGestureRecognizer *gesture4 = [[DirectionPanGestureRecognizer alloc]
                                                 initWithTarget:self
-                                                action:@selector(labelDragged:)];
+                                                action:@selector(labelDragged:)
+                                                threshold:labelLength];
             [newNum addGestureRecognizer:gesture4];
             
             // add it
@@ -904,7 +910,8 @@ bool decimalUsed = false;
         [self.onScreenNums addObject:newNumber];
         DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                             initWithTarget:self
-                                            action:@selector(labelDragged:)];
+                                            action:@selector(labelDragged:)
+                                            threshold:labelLength];
         [newNumber addGestureRecognizer:gesture3];
         [newNumber wobbleAnimation];
     }
@@ -1100,7 +1107,8 @@ bool decimalUsed = false;
         [self.onScreenNums addObject:newNumber];
         DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                                    initWithTarget:self
-                                                   action:@selector(labelDragged:)];
+                                                   action:@selector(labelDragged:)
+                                                   threshold:labelLength];
         [newNumber addGestureRecognizer:gesture3];
         [newNumber wobbleAnimation];
     }
