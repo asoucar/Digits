@@ -613,7 +613,7 @@ bool decimalUsed = false;
 - (void)decomposeBigNumberWithNewValue:(NSDecimalNumber *)val andOrigNum:(BigNumber *)prevNum andDir:(NSString *)dir andOffset:(int)offest andDigit:(NSString *)digit
 {
     BigNumber *blocker;
-    CGRect bottomArea = CGRectMake(self.gridFrame.frame.origin.x, self.gridFrame.frame.size.height-60, self.gridFrame.frame.size.width, self.gridFrame.frame.size.height);
+    CGRect bottomArea = CGRectMake(self.gridFrame.frame.origin.x, self.gridFrame.frame.size.height-10, self.gridFrame.frame.size.width, self.gridFrame.frame.size.height);
     CGRect swipeDownArea = CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y+80, prevNum.frame.size.width, 80);
     BOOL isANumInSpawnSpot = NO;
     for (BigNumber *oldNum in self.onScreenNums) {
@@ -639,8 +639,10 @@ bool decimalUsed = false;
                 //labelLength -= 30;
             }
             int oldXOffsett = 0;
-            if (prevNum.value.stringValue.length > subVal.stringValue.length && val.floatValue > 1) {
-                oldXOffsett = 60*(prevNum.value.stringValue.length - subVal.stringValue.length);
+            if(val.floatValue > 1.0){
+                if (prevNum.value.stringValue.length > subVal.stringValue.length && val.floatValue > 1) {
+                    oldXOffsett = 60*(prevNum.value.stringValue.length - subVal.stringValue.length);
+                }
             }
             
             BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x+oldXOffsett, prevNum.frame.origin.y, labelLength, 80) andValue:subVal];
@@ -669,9 +671,6 @@ bool decimalUsed = false;
             }
             else if ([dir isEqualToString:@"down"]) {
                 addY = 0;
-            }
-            else if ([dir isEqualToString:@"right"]) {
-                addX = labelLength + 75;
             }
             
             labelLength = 60*decNum2.stringValue.length;
