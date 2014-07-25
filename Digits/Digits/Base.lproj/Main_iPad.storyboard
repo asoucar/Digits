@@ -1480,20 +1480,6 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.46707983730000002" green="0.90905230979999996" blue="0.53323654490000005" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3jy-ao-YcX">
-                                <rect key="frame" x="544" y="32" width="47" height="49"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="30"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z02-Rj-jm7">
-                                <rect key="frame" x="322" y="36" width="42" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="30"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="reM-I2-34L">
                                 <rect key="frame" x="800" y="5" width="204" height="105"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1516,13 +1502,111 @@
                     <connections>
                         <outlet property="calculator" destination="AQ2-my-E7C" id="34D-Jg-2g7"/>
                         <outlet property="decimalMoverCreator" destination="5fo-Td-tgr" id="Vyh-w3-YnO"/>
-                        <outlet property="divCount" destination="z02-Rj-jm7" id="pC6-uC-jqj"/>
                         <outlet property="divide10NumDisplay" destination="Qbp-SG-Y5y" id="RNe-YL-FvL"/>
                         <outlet property="gridFrame" destination="FWr-a7-MSn" id="AD8-Ka-xcy"/>
                         <outlet property="makeNumber" destination="Cd2-jC-UIj" id="34b-m4-2Fz"/>
-                        <outlet property="multCount" destination="3jy-ao-YcX" id="hhk-SR-BPH"/>
                         <outlet property="numberDisplay" destination="TUt-Zm-GUZ" id="gRa-QL-wms"/>
                         <outlet property="times10NumDisplay" destination="oyk-u3-XrN" id="DAv-IY-jf6"/>
+                        <outletCollection property="innerGridViews" destination="8Cj-Zv-RU1" id="yUQ-rV-erT"/>
+                        <outletCollection property="innerGridViews" destination="k3D-Uj-d8T" id="7Dd-hI-CTv"/>
+                        <outletCollection property="innerGridViews" destination="5Ql-ca-PYp" id="56Q-Wf-aWV"/>
+                        <outletCollection property="innerGridViews" destination="1Dc-3U-qZ2" id="RlQ-5h-QAV"/>
+                        <outletCollection property="innerGridViews" destination="jpy-Zc-lHh" id="mng-TK-c4q"/>
+                        <outletCollection property="innerGridViews" destination="0uL-kM-QYU" id="w9z-rn-uO2"/>
+                        <outletCollection property="innerGridViews" destination="hEL-34-hH8" id="aQM-Aj-gMi"/>
+                        <outletCollection property="innerGridViews" destination="HSz-xr-DgT" id="p4V-xa-68o"/>
+                        <outletCollection property="innerGridViews" destination="ybQ-wB-EDg" id="G7e-ar-Fuv"/>
+                        <outletCollection property="innerGridViews" destination="0Jf-Nk-PGk" id="nbb-rG-Rws"/>
+                        <outletCollection property="innerGridViews" destination="KvG-ei-H1h" id="ecp-zK-X1u"/>
+                        <outletCollection property="innerGridViews" destination="Rpx-rI-7Ve" id="yZ4-vN-qk3"/>
+                        <outletCollection property="innerGridViews" destination="Rpx-rI-7Ve" id="RJ2-h9-7L5"/>
+                        <outletCollection property="innerGridViews" destination="bWW-ep-OUr" id="4yk-tq-Ize"/>
+                        <outletCollection property="innerGridViews" destination="hPa-Ed-am8" id="ip0-V8-d1I"/>
+                        <outletCollection property="innerGridViews" destination="Ihb-Xx-xNG" id="Wc8-8l-ewM"/>
+                        <outletCollection property="innerGridViews" destination="BFG-zv-c0s" id="Ho2-28-LYO"/>
+                        <outletCollection property="innerGridViews" destination="BFG-zv-c0s" id="Xk0-1i-iPV"/>
+                        <outletCollection property="innerGridViews" destination="9Uf-yv-JUx" id="dHL-d5-AGu"/>
+                        <outletCollection property="innerGridViews" destination="8pc-8i-TDt" id="S1g-Zy-IyI"/>
+                        <outletCollection property="innerGridViews" destination="s4Y-lb-ijg" id="agv-Uc-6bd"/>
+                        <outletCollection property="innerGridViews" destination="GLI-Oc-99x" id="lfZ-Vm-qrw"/>
+                        <outletCollection property="innerGridViews" destination="Mfg-SO-Yev" id="9iz-hY-f2O"/>
+                        <outletCollection property="innerGridViews" destination="TMU-Rf-wbh" id="Rp9-Uc-L1K"/>
+                        <outletCollection property="innerGridViews" destination="tgV-iY-s49" id="jHA-kr-Ctp"/>
+                        <outletCollection property="innerGridViews" destination="fsT-Wp-HRS" id="Ur2-J8-a6r"/>
+                        <outletCollection property="innerGridViews" destination="94h-rn-ZmK" id="oJs-Da-m4z"/>
+                        <outletCollection property="innerGridViews" destination="WIc-kG-Bk4" id="bB3-WL-AUG"/>
+                        <outletCollection property="innerGridViews" destination="dGL-rw-PpJ" id="X7j-rK-vPr"/>
+                        <outletCollection property="innerGridViews" destination="JcQ-EB-JeY" id="Mfd-FC-nu4"/>
+                        <outletCollection property="innerGridViews" destination="SDa-j1-WKV" id="yJt-mS-IXB"/>
+                        <outletCollection property="innerGridViews" destination="9b5-Ds-pPQ" id="ot6-Pd-pmd"/>
+                        <outletCollection property="innerGridViews" destination="9b5-Ds-pPQ" id="nec-sf-l2I"/>
+                        <outletCollection property="innerGridViews" destination="had-at-FcO" id="vE0-fC-KmQ"/>
+                        <outletCollection property="innerGridViews" destination="TwN-lh-YGe" id="o44-7I-TEe"/>
+                        <outletCollection property="innerGridViews" destination="3hs-n4-V2o" id="jU2-2D-1A0"/>
+                        <outletCollection property="innerGridViews" destination="fAn-2z-Y7D" id="Z9I-jb-vkO"/>
+                        <outletCollection property="innerGridViews" destination="YqO-MT-0nk" id="lk3-uF-MNc"/>
+                        <outletCollection property="innerGridViews" destination="Pe5-sZ-o1J" id="z0P-gj-ATr"/>
+                        <outletCollection property="innerGridViews" destination="JP3-Ux-3zh" id="b8x-0I-iIb"/>
+                        <outletCollection property="innerGridViews" destination="2Ib-tP-VDM" id="e6r-5o-ik5"/>
+                        <outletCollection property="innerGridViews" destination="fhq-gk-i7T" id="Jhc-jc-Z53"/>
+                        <outletCollection property="innerGridViews" destination="4Yl-db-AQQ" id="Vfv-jO-cZt"/>
+                        <outletCollection property="innerGridViews" destination="y3p-S0-1OO" id="Q9F-kO-LVr"/>
+                        <outletCollection property="innerGridViews" destination="HPe-dX-0fT" id="oRa-ao-Xmy"/>
+                        <outletCollection property="innerGridViews" destination="WdJ-Oc-uKc" id="uPB-Ax-La9"/>
+                        <outletCollection property="innerGridViews" destination="xn2-6S-a7Y" id="27f-YJ-7dh"/>
+                        <outletCollection property="innerGridViews" destination="8Fc-6V-8yz" id="yQ0-4X-Uiu"/>
+                        <outletCollection property="innerGridViews" destination="MPQ-NR-MGh" id="EEB-3R-08T"/>
+                        <outletCollection property="innerGridViews" destination="Ksx-zt-edl" id="cXq-ua-GVI"/>
+                        <outletCollection property="innerGridViews" destination="aVe-4l-Z5p" id="KtY-D9-Ybw"/>
+                        <outletCollection property="innerGridViews" destination="2kS-jI-51c" id="9KF-iL-aKd"/>
+                        <outletCollection property="innerGridViews" destination="gVo-F3-dkh" id="4dI-3V-g3u"/>
+                        <outletCollection property="innerGridViews" destination="c56-cR-1Fh" id="UrO-u6-7uu"/>
+                        <outletCollection property="innerGridViews" destination="AGp-hR-jpf" id="5zE-q6-yIV"/>
+                        <outletCollection property="innerGridViews" destination="H2G-pm-ak2" id="yLu-pW-GQs"/>
+                        <outletCollection property="innerGridViews" destination="GAu-ck-Fma" id="f1Z-6i-K6h"/>
+                        <outletCollection property="innerGridViews" destination="Hz4-Cw-d6z" id="jYP-tc-bu4"/>
+                        <outletCollection property="innerGridViews" destination="TaB-eH-YAT" id="Dd7-8a-QvC"/>
+                        <outletCollection property="innerGridViews" destination="gra-g0-lZK" id="pvi-1p-4ko"/>
+                        <outletCollection property="innerGridViews" destination="gra-g0-lZK" id="BrK-Xu-ig5"/>
+                        <outletCollection property="innerGridViews" destination="Nic-Mx-Thw" id="SZ3-74-81J"/>
+                        <outletCollection property="innerGridViews" destination="5nd-Xg-SgQ" id="DCU-RM-M7T"/>
+                        <outletCollection property="innerGridViews" destination="MlW-z4-V3M" id="1xm-li-tlB"/>
+                        <outletCollection property="innerGridViews" destination="SrO-E6-nSw" id="SSH-qS-m8I"/>
+                        <outletCollection property="innerGridViews" destination="ucG-8X-4bJ" id="35D-nm-trs"/>
+                        <outletCollection property="innerGridViews" destination="DCU-cs-yjb" id="XnA-mj-UDt"/>
+                        <outletCollection property="innerGridViews" destination="Qp9-Or-s3D" id="iZV-mG-81w"/>
+                        <outletCollection property="innerGridViews" destination="QBQ-4Y-ISz" id="k0i-AG-kIH"/>
+                        <outletCollection property="innerGridViews" destination="gl5-FS-egG" id="GvF-TV-g8g"/>
+                        <outletCollection property="innerGridViews" destination="SFI-6N-lZQ" id="pgN-CY-0FD"/>
+                        <outletCollection property="innerGridViews" destination="JF7-Dr-s8V" id="3hn-Ls-ZBo"/>
+                        <outletCollection property="innerGridViews" destination="eqZ-D5-g7r" id="ZKB-pS-I7v"/>
+                        <outletCollection property="innerGridViews" destination="1w6-Ox-mCw" id="ltN-ba-dc0"/>
+                        <outletCollection property="innerGridViews" destination="WKI-vc-2K2" id="mPU-9B-nI3"/>
+                        <outletCollection property="innerGridViews" destination="mbs-q8-rbi" id="eVn-1Y-ZHa"/>
+                        <outletCollection property="innerGridViews" destination="bCM-KE-wHy" id="sfR-8X-A5C"/>
+                        <outletCollection property="innerGridViews" destination="hm3-Kg-jOW" id="RbI-aY-eBP"/>
+                        <outletCollection property="innerGridViews" destination="npI-Je-Q34" id="WmX-NL-cbU"/>
+                        <outletCollection property="innerGridViews" destination="8Ho-hh-cjT" id="GzA-ea-zFT"/>
+                        <outletCollection property="innerGridViews" destination="zZc-Zp-Ydg" id="XcN-fw-iie"/>
+                        <outletCollection property="innerGridViews" destination="e7l-M4-HVN" id="iKn-n1-F2k"/>
+                        <outletCollection property="innerGridViews" destination="QIU-FR-FIW" id="917-tl-P80"/>
+                        <outletCollection property="innerGridViews" destination="xNj-LE-gZA" id="TC3-W9-BJs"/>
+                        <outletCollection property="innerGridViews" destination="loC-TI-dv4" id="9DR-Rk-PlY"/>
+                        <outletCollection property="innerGridViews" destination="cO7-PI-6A6" id="Pr3-9k-1fl"/>
+                        <outletCollection property="innerGridViews" destination="vUl-qa-8Oe" id="Mir-G2-4Fr"/>
+                        <outletCollection property="innerGridViews" destination="W87-oh-zlI" id="5Xa-Dd-IZf"/>
+                        <outletCollection property="innerGridViews" destination="bpa-s3-Cge" id="K1H-S3-gMz"/>
+                        <outletCollection property="innerGridViews" destination="wHh-Uq-TIk" id="ycV-Wn-qRy"/>
+                        <outletCollection property="innerGridViews" destination="kpA-vJ-H7i" id="j7O-vP-BSj"/>
+                        <outletCollection property="innerGridViews" destination="OuA-8F-MbP" id="2xG-Ho-WhC"/>
+                        <outletCollection property="innerGridViews" destination="W0Z-Wb-ake" id="43m-fl-EqF"/>
+                        <outletCollection property="innerGridViews" destination="Nvd-n1-R6L" id="bx7-Sw-KpD"/>
+                        <outletCollection property="innerGridViews" destination="uFx-S6-dWm" id="9Qy-sr-GrZ"/>
+                        <outletCollection property="innerGridViews" destination="D3G-Wg-def" id="hIG-rQ-4fB"/>
+                        <outletCollection property="innerGridViews" destination="h1u-E7-NdP" id="VhR-S1-IvD"/>
+                        <outletCollection property="innerGridViews" destination="0sH-NQ-eVJ" id="bR8-rR-lfN"/>
+                        <outletCollection property="innerGridViews" destination="wnh-49-q60" id="ayq-BK-Gpl"/>
+                        <outletCollection property="innerGridViews" destination="6Ui-hv-79u" id="FEE-vp-kvu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
