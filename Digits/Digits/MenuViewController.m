@@ -108,4 +108,31 @@
             break;
     }
 }
+
+-(NSDictionary *)returnDictionaryForLevel:(int)levelNum {
+    
+    switch (levelNum) {
+        case 1:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSDecimalNumber decimalNumberWithString:@"25"], @"targetNumber",
+                        [NSArray arrayWithObjects:
+                            [NSDecimalNumber decimalNumberWithString:@"25"],
+                            [NSDecimalNumber decimalNumberWithString:@"3"], nil ], @"componentNumbers", nil];
+            
+        case 2:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSDecimalNumber decimalNumberWithString:@"26.2"], @"targetNumber",
+                        [NSArray arrayWithObjects:
+                            [NSDecimalNumber decimalNumberWithString:@"26"],
+                            [NSDecimalNumber decimalNumberWithString:@"0.2"], nil ], @"componentNumbers", nil];
+    }
+    
+    // default returns level 1
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSDecimalNumber decimalNumberWithString:@"25"], @"targetNumber",
+                            [NSArray arrayWithObjects:
+                                [NSDecimalNumber decimalNumberWithString:@"25"],
+                                [NSDecimalNumber decimalNumberWithString:@"3"], nil ], @"componentNumbers", nil];
+}
+
 @end
