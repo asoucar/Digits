@@ -645,7 +645,7 @@ bool decimalUsed = false;
             
             BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x+oldXOffsett, prevNum.frame.origin.y, labelLength, 80) andValue:subVal];
             subNumber.userInteractionEnabled = YES;
-            subNumber.backgroundColor = [UIColor colorWithRed:77.0f/255.0f green:77.0f/255.0f blue:177.0f/255.0f alpha:1];
+            subNumber.backgroundColor = [UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0];
             
             DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                                 initWithTarget:self
@@ -680,7 +680,7 @@ bool decimalUsed = false;
             }
             BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, labelLength, 80) andValue:decNum2];
             newNum.userInteractionEnabled = YES;
-            newNum.backgroundColor = [UIColor colorWithRed:77.0f/255.0f green:77.0f/255.0f blue:177.0f/255.0f alpha:1];
+            newNum.backgroundColor = [UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0];
             
             DirectionPanGestureRecognizer *gesture4 = [[DirectionPanGestureRecognizer alloc]
                                                 initWithTarget:self
@@ -694,7 +694,7 @@ bool decimalUsed = false;
                 [self.onScreenNums addObject:newNum];
                 
                 UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + addX +offest, subNumber.frame.origin.y, 60, 80)];
-                cover.backgroundColor = [UIColor colorWithRed:77.0f/255.0f green:77.0f/255.0f blue:177.0f/255.0f alpha:1];
+                cover.backgroundColor = [UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0];
                 cover.textColor = [UIColor whiteColor];
                 cover.font = [UIFont fontWithName:@"Futura" size:100];
                 [self.view addSubview:cover];
