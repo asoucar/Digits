@@ -815,7 +815,7 @@ bool decimalUsed = false;
 
     for (NSString *digit in targetNumberArray) {
         if ([digit isEqualToString:@"."]){
-            self.targetDecimalLoc = targetStartingX + 29;
+            self.targetDecimalLoc = targetStartingX;
         }
         UILabel *newDigit = [[UILabel alloc] initWithFrame:CGRectMake(targetStartingX, 424, 58, 78)];
         newDigit.text = digit;
