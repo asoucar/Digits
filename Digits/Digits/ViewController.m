@@ -887,7 +887,7 @@ bool decimalUsed = false;
     for (int i = 0; i<=8; i++) {
         for (BigNumber *oldNum in self.onScreenNums) {
             if (CGRectIntersectsRect(oldNum.frame, potentialFrame)) {
-                self.verticalSpawnOffset += 80;
+                self.verticalSpawnOffset += 160;
                 potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 80);
             }
         }
@@ -1084,7 +1084,7 @@ bool decimalUsed = false;
     for (int i = 0; i<=8; i++) {
         for (BigNumber *oldNum in self.onScreenNums) {
             if (CGRectIntersectsRect(oldNum.frame, potentialFrame)) {
-                self.verticalSpawnOffset += 80;
+                self.verticalSpawnOffset += 160;
                 potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 80);
             }
         }
