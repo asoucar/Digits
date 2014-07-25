@@ -48,6 +48,6 @@
 - (BOOL)prefersStatusBarHidden;
 
 - (void)labelDragged:(UIPanGestureRecognizer *)gesture;
-- (void)createLevelWithDictionary:(NSDictionary*)levelDict;
+- (void)createLevelWithLevelNum:(int)levNum;
 
 @end
