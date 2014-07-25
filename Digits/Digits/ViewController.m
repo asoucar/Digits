@@ -991,11 +991,107 @@ bool decimalUsed = false;
     return YES;
 }
 
+
+//using menu to create level
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     
-    MenuViewController* popovercontroller = (MenuViewController*)segue.destinationViewController;
-    popovercontroller.menuPopover = [(UIStoryboardPopoverSegue*)segue popoverController];
+    self.menuPopover = [(UIStoryboardPopoverSegue*)segue popoverController];
+    [segue.destinationViewController setDelegate:self];
+}
+
+- (void)createLevelWithDictionary:(NSDictionary*)levelDict
+{
+    NSDecimalNumber *targetNum = [levelDict objectForKey:@"targetNumber"];
+    NSArray *componentNums = [levelDict objectForKey:@"componentNumbers"];
+    
+    [self createTargetWithNum:targetNum];
+    for (NSDecimalNumber *compNum in componentNums) {
+        [self createComponentNumWithNum:compNum];
+    }
+    
+}
+
+- (void)createTargetWithNum:(NSDecimalNumber*)num
+{
+    for (UILabel *v in self.targetNums) {
+        [v removeFromSuperview];
+    }
+    [self.targetNums removeAllObjects];
+    
+    if ([num.stringValue hasPrefix:@"."]) {
+        NSString *withZero = [@"0" stringByAppendingString:num.stringValue];
+        self.numberDisplay.text = withZero;
+    }
+    
+    if ([num.stringValue rangeOfString:@"."].location == NSNotFound){
+        self.targetDecimalLoc = 753;
+    }
+    
+    NSMutableArray *targetNumberArray = [[NSMutableArray alloc] init];
+    for (int i =0; i < num.stringValue.length; i++){
+        NSString *charNum = [NSString stringWithFormat:@"%c",[num.stringValue characterAtIndex:i]];
+        targetNumberArray[i] = charNum;
+    }
+    float targetStartingX = 753 - 60*[targetNumberArray count];
+    self.targetValue = [NSDecimalNumber decimalNumberWithString:num.stringValue];
+    self.targetNumberFrame = CGRectMake(targetStartingX, 424, 58*[targetNumberArray count], 78);
+    
+    for (NSString *digit in targetNumberArray) {
+        if ([digit isEqualToString:@"."]){
+            self.targetDecimalLoc = targetStartingX;
+        }
+        UILabel *newDigit = [[UILabel alloc] initWithFrame:CGRectMake(targetStartingX, 424, 58, 78)];
+        newDigit.text = digit;
+        newDigit.textAlignment = UITextAlignmentCenter;
+        newDigit.font = [UIFont fontWithName:@"Futura" size:95];
+        [newDigit setBackgroundColor: [UIColor colorWithRed:140.0/255.0 green:93.0/255.0 blue:255.0/255.0 alpha:1.0]];
+        newDigit.textColor = [UIColor orangeColor];
+        [self.view addSubview:newDigit];
+        targetStartingX +=60;
+        [self.targetNums addObject:newDigit];
+        
+    }
+
+}
+
+- (void)createComponentNumWithNum:(NSDecimalNumber*)num
+{
+    self.verticalSpawnOffset = 102;
+    
+    int labelLength = (60*num.stringValue.length);
+    if ([num.stringValue hasSuffix:@"."]) {
+        labelLength -= 60;
+    }
+    if([num.stringValue hasPrefix:@"."]){
+        labelLength += 60;
+    }
+    
+    CGRect potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 80);
+    for (int i = 0; i<=8; i++) {
+        for (BigNumber *oldNum in self.onScreenNums) {
+            if (CGRectIntersectsRect(oldNum.frame, potentialFrame)) {
+                self.verticalSpawnOffset += 80;
+                potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 80);
+            }
+        }
+    }
+ 
+    BOOL hitWall = NO;
+    
+    if (!hitWall && ![num.stringValue isEqualToString:@""] && (self.verticalSpawnOffset < 700)) {
+        BigNumber *newNumber = [[BigNumber alloc] initWithFrame:potentialFrame
+                                                       andValue:[NSDecimalNumber decimalNumberWithString:num.stringValue]];
+        [self.view addSubview:newNumber];
+        //newNumber.center = CGPointMake(self.view.center.y, 73);
+        [self.onScreenNums addObject:newNumber];
+        DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
+                                                   initWithTarget:self
+                                                   action:@selector(labelDragged:)];
+        [newNumber addGestureRecognizer:gesture3];
+        [newNumber wobbleAnimation];
+    }
+
 }
 
 @end
