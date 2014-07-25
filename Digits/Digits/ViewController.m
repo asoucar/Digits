@@ -1005,6 +1005,7 @@ bool decimalUsed = false;
     NSDecimalNumber *targetNum = [levelDict objectForKey:@"targetNumber"];
     NSArray *componentNums = [levelDict objectForKey:@"componentNumbers"];
     
+    [self clearNumber:nil];
     [self createTargetWithNum:targetNum];
     for (NSDecimalNumber *compNum in componentNums) {
         [self createComponentNumWithNum:compNum];
