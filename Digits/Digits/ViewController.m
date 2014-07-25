@@ -76,9 +76,9 @@ bool decimalUsed = false;
     
     self.divBy10.userInteractionEnabled = YES;
     self.multBy10.userInteractionEnabled = YES;
-    self.divBy10.frame = CGRectMake(350, 33, 65, 60);
+    self.divBy10.frame = CGRectMake(55, 150, 65, 60);
     self.divBy10.backgroundColor = [UIColor clearColor];
-    self.multBy10.frame = CGRectMake(570, 33, 65, 60);
+    self.multBy10.frame = CGRectMake(55, 200, 65, 60);
     self.multBy10.backgroundColor = [UIColor clearColor];
     
     [self.multBy10 addGestureRecognizer:gesture1];
@@ -125,7 +125,7 @@ bool decimalUsed = false;
             if ([decNum1.stringValue rangeOfString:@"."].location != NSNotFound) {
                 //labelLength -= 30;
             }
-            mult.frame = CGRectMake(65, 190, 65, 60);
+            mult.frame = CGRectMake(55, 150, 65, 60);
             self.numTimesTenDecMovers -= 1;
             self.multCount.text = [NSString stringWithFormat:@"%d", self.numTimesTenDecMovers];
             if (self.numDivTenDecMovers <= 0) {
@@ -215,7 +215,7 @@ bool decimalUsed = false;
             if ([decNum1.stringValue rangeOfString:@"."].location != NSNotFound) {
                 //labelLength -= 30;
             }
-            div.frame = CGRectMake(65, 125, 65, 60);
+            div.frame = CGRectMake(55, 200, 65, 60);
             self.numDivTenDecMovers -= 1;
             self.divCount.text = [NSString stringWithFormat:@"%d", self.numDivTenDecMovers];
             if (self.numDivTenDecMovers <= 0) {

@@ -77,9 +77,11 @@
             newDigit.textColor = [UIColor whiteColor];
             newDigit.font = [UIFont fontWithName:@"Futura" size:100];
             xPos = xPos+60;
-            newDigit.userInteractionEnabled = YES;
-            UITapGestureRecognizer *gesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberTapped:)];
-            [newDigit addGestureRecognizer:gesture2];
+            if([self.wholeNumberDigits count]>1 && ![digit isEqualToString:@"0"]){
+                newDigit.userInteractionEnabled = YES;
+                UITapGestureRecognizer *gesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberTapped:)];
+                [newDigit addGestureRecognizer:gesture2];
+            }
             digitCount++;
         }
         digitCount = 1;
@@ -105,9 +107,11 @@
             newDigit.textColor = [UIColor whiteColor];
             newDigit.font = [UIFont fontWithName:@"Futura" size:100];
             xPos = xPos+60;
-            newDigit.userInteractionEnabled = YES;
-            UITapGestureRecognizer *gesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberTapped:)];
-            [newDigit addGestureRecognizer:gesture2];
+            if([self.decimalNumberDigits count]>1 && ![digit isEqualToString:@"0"]){
+                newDigit.userInteractionEnabled = YES;
+                UITapGestureRecognizer *gesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(numberTapped:)];
+                [newDigit addGestureRecognizer:gesture2];
+            }
 
             digitCount++;
             }
@@ -131,6 +135,11 @@
             }
             else if (digit == tappedNum && !digit.isDigitSelected) {
                 [digit selected];
+                UISwipeGestureRecognizer *gesture1 = [[UISwipeGestureRecognizer alloc]
+                                                    initWithTarget:self
+                                                    action:@selector(numberSwiped:)];
+                
+                [tappedNum addGestureRecognizer:gesture1];
                 UIPanGestureRecognizer *gesture2 = [[UIPanGestureRecognizer alloc]
                                                     initWithTarget:self
                                                     action:@selector(numberSwiped:)];
