@@ -31,7 +31,7 @@ bool decimalUsed = false;
 	// Do any additional setup after loading the view, typically from a nib.
     self.xGridLines = [NSArray arrayWithObjects:[NSNumber numberWithInt:154],[NSNumber numberWithInt:214],[NSNumber numberWithInt:274],[NSNumber numberWithInt:334],[NSNumber numberWithInt:394],[NSNumber numberWithInt:454],[NSNumber numberWithInt:514],[NSNumber numberWithInt:574],[NSNumber numberWithInt:634],[NSNumber numberWithInt:694],[NSNumber numberWithInt:754],[NSNumber numberWithInt:814],[NSNumber numberWithInt:894],nil];
     self.yGridLines = [NSArray arrayWithObjects:[NSNumber numberWithInt:102],[NSNumber numberWithInt:182],[NSNumber numberWithInt:262],[NSNumber numberWithInt:342],[NSNumber numberWithInt:422],[NSNumber numberWithInt:502],[NSNumber numberWithInt:582],[NSNumber numberWithInt:662],nil];
-
+    
     self.calculator.hidden=true;
     self.decimalMoverCreator.hidden = true;
     self.numTimesTenDecMovers = 0;
@@ -864,6 +864,13 @@ bool decimalUsed = false;
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+    MenuViewController* popovercontroller = (MenuViewController*)segue.destinationViewController;
+    popovercontroller.menuPopover = [(UIStoryboardPopoverSegue*)segue popoverController];
 }
 
 @end

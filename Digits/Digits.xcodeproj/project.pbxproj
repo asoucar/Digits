@@ -28,6 +28,7 @@
 		AB1870AE1954DB6300606E51 /* rightArrow.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = AB1870AD1954DB6300606E51 /* rightArrow.jpeg */; };
 		AB1870B11954FD5100606E51 /* BigNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1870B01954FD5100606E51 /* BigNumber.m */; };
 		AB1870B41954FD7F00606E51 /* DigitView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1870B31954FD7F00606E51 /* DigitView.m */; };
+		ABC13F021982CBA0000A4BA0 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC13F011982CBA0000A4BA0 /* MenuViewController.m */; };
 		ABE8DD5E1979C2F30048AF9E /* DirectionPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE8DD5D1979C2F30048AF9E /* DirectionPanGestureRecognizer.m */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,8 @@
 		AB1870B01954FD5100606E51 /* BigNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigNumber.m; sourceTree = "<group>"; };
 		AB1870B21954FD7F00606E51 /* DigitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigitView.h; sourceTree = "<group>"; };
 		AB1870B31954FD7F00606E51 /* DigitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigitView.m; sourceTree = "<group>"; };
+		ABC13F001982CBA0000A4BA0 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
+		ABC13F011982CBA0000A4BA0 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		ABE8DD5C1979C2F30048AF9E /* DirectionPanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectionPanGestureRecognizer.h; sourceTree = "<group>"; };
 		ABE8DD5D1979C2F30048AF9E /* DirectionPanGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectionPanGestureRecognizer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -137,6 +140,8 @@
 				AB1870881954A70400606E51 /* Main_iPad.storyboard */,
 				AB18708B1954A70400606E51 /* ViewController.h */,
 				AB18708C1954A70400606E51 /* ViewController.m */,
+				ABC13F001982CBA0000A4BA0 /* MenuViewController.h */,
+				ABC13F011982CBA0000A4BA0 /* MenuViewController.m */,
 				ABE8DD5C1979C2F30048AF9E /* DirectionPanGestureRecognizer.h */,
 				ABE8DD5D1979C2F30048AF9E /* DirectionPanGestureRecognizer.m */,
 				AB1870AF1954FD5100606E51 /* BigNumber.h */,
@@ -288,6 +293,7 @@
 				ABE8DD5E1979C2F30048AF9E /* DirectionPanGestureRecognizer.m in Sources */,
 				AB1870B11954FD5100606E51 /* BigNumber.m in Sources */,
 				AB1870841954A70400606E51 /* AppDelegate.m in Sources */,
+				ABC13F021982CBA0000A4BA0 /* MenuViewController.m in Sources */,
 				AB1870B41954FD7F00606E51 /* DigitView.m in Sources */,
 				AB1870801954A70400606E51 /* main.m in Sources */,
 			);

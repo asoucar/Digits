@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BigNumber.h"
 #import "DirectionPanGestureRecognizer.h"
+#import "MenuViewController.h"
 
 @interface ViewController : UIViewController
 
