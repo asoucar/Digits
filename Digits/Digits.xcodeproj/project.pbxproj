@@ -29,6 +29,7 @@
 		AB1870B11954FD5100606E51 /* BigNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1870B01954FD5100606E51 /* BigNumber.m */; };
 		AB1870B41954FD7F00606E51 /* DigitView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1870B31954FD7F00606E51 /* DigitView.m */; };
 		ABC13F021982CBA0000A4BA0 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC13F011982CBA0000A4BA0 /* MenuViewController.m */; };
+		ABC13F041982EBB4000A4BA0 /* main.png in Resources */ = {isa = PBXBuildFile; fileRef = ABC13F031982EBB4000A4BA0 /* main.png */; };
 		ABE8DD5E1979C2F30048AF9E /* DirectionPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE8DD5D1979C2F30048AF9E /* DirectionPanGestureRecognizer.m */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +74,7 @@
 		AB1870B31954FD7F00606E51 /* DigitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigitView.m; sourceTree = "<group>"; };
 		ABC13F001982CBA0000A4BA0 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
 		ABC13F011982CBA0000A4BA0 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
+		ABC13F031982EBB4000A4BA0 /* main.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = main.png; sourceTree = "<group>"; };
 		ABE8DD5C1979C2F30048AF9E /* DirectionPanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectionPanGestureRecognizer.h; sourceTree = "<group>"; };
 		ABE8DD5D1979C2F30048AF9E /* DirectionPanGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectionPanGestureRecognizer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -152,6 +154,7 @@
 				162A07D61964AE7600AE1548 /* whiteRightArrow.png */,
 				AB1870AD1954DB6300606E51 /* rightArrow.jpeg */,
 				AB1870AB1954DB2B00606E51 /* leftArrow.jpeg */,
+				ABC13F031982EBB4000A4BA0 /* main.png */,
 				AB18708E1954A70400606E51 /* Images.xcassets */,
 				AB18707A1954A70400606E51 /* Supporting Files */,
 			);
@@ -265,6 +268,7 @@
 			files = (
 				162A07D81964AE7600AE1548 /* whiteRightArrow.png in Resources */,
 				AB18708A1954A70400606E51 /* Main_iPad.storyboard in Resources */,
+				ABC13F041982EBB4000A4BA0 /* main.png in Resources */,
 				AB18708F1954A70400606E51 /* Images.xcassets in Resources */,
 				162A07D71964AE7600AE1548 /* whiteLeftArrow.png in Resources */,
 				AB1870871954A70400606E51 /* Main_iPhone.storyboard in Resources */,

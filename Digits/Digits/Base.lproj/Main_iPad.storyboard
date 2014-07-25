@@ -1506,6 +1506,21 @@
                                     <action selector="restartButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mnZ-vK-Lxv"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hRI-t8-7kk">
+                                <rect key="frame" x="25" y="20" width="979" height="66"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.46707983730000002" green="0.90905230979999996" blue="0.53323654490000005" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gpk-YR-D9g">
+                                <rect key="frame" x="954" y="94" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="main.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="hideTextButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MdC-0Y-8pS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.4670798372659356" green="0.90905230978260865" blue="0.5332365448624925" alpha="1" colorSpace="calibratedRGB"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -1516,6 +1531,8 @@
                         <outlet property="decimalMoverCreator" destination="5fo-Td-tgr" id="Vyh-w3-YnO"/>
                         <outlet property="divide10NumDisplay" destination="Qbp-SG-Y5y" id="RNe-YL-FvL"/>
                         <outlet property="gridFrame" destination="FWr-a7-MSn" id="AD8-Ka-xcy"/>
+                        <outlet property="hideTextButton" destination="gpk-YR-D9g" id="zZl-o3-gj0"/>
+                        <outlet property="hideTextView" destination="hRI-t8-7kk" id="dpU-X3-Z6A"/>
                         <outlet property="makeNumber" destination="Cd2-jC-UIj" id="34b-m4-2Fz"/>
                         <outlet property="menuButton" destination="reM-I2-34L" id="GLX-Ta-ape"/>
                         <outlet property="numberDisplay" destination="TUt-Zm-GUZ" id="gRa-QL-wms"/>
@@ -1625,7 +1642,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1103" y="-700"/>
+            <point key="canvasLocation" x="-1109" y="-702"/>
         </scene>
         <!--Menu View Controller-->
         <scene sceneID="Phq-Jq-TgX">
@@ -1856,6 +1873,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="main.png" width="200" height="200"/>
         <image name="whiteLeftArrow.png" width="325" height="300"/>
         <image name="whiteRightArrow.png" width="325" height="300"/>
     </resources>

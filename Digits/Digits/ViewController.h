@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *makeNumber;
 @property (weak, nonatomic) IBOutlet UIButton *restartButton;
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;
+@property (weak, nonatomic) IBOutlet UIButton *hideTextButton;
 
 @property (weak, nonatomic) IBOutlet UIView *decimalMoverCreator;
 @property (weak, nonatomic) IBOutlet UILabel *times10NumDisplay;
@@ -27,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *multCount;
 @property (weak, nonatomic) IBOutlet UILabel *divCount;
 @property (weak, nonatomic) IBOutlet UIView *gridFrame;
+@property (weak, nonatomic) IBOutlet UIView *hideTextView;
 
 @property (strong, atomic) NSArray *xGridLines;
 @property (strong, atomic) NSArray *yGridLines;
@@ -46,6 +48,7 @@
 - (IBAction)addDivTen:(id)sender;
 - (IBAction)subtractDivTen:(id)sender;
 - (IBAction)restartButtonPressed:(UIButton *)sender;
+- (IBAction)hideTextButtonPressed:(id)sender;
 
 -(void)colorizeLabelForAWhile:(UILabel *)label withUIColor:(UIColor *)tempColor animated:(BOOL)animated;
 
