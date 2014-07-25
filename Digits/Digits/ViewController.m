@@ -575,7 +575,7 @@ bool decimalUsed = false;
                 CGRect rectToCheckBounds = CGRectMake(check2ndOriginX, check2ndOriginY, otherNumber.frame.size.width, otherNumber.frame.size.height);
                 
                 CGRect draggableFrame = CGRectMake(self.gridFrame.frame.origin.x, self.gridFrame.frame.origin.y, self.gridFrame.frame.size.width, self.gridFrame.frame.size.height);
-                if (!CGRectContainsRect(draggableFrame, rectToCheckBounds)){
+                if (!CGRectContainsRect(draggableFrame, rectToCheckBounds) && !CGRectContainsRect(self.targetNumberFrame, rectToCheckBounds)){
                     wallCollisionDetected = YES;
                 }
                 
@@ -823,7 +823,7 @@ bool decimalUsed = false;
     }
     
     if ([self.numberDisplay.text rangeOfString:@"."].location == NSNotFound){
-        self.targetDecimalLoc = 753;
+        self.targetDecimalLoc = 813;
     }
     
     NSMutableArray *targetNumberArray = [[NSMutableArray alloc] init];
@@ -831,15 +831,15 @@ bool decimalUsed = false;
         NSString *charNum = [NSString stringWithFormat:@"%c",[self.numberDisplay.text characterAtIndex:i]];
         targetNumberArray[i] = charNum;
     }
-    float targetStartingX = 753 - 60*[targetNumberArray count];
+    float targetStartingX = 813 - 60*[targetNumberArray count];
     self.targetValue = [NSDecimalNumber decimalNumberWithString:self.numberDisplay.text];
-    self.targetNumberFrame = CGRectMake(targetStartingX, 424, 58*[targetNumberArray count], 78);
+    self.targetNumberFrame = CGRectMake(targetStartingX, 584, 58*[targetNumberArray count], 78);
 
     for (NSString *digit in targetNumberArray) {
         if ([digit isEqualToString:@"."]){
             self.targetDecimalLoc = targetStartingX;
         }
-        UILabel *newDigit = [[UILabel alloc] initWithFrame:CGRectMake(targetStartingX, 424, 58, 78)];
+        UILabel *newDigit = [[UILabel alloc] initWithFrame:CGRectMake(targetStartingX, 584, 58, 78)];
         newDigit.text = digit;
         newDigit.textAlignment = UITextAlignmentCenter;
         newDigit.font = [UIFont fontWithName:@"Futura" size:95];
@@ -1055,7 +1055,7 @@ bool decimalUsed = false;
     }
     
     if ([num.stringValue rangeOfString:@"."].location == NSNotFound){
-        self.targetDecimalLoc = 753;
+        self.targetDecimalLoc = 813;
     }
     
     NSMutableArray *targetNumberArray = [[NSMutableArray alloc] init];
@@ -1063,15 +1063,15 @@ bool decimalUsed = false;
         NSString *charNum = [NSString stringWithFormat:@"%c",[num.stringValue characterAtIndex:i]];
         targetNumberArray[i] = charNum;
     }
-    float targetStartingX = 753 - 60*[targetNumberArray count];
+    float targetStartingX = 813 - 60*[targetNumberArray count];
     self.targetValue = [NSDecimalNumber decimalNumberWithString:num.stringValue];
-    self.targetNumberFrame = CGRectMake(targetStartingX, 424, 58*[targetNumberArray count], 78);
+    self.targetNumberFrame = CGRectMake(targetStartingX, 584, 58*[targetNumberArray count], 78);
     
     for (NSString *digit in targetNumberArray) {
         if ([digit isEqualToString:@"."]){
             self.targetDecimalLoc = targetStartingX;
         }
-        UILabel *newDigit = [[UILabel alloc] initWithFrame:CGRectMake(targetStartingX, 424, 58, 78)];
+        UILabel *newDigit = [[UILabel alloc] initWithFrame:CGRectMake(targetStartingX, 584, 58, 78)];
         newDigit.text = digit;
         newDigit.textAlignment = UITextAlignmentCenter;
         newDigit.font = [UIFont fontWithName:@"Futura" size:95];
