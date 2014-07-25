@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BigNumber.h"
 #import "DirectionPanGestureRecognizer.h"
-#import "MenuViewController.h"
+
 
 @interface ViewController : UIViewController
 
@@ -26,6 +26,8 @@
 
 @property (strong, atomic) NSArray *xGridLines;
 @property (strong, atomic) NSArray *yGridLines;
+
+@property (weak) UIPopoverController *menuPopover;
 
 - (IBAction)clearNumber:(UIButton *)sender;
 - (IBAction)decimalPressed:(UIButton *)sender;
@@ -46,6 +48,6 @@
 - (BOOL)prefersStatusBarHidden;
 
 - (void)labelDragged:(UIPanGestureRecognizer *)gesture;
-
+- (void)createLevelWithDictionary:(NSDictionary*)levelDict;
 
 @end

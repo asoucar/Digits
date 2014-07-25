@@ -48,65 +48,8 @@
 
 
 - (IBAction)levelButtonPressed:(UIButton *)sender {
-    
-    switch (sender.tag) {
-        case 1:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 2:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 3:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 4:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 5:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 6:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 7:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 8:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 9:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 10:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 11:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 12:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 13:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 14:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 15:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 16:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 17:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        case 18:
-            [self.menuPopover dismissPopoverAnimated:YES];
-            break;
-        default:
-            break;
-    }
+    [self.delegate createLevelWithDictionary:[self returnDictionaryForLevel:sender.tag]];
+    [self.delegate.menuPopover dismissPopoverAnimated:YES];
 }
 
 -(NSDictionary *)returnDictionaryForLevel:(int)levelNum {
