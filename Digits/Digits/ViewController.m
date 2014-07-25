@@ -54,15 +54,18 @@ bool decimalUsed = false;
     self.onScreenNums = [NSMutableArray array];
     self.targetNums = [NSMutableArray array];
     
+    [self.gridFrame setBackgroundColor:[UIColor colorWithRed:5/255.0 green:83/255.0 blue:117/255.0 alpha:1.0]];
     for (UIView *gridBox in self.gridFrame.subviews){
         if(![self.innerGridViews containsObject:gridBox]){
             [self.outerGridViews addObject:gridBox];
-            //[gridBox setBackgroundColor:[UIColor grayColor]];
+            [gridBox setBackgroundColor:[UIColor colorWithRed:138/255.0 green:192/255.0 blue:225/255.0 alpha:1.0]];
         }
     }
     for (UIView *gridBox in self.innerGridViews){
-        //[gridBox setBackgroundColor:[UIColor blackColor]];
+        [gridBox setBackgroundColor:[UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0]];
     }
+    [self.view setBackgroundColor:[UIColor colorWithRed:144/255.0 green:209/255.0 blue:215/255.0 alpha:1.0]];
+    [self.hideTextView setBackgroundColor:[UIColor colorWithRed:144/255.0 green:209/255.0 blue:215/255.0 alpha:1.0]];
     
     UIPanGestureRecognizer *gesture1 = [[UIPanGestureRecognizer alloc]
                                         initWithTarget:self
@@ -846,8 +849,8 @@ bool decimalUsed = false;
         newDigit.text = digit;
         newDigit.textAlignment = UITextAlignmentCenter;
         newDigit.font = [UIFont fontWithName:@"Futura" size:95];
-        [newDigit setBackgroundColor: [UIColor colorWithRed:140.0/255.0 green:93.0/255.0 blue:255.0/255.0 alpha:1.0]];
-        newDigit.textColor = [UIColor orangeColor];
+        [newDigit setBackgroundColor: [UIColor colorWithRed:5/255.0 green:83/255.0 blue:117/255.0 alpha:1.0]];
+        newDigit.textColor = [UIColor colorWithRed:254/255.0 green:203/255.0 blue:73/255.0 alpha:1.0];
         [self.view addSubview:newDigit];
         targetStartingX +=60;
         [self.targetNums addObject:newDigit];
@@ -1083,8 +1086,8 @@ bool decimalUsed = false;
         newDigit.text = digit;
         newDigit.textAlignment = UITextAlignmentCenter;
         newDigit.font = [UIFont fontWithName:@"Futura" size:95];
-        [newDigit setBackgroundColor: [UIColor colorWithRed:140.0/255.0 green:93.0/255.0 blue:255.0/255.0 alpha:1.0]];
-        newDigit.textColor = [UIColor orangeColor];
+        [newDigit setBackgroundColor:[UIColor colorWithRed:5/255.0 green:83/255.0 blue:117/255.0 alpha:1.0]];
+        newDigit.textColor = [UIColor colorWithRed:254/255.0 green:203/255.0 blue:73/255.0 alpha:1.0];
         [self.view addSubview:newDigit];
         targetStartingX +=60;
         [self.targetNums addObject:newDigit];

@@ -48,7 +48,7 @@
     self.isDigitSelected = true;
     
     [UIView transitionWithView:self duration:DISSOLVE_TO_SELECTED_TIME options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-        self.textColor = [UIColor blackColor];
+        self.textColor = [UIColor colorWithRed:234/255.0 green:94/255.0 blue:51/255.0 alpha:1.0];
     } completion:^(BOOL finished) {
     }];
     
