@@ -1255,6 +1255,85 @@ bool decimalUsed = false;
                       [NSDecimalNumber decimalNumberWithString:@"24"], nil ], @"componentNumbers",
                      [NSNumber numberWithInt:0], @"numRightArrows",
                      [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            // add, decompose, with distractors
+        case 12:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"3"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"19"],
+                      [NSDecimalNumber decimalNumberWithString:@"51"],
+                      [NSDecimalNumber decimalNumberWithString:@"85"],
+                      [NSDecimalNumber decimalNumberWithString:@"34"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            // decimals
+        case 13:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"0.3"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"41.3"],
+                      [NSDecimalNumber decimalNumberWithString:@"0.03"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            // decimals
+        case 14:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"0.6"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"26.2"],
+                      [NSDecimalNumber decimalNumberWithString:@"22.6"],
+                      [NSDecimalNumber decimalNumberWithString:@"0.06"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            // decimals
+        case 15:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"0.5"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"6.2"],
+                      [NSDecimalNumber decimalNumberWithString:@"2.3"],
+                      [NSDecimalNumber decimalNumberWithString:@"0.6"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            
+            // add, decompose, with distractors
+        case 16:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@".8"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@".3"],
+                      [NSDecimalNumber decimalNumberWithString:@".9"],
+                      [NSDecimalNumber decimalNumberWithString:@".2"],
+                      [NSDecimalNumber decimalNumberWithString:@".7"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            // decimals
+        case 17:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@"0.02"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@"1.42"],
+                      [NSDecimalNumber decimalNumberWithString:@"6.28"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
+            
+            // decompose, add
+        case 18:
+            return  [NSDictionary dictionaryWithObjectsAndKeys:
+                     [NSDecimalNumber decimalNumberWithString:@".30"], @"targetNumber",
+                     [NSArray arrayWithObjects:
+                      [NSDecimalNumber decimalNumberWithString:@".15"],
+                      [NSDecimalNumber decimalNumberWithString:@".26"], nil ], @"componentNumbers",
+                     [NSNumber numberWithInt:0], @"numRightArrows",
+                     [NSNumber numberWithInt:0], @"numLeftArrows", nil];
+            
     }
     
     
