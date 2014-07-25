@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewController.h"
 
 @interface MenuViewController : UIViewController
 
-@property (weak) UIPopoverController *menuPopover;
+@property (weak) ViewController* delegate;
 
 - (IBAction)levelButtonPressed:(UIButton *)sender;
 @end
