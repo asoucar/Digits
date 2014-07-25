@@ -1177,7 +1177,7 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cd2-jC-UIj">
-                                <rect key="frame" x="410" y="5" width="204" height="105"/>
+                                <rect key="frame" x="527" y="3" width="204" height="105"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="75"/>
                                 <state key="normal" title="Make">
@@ -1189,7 +1189,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jib-3y-vaX">
-                                <rect key="frame" x="20" y="10" width="190" height="94"/>
+                                <rect key="frame" x="20" y="3" width="190" height="105"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="75"/>
                                 <state key="normal" title="Reset">
@@ -1481,7 +1481,7 @@
                                 <color key="backgroundColor" red="0.46707983730000002" green="0.90905230979999996" blue="0.53323654490000005" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="reM-I2-34L">
-                                <rect key="frame" x="800" y="5" width="204" height="105"/>
+                                <rect key="frame" x="800" y="3" width="204" height="105"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="75"/>
                                 <state key="normal" title="Menu">
@@ -1492,6 +1492,18 @@
                                     <segue destination="uGd-Wa-hF5" kind="popover" popoverAnchorView="reM-I2-34L" id="Sce-Yq-p89">
                                         <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                     </segue>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pIi-Sk-1UY">
+                                <rect key="frame" x="237" y="3" width="242" height="105"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="75"/>
+                                <state key="normal" title="Restart">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="restartButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mnZ-vK-Lxv"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1505,7 +1517,9 @@
                         <outlet property="divide10NumDisplay" destination="Qbp-SG-Y5y" id="RNe-YL-FvL"/>
                         <outlet property="gridFrame" destination="FWr-a7-MSn" id="AD8-Ka-xcy"/>
                         <outlet property="makeNumber" destination="Cd2-jC-UIj" id="34b-m4-2Fz"/>
+                        <outlet property="menuButton" destination="reM-I2-34L" id="GLX-Ta-ape"/>
                         <outlet property="numberDisplay" destination="TUt-Zm-GUZ" id="gRa-QL-wms"/>
+                        <outlet property="restartButton" destination="pIi-Sk-1UY" id="Ijm-ly-YFh"/>
                         <outlet property="times10NumDisplay" destination="oyk-u3-XrN" id="DAv-IY-jf6"/>
                         <outletCollection property="innerGridViews" destination="8Cj-Zv-RU1" id="yUQ-rV-erT"/>
                         <outletCollection property="innerGridViews" destination="k3D-Uj-d8T" id="7Dd-hI-CTv"/>

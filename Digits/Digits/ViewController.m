@@ -997,6 +997,10 @@ bool decimalUsed = false;
     self.divide10NumDisplay.text = [NSString stringWithFormat:@"%d",newNum];
 }
 
+- (IBAction)restartButtonPressed:(UIButton *)sender {
+    [self createLevelWithLevelNum:self.lastLevelNum];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
