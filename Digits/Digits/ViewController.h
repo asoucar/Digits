@@ -31,6 +31,7 @@
 - (IBAction)decimalPressed:(UIButton *)sender;
 - (IBAction)numberPressed:(UIButton *)sender;
 - (IBAction)submitPressed:(UIButton *)sender;
+- (IBAction)targetPressed:(UIButton *)sender;
 - (IBAction)clearPresssed:(UIButton *)sender;
 - (IBAction)showCalc:(UIButton *)sender;
 
