@@ -17,7 +17,8 @@
     self = [super initWithTarget:target action:action];
     
     if (self) {
-        self.kDirectionPanThreshold = threshold;
+        self.verticalDirectionPanThreshold = 60;
+        self.horizontalDirectionPanThreshold = 60;
     }
     
     return self;
@@ -32,11 +33,11 @@
     _moveX += prevPoint.x - nowPoint.x;
     _moveY += prevPoint.y - nowPoint.y;
     if (!_drag) {
-        if (abs(_moveX) > self.kDirectionPanThreshold) {
+        if (abs(_moveX) > self.horizontalDirectionPanThreshold) {
             _drag = YES;
             _direction = DirectionPanGestureRecognizerHorizontal;
             self.direction = DirectionPanGestureRecognizerHorizontal;
-        }else if (abs(_moveY) > self.kDirectionPanThreshold) {
+        }else if (abs(_moveY) > self.verticalDirectionPanThreshold) {
             _direction = DirectionPangestureRecognizerVertical;
             self.direction = DirectionPangestureRecognizerVertical;
             _drag = YES;
@@ -45,13 +46,13 @@
     }
     else
     {
-        if (abs(_moveX) > self.kDirectionPanThreshold) {
+        if (abs(_moveX) > self.horizontalDirectionPanThreshold) {
             if (_direction == DirectionPangestureRecognizerVertical) {
                 self.state = UIGestureRecognizerStateFailed;
             }else {
                 _drag = YES;
             }
-        }else if (abs(_moveY) > self.kDirectionPanThreshold) {
+        }else if (abs(_moveY) > self.verticalDirectionPanThreshold) {
             if (_direction == DirectionPanGestureRecognizerHorizontal) {
                 self.state = UIGestureRecognizerStateFailed;
             }else {
