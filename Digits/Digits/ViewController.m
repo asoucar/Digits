@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UIImageView *multBy10;
 @property (nonatomic, strong) UIImageView *divBy10;
 @property (nonatomic, strong) NSMutableArray *digitCovers;
+@property (nonatomic, strong) NSMutableArray *outerGridViews;
 
 @end
 
@@ -42,9 +43,20 @@ bool decimalUsed = false;
     self.verticalSpawnOffset = 102;
     self.numDivTenDecMovers = 0;
     self.digitCovers = [[NSMutableArray alloc] init];
+    self.outerGridViews = [[NSMutableArray alloc] init];
     
     self.onScreenNums = [NSMutableArray array];
     self.targetNums = [NSMutableArray array];
+    
+    for (UIView *gridBox in self.gridFrame.subviews){
+        if(![self.innerGridViews containsObject:gridBox]){
+            [self.outerGridViews addObject:gridBox];
+            //[gridBox setBackgroundColor:[UIColor grayColor]];
+        }
+    }
+    for (UIView *gridBox in self.innerGridViews){
+        //[gridBox setBackgroundColor:[UIColor blackColor]];
+    }
     
     UIPanGestureRecognizer *gesture1 = [[UIPanGestureRecognizer alloc]
                                         initWithTarget:self
