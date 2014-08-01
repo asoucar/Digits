@@ -135,16 +135,16 @@
             }
             else if (digit == tappedNum && !digit.isDigitSelected) {
                 [digit selected];
-                UISwipeGestureRecognizer *gesture1 = [[UISwipeGestureRecognizer alloc]
+                UITapGestureRecognizer *gesture1 = [[UITapGestureRecognizer alloc]
                                                     initWithTarget:self
                                                     action:@selector(numberSwiped:)];
                 
                 [tappedNum addGestureRecognizer:gesture1];
-                UIPanGestureRecognizer *gesture2 = [[UIPanGestureRecognizer alloc]
-                                                    initWithTarget:self
-                                                    action:@selector(numberSwiped:)];
-                
-                [tappedNum addGestureRecognizer:gesture2];
+//                UIPanGestureRecognizer *gesture2 = [[UIPanGestureRecognizer alloc]
+//                                                    initWithTarget:self
+//                                                    action:@selector(numberSwiped:)];
+//                
+//                [tappedNum addGestureRecognizer:gesture2];
                 [self.deselectTimer invalidate];
                 self.movable = false;
             }
@@ -180,33 +180,12 @@
 
 
 
-- (void) numberSwiped:(UIPanGestureRecognizer *)gesture
+- (void) numberSwiped:(UITapGestureRecognizer *)gesture
 {
-    CGPoint vel = [gesture velocityInView:self];
     DigitView *digit = (DigitView *)(gesture.view);
     int offset = 60*([self.digitViews indexOfObject:digit]);
-    if (vel.x > 0 && vel.x > ABS(vel.y)) {
-        //tell big number to tell view controller to create a new big number
-        //with value of whole number with digits to right of this number, inclusive
-        //and subtract value from first big number
-        //and remove this digit from big number
-        NSLog(@"swipe right");
-        
-    }
-    else if (vel.y > 0) {
-        //tell big number to tell view controller to create a new big number
-        //with value of this digit
-        //and subtract value from first big number
-        //and remove this digit from big number
-        NSLog(@"swipe down");
-        if (gesture.enabled) {
-            NSLog(@"swipe down inside if");
-            gesture.enabled = NO;
-            ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
-
-            [mainViewController decomposeBigNumberWithNewValue:digit.value andOrigNum:self andDir:@"down" andOffset:offset andDigit:digit.text];
-        }
-    }
+    ViewController *mainViewController = (ViewController*)[self.superview nextResponder];
+    [mainViewController decomposeBigNumberWithNewValue:digit.value andOrigNum:self andDir:@"down" andOffset:offset andDigit:digit.text];
 }
 
 
