@@ -89,7 +89,7 @@ bool decimalUsed = false;
     
     self.divBy10.userInteractionEnabled = YES;
     self.multBy10.userInteractionEnabled = YES;
-    self.divBy10.frame = CGRectMake(55, 150, 65, 60);
+    self.divBy10.frame = CGRectMake(55, 130, 65, 60);
     self.divBy10.backgroundColor = [UIColor clearColor];
     self.multBy10.frame = CGRectMake(55, 200, 65, 60);
     self.multBy10.backgroundColor = [UIColor clearColor];
@@ -104,6 +104,7 @@ bool decimalUsed = false;
     self.multBy10.hidden = YES;
     self.multCount.hidden = YES;
     self.divCount.hidden = YES;
+    
 }
 
 - (void)multDragged:(UIPanGestureRecognizer *)gesture
@@ -123,7 +124,7 @@ bool decimalUsed = false;
         }
         
         NSNumber *numberDecimalLoc = [NSNumber numberWithFloat:((number.frame.origin.x)+[number.decimalPosition floatValue])+decShift];
-        int arrowAllign = abs([numberDecimalLoc intValue]-((int)mult.frame.origin.x+14));
+        int arrowAllign = abs([numberDecimalLoc intValue]-((int)mult.frame.origin.x+2));
         
         CGRect numberProjectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y+number.frame.size.height, number.frame.size.width+58, 10);
         
@@ -138,7 +139,7 @@ bool decimalUsed = false;
             if ([decNum1.stringValue rangeOfString:@"."].location != NSNotFound) {
                 //labelLength -= 30;
             }
-            mult.frame = CGRectMake(55, 150, 65, 60);
+            mult.frame = CGRectMake(55, 200, 65, 60);
             self.numTimesTenDecMovers -= 1;
             self.multCount.text = [NSString stringWithFormat:@"%d", self.numTimesTenDecMovers];
             if (self.numDivTenDecMovers <= 0) {
@@ -214,7 +215,7 @@ bool decimalUsed = false;
         }
         
         NSNumber *numberDecimalLoc = [NSNumber numberWithFloat:((number.frame.origin.x)+[number.decimalPosition floatValue])+decShift];
-        int arrowAllign = abs([numberDecimalLoc intValue]-((int)div.frame.origin.x+div.frame.size.width-14));
+        int arrowAllign = abs([numberDecimalLoc intValue]-((int)div.frame.origin.x+div.frame.size.width-25));
         NSLog(@"arrow allign: %i", arrowAllign);
         
         CGRect numberProjectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y+number.frame.size.height, number.frame.size.width+58, 10);
@@ -228,7 +229,7 @@ bool decimalUsed = false;
             if ([decNum1.stringValue rangeOfString:@"."].location != NSNotFound) {
                 //labelLength -= 30;
             }
-            div.frame = CGRectMake(55, 200, 65, 60);
+            div.frame = CGRectMake(55, 130, 65, 60);
             self.numDivTenDecMovers -= 1;
             self.divCount.text = [NSString stringWithFormat:@"%d", self.numDivTenDecMovers];
             if (self.numDivTenDecMovers <= 0) {
@@ -956,10 +957,12 @@ bool decimalUsed = false;
         if (self.numDivTenDecMovers > 0) {
             self.divBy10.hidden = NO;
             self.divCount.hidden = NO;
+            [self.view bringSubviewToFront:self.divBy10];
         }
         if (self.numTimesTenDecMovers > 0) {
             self.multBy10.hidden = NO;
             self.multCount.hidden = NO;
+            [self.view bringSubviewToFront:self.multBy10];
         }
         self.decimalMoverCreator.hidden = YES;
     
