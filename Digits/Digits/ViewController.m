@@ -1225,6 +1225,7 @@ bool decimalUsed = false;
                      [NSDecimalNumber decimalNumberWithString:@"30"], @"targetNumber",
                      [NSArray arrayWithObjects:
                       [NSDecimalNumber decimalNumberWithString:@"15"],
+                      [NSDecimalNumber decimalNumberWithString:@"9"],
                       [NSDecimalNumber decimalNumberWithString:@"26"], nil ], @"componentNumbers",
                      [NSNumber numberWithInt:0], @"numRightArrows",
                      [NSNumber numberWithInt:0], @"numLeftArrows", nil];
