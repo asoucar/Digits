@@ -319,7 +319,6 @@ bool decimalUsed = false;
 - (void)labelDragged:(DirectionPanGestureRecognizer *)gesture
 {
 	BigNumber *firstNumber = (BigNumber *)gesture.view;
-    firstNumber.backgroundColor = [UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0];
     
     CGPoint translation = [gesture translationInView:self.view];
     if (gesture.direction == DirectionPanGestureRecognizerHorizontal) {
@@ -384,7 +383,7 @@ bool decimalUsed = false;
             
         }
         [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-            snapNumber.frame = CGRectMake(closestLineX, closestLineY, snapNumber.frame.size.width, snapNumber.frame.size.height);
+            snapNumber.frame = CGRectMake(closestLineX-1, closestLineY+2, snapNumber.frame.size.width, snapNumber.frame.size.height);
         } completion:^(BOOL finished) {
             if (CGRectIntersectsRect(snapNumber.frame, self.targetNumberFrame) && [self doesTargetDecimalAndValueMatchNumber:firstNumber])
             {
@@ -537,7 +536,6 @@ bool decimalUsed = false;
                                     }
                                 }
                                 digit.frame = CGRectMake(digit.frame.origin.x, digit.frame.origin.y-20, 60, 120);
-                                //digit.backgroundColor = [UIColor colorWithRed:119.0f/255.0f green:232.0f/255.0f blue:136.0f/255.0f alpha:1.0f];
                             }
                         }];
                         delay +=0.25;
@@ -663,7 +661,6 @@ bool decimalUsed = false;
             
             BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x+oldXOffsett, prevNum.frame.origin.y, labelLength, 80) andValue:subVal];
             subNumber.userInteractionEnabled = YES;
-            subNumber.backgroundColor = [UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0];
             
             DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                                 initWithTarget:self
@@ -686,7 +683,6 @@ bool decimalUsed = false;
             }
             BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + offest, subNumber.frame.origin.y, labelLength, 80) andValue:decNum2];
             newNum.userInteractionEnabled = YES;
-            newNum.backgroundColor = [UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0];
             
             DirectionPanGestureRecognizer *gesture4 = [[DirectionPanGestureRecognizer alloc]
                                                 initWithTarget:self
@@ -700,7 +696,6 @@ bool decimalUsed = false;
                 [self.onScreenNums addObject:newNum];
                 
                 UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x +offest, subNumber.frame.origin.y, 60, 80)];
-                cover.backgroundColor = [UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0];
                 cover.textColor = [UIColor whiteColor];
                 cover.font = [UIFont fontWithName:@"Futura" size:100];
                 [self.view addSubview:cover];
@@ -722,8 +717,6 @@ bool decimalUsed = false;
                                      [cover removeFromSuperview];
                                      [UIView animateWithDuration:0.5
                                                        animations:^{
-                                                           [newNum setBackgroundColor:[UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0]];
-                                                           [subNumber setBackgroundColor:[UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0]];
                                                        } completion:^(BOOL finished) {
                         
                                                            
@@ -855,7 +848,6 @@ bool decimalUsed = false;
         newDigit.text = digit;
         newDigit.textAlignment = UITextAlignmentCenter;
         newDigit.font = [UIFont fontWithName:@"Futura" size:95];
-        [newDigit setBackgroundColor: [UIColor colorWithRed:5/255.0 green:83/255.0 blue:117/255.0 alpha:1.0]];
         newDigit.textColor = [UIColor colorWithRed:254/255.0 green:203/255.0 blue:73/255.0 alpha:1.0];
         [self.view addSubview:newDigit];
         targetStartingX +=60;
@@ -895,9 +887,9 @@ bool decimalUsed = false;
 }
 
 - (IBAction)submitPressed:(UIButton *)sender {
-    self.verticalSpawnOffset = 102;
+    self.verticalSpawnOffset = 104;
     
-    int labelLength = (60*self.numberDisplay.text.length);
+    int labelLength = (58*(self.numberDisplay.text.length));
     if ([self.numberDisplay.text hasSuffix:@"."]) {
         labelLength -= 60;
     }
@@ -905,12 +897,12 @@ bool decimalUsed = false;
         labelLength += 60;
     }
 
-    CGRect potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 80);
+    CGRect potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 78);
     for (int i = 0; i<=8; i++) {
         for (BigNumber *oldNum in self.onScreenNums) {
             if (CGRectIntersectsRect(oldNum.frame, potentialFrame)) {
                 self.verticalSpawnOffset += 160;
-                potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 80);
+                potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 78);
             }
         }
     }
@@ -1106,22 +1098,22 @@ bool decimalUsed = false;
 
 - (void)createComponentNumWithNum:(NSDecimalNumber*)num
 {
-    self.verticalSpawnOffset = 102;
+    self.verticalSpawnOffset = 104;
     
-    int labelLength = (60*num.stringValue.length);
+    int labelLength = (58*num.stringValue.length);
     if ([num.stringValue hasSuffix:@"."]) {
-        labelLength -= 60;
+        labelLength -= 58;
     }
     if([num.stringValue hasPrefix:@"."]){
-        labelLength += 60;
+        labelLength += 58;
     }
     
-    CGRect potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 80);
+    CGRect potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 78);
     for (int i = 0; i<=8; i++) {
         for (BigNumber *oldNum in self.onScreenNums) {
             if (CGRectIntersectsRect(oldNum.frame, potentialFrame)) {
                 self.verticalSpawnOffset += 160;
-                potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 80);
+                potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 78);
             }
         }
     }
