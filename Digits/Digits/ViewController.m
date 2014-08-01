@@ -318,7 +318,7 @@ bool decimalUsed = false;
 - (void)labelDragged:(DirectionPanGestureRecognizer *)gesture
 {
 	BigNumber *firstNumber = (BigNumber *)gesture.view;
-    firstNumber.backgroundColor = [UIColor clearColor];
+    firstNumber.backgroundColor = [UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0];
     
     CGPoint translation = [gesture translationInView:self.view];
     if (gesture.direction == DirectionPanGestureRecognizerHorizontal) {
@@ -641,7 +641,7 @@ bool decimalUsed = false;
         }
         if (!hitWall) {
             NSDecimalNumber *decNum1 = prevNum.value;
-            NSDecimalNumber *decNum2 = [NSDecimalNumber decimalNumberWithDecimal:val.decimalValue];
+            NSDecimalNumber *decNum2 = val;
             
             NSDecimalNumber *subVal = [decNum1 decimalNumberBySubtracting:decNum2];
             int labelLength = 60*subVal.stringValue.length;
@@ -653,6 +653,11 @@ bool decimalUsed = false;
                 if (prevNum.value.stringValue.length > subVal.stringValue.length && val.floatValue > 1) {
                     oldXOffsett = 60*(prevNum.value.stringValue.length - subVal.stringValue.length);
                 }
+            }
+            else{
+                NSLog(@"pulling decimal part");
+                offest = prevNum.decimalPosition.doubleValue - 60;
+                NSLog(@"%d", offest);
             }
             
             BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x+oldXOffsett, prevNum.frame.origin.y, labelLength, 80) andValue:subVal];
@@ -674,20 +679,11 @@ bool decimalUsed = false;
                 [self.onScreenNums addObject:subNumber];
             }
             
-            int addX = 0;
-            int addY = 0;
-            if ([dir isEqualToString:@"up"]) {
-                addY = -80;
-            }
-            else if ([dir isEqualToString:@"down"]) {
-                addY = 0;
-            }
-            
             labelLength = 60*decNum2.stringValue.length;
             if ([decNum2.stringValue rangeOfString:@"."].location != NSNotFound) {
                 //labelLength -= 30;
             }
-            BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + addX +offest, subNumber.frame.origin.y + addY, labelLength, 80) andValue:decNum2];
+            BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + offest, subNumber.frame.origin.y, labelLength, 80) andValue:decNum2];
             newNum.userInteractionEnabled = YES;
             newNum.backgroundColor = [UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0];
             
@@ -702,7 +698,7 @@ bool decimalUsed = false;
                 [self.view insertSubview:newNum belowSubview:subNumber];
                 [self.onScreenNums addObject:newNum];
                 
-                UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + addX +offest, subNumber.frame.origin.y, 60, 80)];
+                UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x +offest, subNumber.frame.origin.y, 60, 80)];
                 cover.backgroundColor = [UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0];
                 cover.textColor = [UIColor whiteColor];
                 cover.font = [UIFont fontWithName:@"Futura" size:100];
@@ -725,8 +721,8 @@ bool decimalUsed = false;
                                      [cover removeFromSuperview];
                                      [UIView animateWithDuration:0.5
                                                        animations:^{
-                                                           [newNum setBackgroundColor:[UIColor clearColor]];
-                                                           [subNumber setBackgroundColor:[UIColor clearColor]];
+                                                           [newNum setBackgroundColor:[UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0]];
+                                                           [subNumber setBackgroundColor:[UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0]];
                                                        } completion:^(BOOL finished) {
                         
                                                            
