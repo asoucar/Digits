@@ -442,11 +442,14 @@ bool decimalUsed = false;
     
     for (BigNumber *otherNumber in self.onScreenNums) {
         NSNumber *otherNumberDecimalLoc = [NSNumber numberWithFloat:((otherNumber.frame.origin.x)+[otherNumber.decimalPosition floatValue])];
+        CGRect addSpace = CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y+37, otherNumber.frame.size.width, 4);
         
         if (firstNum != otherNumber && CGRectIntersectsRect(firstNum.frame, otherNumber.frame) && ![movedNums containsObject:otherNumber]) {
             int decimalLocDiff = abs([firstNumberDecimalLoc intValue]-[otherNumberDecimalLoc intValue]);
             if (decimalLocDiff <= 20 && canAdd) {
                 
+                if (CGRectIntersectsRect(firstNum.frame, addSpace)) {
+
                 NSDecimalNumber *decNum1 = firstNum.value;
                 NSDecimalNumber *decNum2 = otherNumber.value;
                 
@@ -504,7 +507,7 @@ bool decimalUsed = false;
                 NSArray *reversedCover = [[cover2.digitViews reverseObjectEnumerator] allObjects];
                 for (DigitView *digit in reversedDigits){
                         [UIView animateWithDuration:.5 delay:delay options:UIViewAnimationTransitionNone animations:^{
-                        [digit setTransform:CGAffineTransformMakeTranslation([otherNumberDecimalLoc intValue]-[firstNumberDecimalLoc intValue], 75*coverDir)];
+                        [digit setTransform:CGAffineTransformMakeTranslation([otherNumberDecimalLoc intValue]-[firstNumberDecimalLoc intValue], 48*coverDir)];
                         }  completion:^(BOOL finished) {
                             if ([reversedDigits objectAtIndex:reversedDigits.count-1] == digit) {
                                 [cover1 removeFromSuperview];
@@ -566,6 +569,7 @@ bool decimalUsed = false;
                     sumNumber.frame = CGRectMake(closestLineX-1, closestLineY+2, sumNumber.frame.size.width, sumNumber.frame.size.height);
                 }];
                 break;
+                }
             }
             else
             {
@@ -625,9 +629,9 @@ bool decimalUsed = false;
 {
     BigNumber *blocker;
     CGRect bottomArea = CGRectMake(self.gridFrame.frame.origin.x, self.gridFrame.frame.size.height-10, self.gridFrame.frame.size.width, self.gridFrame.frame.size.height);
-    CGRect swipeDownArea = CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y+80, prevNum.frame.size.width, 80);
-    BOOL isTargetBelow = CGRectIntersectsRect(swipeDownArea, self.targetNumberFrame);
     CGRect swipeDownArea = CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y+78, prevNum.frame.size.width, 78);
+    BOOL isTargetBelow = CGRectIntersectsRect(swipeDownArea, self.targetNumberFrame);
+    
     BOOL isANumInSpawnSpot = NO;
     for (BigNumber *oldNum in self.onScreenNums) {
         if (CGRectIntersectsRect(oldNum.frame, swipeDownArea)) {
