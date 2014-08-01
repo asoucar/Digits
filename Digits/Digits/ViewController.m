@@ -382,7 +382,7 @@ bool decimalUsed = false;
             
         }
         [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-            snapNumber.frame = CGRectMake(closestLineX, closestLineY, snapNumber.frame.size.width, snapNumber.frame.size.height);
+            snapNumber.frame = CGRectMake(closestLineX-1, closestLineY+2, snapNumber.frame.size.width, snapNumber.frame.size.height);
         } completion:^(BOOL finished) {
             if (CGRectIntersectsRect(snapNumber.frame, self.targetNumberFrame) && [self doesTargetDecimalAndValueMatchNumber:firstNumber])
             {
@@ -1095,22 +1095,22 @@ bool decimalUsed = false;
 
 - (void)createComponentNumWithNum:(NSDecimalNumber*)num
 {
-    self.verticalSpawnOffset = 102;
+    self.verticalSpawnOffset = 104;
     
-    int labelLength = (60*num.stringValue.length);
+    int labelLength = (58*num.stringValue.length);
     if ([num.stringValue hasSuffix:@"."]) {
-        labelLength -= 60;
+        labelLength -= 58;
     }
     if([num.stringValue hasPrefix:@"."]){
-        labelLength += 60;
+        labelLength += 58;
     }
     
-    CGRect potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 80);
+    CGRect potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 78);
     for (int i = 0; i<=8; i++) {
         for (BigNumber *oldNum in self.onScreenNums) {
             if (CGRectIntersectsRect(oldNum.frame, potentialFrame)) {
                 self.verticalSpawnOffset += 160;
-                potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 80);
+                potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 78);
             }
         }
     }
