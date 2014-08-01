@@ -1638,6 +1638,24 @@
                         <outletCollection property="innerGridViews" destination="0sH-NQ-eVJ" id="bR8-rR-lfN"/>
                         <outletCollection property="innerGridViews" destination="wnh-49-q60" id="ayq-BK-Gpl"/>
                         <outletCollection property="innerGridViews" destination="6Ui-hv-79u" id="FEE-vp-kvu"/>
+                        <outletCollection property="makeProblemButtons" destination="Kix-sh-BMb" id="yJ5-zm-Vbh"/>
+                        <outletCollection property="makeProblemButtons" destination="GYv-jp-nlj" id="5pU-qf-9EY"/>
+                        <outletCollection property="makeProblemButtons" destination="5vW-PY-hi8" id="I57-sh-fPL"/>
+                        <outletCollection property="makeProblemButtons" destination="14M-ik-dPY" id="0Q2-gI-fkk"/>
+                        <outletCollection property="makeProblemButtons" destination="zAg-Xm-xde" id="Nrm-xi-xJZ"/>
+                        <outletCollection property="makeProblemButtons" destination="ien-8O-9kZ" id="Xxq-4N-IWI"/>
+                        <outletCollection property="makeProblemButtons" destination="0ci-JF-7cP" id="7ue-sr-ALD"/>
+                        <outletCollection property="makeProblemButtons" destination="5N8-em-wbu" id="Z8a-Eb-Rzt"/>
+                        <outletCollection property="makeProblemButtons" destination="6h9-zk-Xcp" id="efi-mg-qGJ"/>
+                        <outletCollection property="makeProblemButtons" destination="yqh-PO-tXY" id="g71-6C-d53"/>
+                        <outletCollection property="makeProblemButtons" destination="Iot-jQ-2UO" id="b6O-PR-wGh"/>
+                        <outletCollection property="makeProblemButtons" destination="4dB-r1-tcA" id="nHe-Rj-hhY"/>
+                        <outletCollection property="makeProblemButtons" destination="ezl-zN-NPV" id="LEg-or-yaF"/>
+                        <outletCollection property="makeProblemButtons" destination="arX-XP-UA2" id="BIh-MN-e2i"/>
+                        <outletCollection property="makeProblemButtons" destination="QR0-bv-1Pa" id="TKj-Jn-qQ0"/>
+                        <outletCollection property="makeProblemButtons" destination="3BH-cE-r8m" id="Ifl-Z0-Sia"/>
+                        <outletCollection property="makeProblemButtons" destination="A7t-CU-fRC" id="6K4-fF-mKd"/>
+                        <outletCollection property="makeProblemButtons" destination="HBH-b7-79A" id="03X-Zd-JXc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

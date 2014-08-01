@@ -42,6 +42,16 @@ bool decimalUsed = false;
     //hide hide text view
     self.hideTextView.hidden = YES;
     
+    //setup make problem color pallette
+    self.calculator.backgroundColor = [UIColor colorWithRed:43/255.0 green:161/255.0 blue:171/255.0 alpha:1.0];
+    self.decimalMoverCreator.backgroundColor = [UIColor colorWithRed:43/255.0 green:161/255.0 blue:171/255.0 alpha:1.0];
+    for (UIButton *butn in self.makeProblemButtons) {
+        butn.backgroundColor = [UIColor colorWithRed:5/255.0 green:83/255.0 blue:117/255.0 alpha:1.0];
+    }
+    self.numberDisplay.backgroundColor = [UIColor colorWithRed:144/255.0 green:209/255.0 blue:215/255.0 alpha:1.0];
+    self.times10NumDisplay.backgroundColor = [UIColor colorWithRed:144/255.0 green:209/255.0 blue:215/255.0 alpha:1.0];
+    self.divide10NumDisplay.backgroundColor = [UIColor colorWithRed:144/255.0 green:209/255.0 blue:215/255.0 alpha:1.0];
+    
     self.lastLevelNum = 1;
     self.calculator.hidden=true;
     self.decimalMoverCreator.hidden = true;
@@ -402,7 +412,7 @@ bool decimalUsed = false;
                                                           
                                                       }  
                                                       completion:^(BOOL finished){
-                                                          [self clearNumber:self];
+                                                          [self clearNumber:nil];
                                                           [self createLevelWithLevelNum:self.lastLevelNum + 1];
                                                           NSLog(@"Done!");
                                                       }];
