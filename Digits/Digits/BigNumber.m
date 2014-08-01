@@ -75,7 +75,7 @@
             [self addSubview:newDigit];
             newDigit.text = digit;
             newDigit.textColor = [UIColor whiteColor];
-            newDigit.font = [UIFont fontWithName:@"Futura" size:100];
+            newDigit.font = [UIFont fontWithName:@"Futura" size:95];
             xPos = xPos+60;
             if([self.wholeNumberDigits count]>1 && ![digit isEqualToString:@"0"]){
                 newDigit.userInteractionEnabled = YES;
@@ -93,7 +93,7 @@
                 decimal.text = digit;
                 decimal.textAlignment = UITextAlignmentCenter;
                 decimal.textColor = [UIColor whiteColor];
-                decimal.font = [UIFont fontWithName:@"Futura" size:100];
+                decimal.font = [UIFont fontWithName:@"Futura" size:95];
                 xPos = xPos+60;
             }
             else{
@@ -105,7 +105,7 @@
             newDigit.text = digit;
             newDigit.backgroundColor = [UIColor colorWithRed:119 green:232 blue:136 alpha:0];
             newDigit.textColor = [UIColor whiteColor];
-            newDigit.font = [UIFont fontWithName:@"Futura" size:100];
+            newDigit.font = [UIFont fontWithName:@"Futura" size:95];
             xPos = xPos+60;
             if([self.decimalNumberDigits count]>1 && ![digit isEqualToString:@"0"]){
                 newDigit.userInteractionEnabled = YES;
@@ -118,7 +118,7 @@
         }
     }
     
-    
+    [self setBackgroundColor:[UIColor colorWithRed:5/255.0 green:117/255.0 blue:165/255.0 alpha:1.0] ];
     return self;
 }
 
