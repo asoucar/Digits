@@ -14,6 +14,7 @@
 @interface ViewController : UIViewController
 
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *innerGridViews;
+@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *makeProblemButtons;
 
 @property (weak, nonatomic) IBOutlet UIView *calculator;
 @property (weak, nonatomic) IBOutlet UILabel *numberDisplay;
