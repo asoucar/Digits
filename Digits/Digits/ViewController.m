@@ -125,7 +125,7 @@ bool decimalUsed = false;
         NSNumber *numberDecimalLoc = [NSNumber numberWithFloat:((number.frame.origin.x)+[number.decimalPosition floatValue])+decShift];
         int arrowAllign = abs([numberDecimalLoc intValue]-((int)mult.frame.origin.x+14));
         
-        CGRect numberProjectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y+number.frame.size.height, number.frame.size.width+60, 10);
+        CGRect numberProjectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y+number.frame.size.height, number.frame.size.width+58, 10);
         
         CGRect multProjectedFrame = CGRectMake(mult.frame.origin.x, mult.frame.origin.y+30, mult.frame.size.width, 10);
 
@@ -134,7 +134,7 @@ bool decimalUsed = false;
             NSDecimalNumber *decNum1 = number.value;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:1];
             number.value = decNum1;
-            int labelLength = 60*decNum1.stringValue.length;
+            int labelLength = 58*decNum1.stringValue.length;
             if ([decNum1.stringValue rangeOfString:@"."].location != NSNotFound) {
                 //labelLength -= 30;
             }
@@ -152,7 +152,7 @@ bool decimalUsed = false;
             gesture.enabled = NO;
             gesture.enabled = YES;
             
-            BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(number.frame.origin.x, number.frame.origin.y, labelLength, 80)andValue:decNum1 ];
+            BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(number.frame.origin.x, number.frame.origin.y, labelLength, 78)andValue:decNum1 ];
             NSArray *objsForSelector = [NSArray arrayWithObjects:number, newNumber, nil];
             
             for (DigitView *digit in number.digitViews) {
@@ -217,14 +217,14 @@ bool decimalUsed = false;
         int arrowAllign = abs([numberDecimalLoc intValue]-((int)div.frame.origin.x+div.frame.size.width-14));
         NSLog(@"arrow allign: %i", arrowAllign);
         
-        CGRect numberProjectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y+number.frame.size.height, number.frame.size.width+60, 10);
+        CGRect numberProjectedFrame = CGRectMake(number.frame.origin.x, number.frame.origin.y+number.frame.size.height, number.frame.size.width+58, 10);
         
         CGRect divProjectedFrame = CGRectMake(div.frame.origin.x, div.frame.origin.y+30, div.frame.size.width, 10);
         
         if (CGRectIntersectsRect(divProjectedFrame, numberProjectedFrame) && (arrowAllign <=5)) {            NSDecimalNumber *decNum1 = number.value;
             decNum1 = [decNum1 decimalNumberByMultiplyingByPowerOf10:-1];
             number.value = decNum1;
-            int labelLength = 60*decNum1.stringValue.length;
+            int labelLength = 58*decNum1.stringValue.length;
             if ([decNum1.stringValue rangeOfString:@"."].location != NSNotFound) {
                 //labelLength -= 30;
             }
@@ -242,7 +242,7 @@ bool decimalUsed = false;
             gesture.enabled = NO;
             gesture.enabled = YES;
             
-            BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(number.frame.origin.x, number.frame.origin.y, labelLength, 80)andValue:decNum1 ];
+            BigNumber *newNumber = [[BigNumber alloc] initWithFrame:CGRectMake(number.frame.origin.x, number.frame.origin.y, labelLength, 78)andValue:decNum1 ];
             
             NSArray *objsForSelector = [NSArray arrayWithObjects:number, newNumber, nil];
             
@@ -302,7 +302,7 @@ bool decimalUsed = false;
         DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
                                             initWithTarget:self
                                             action:@selector(labelDragged:)
-                                            threshold:[oldNum.digitViews count]*60];
+                                            threshold:[oldNum.digitViews count]*58];
         [newNum addGestureRecognizer:gesture3];
         
         [self.onScreenNums removeObject:oldNum];
@@ -386,6 +386,7 @@ bool decimalUsed = false;
         } completion:^(BOOL finished) {
             if (CGRectIntersectsRect(snapNumber.frame, self.targetNumberFrame) && [self doesTargetDecimalAndValueMatchNumber:firstNumber])
             {
+                [snapNumber setBackgroundColor:[UIColor clearColor]];
                 NSLog(@"on target");
                 [UIView animateWithDuration:1.0
                                       delay:0.0
@@ -449,16 +450,16 @@ bool decimalUsed = false;
                 NSDecimalNumber *decNum2 = otherNumber.value;
                 
                 NSDecimalNumber *sumVal = [decNum2 decimalNumberByAdding:decNum1];
-                int labelLength = 60*sumVal.stringValue.length;
+                int labelLength = 58*sumVal.stringValue.length;
                 if ([sumVal.stringValue rangeOfString:@"."].location != NSNotFound) {
                     //labelLength -= 30;
                 }
                 CGRect sumFrame;
                 if (decNum1.floatValue > decNum2.floatValue) {
-                    sumFrame = CGRectMake(firstNum.frame.origin.x, otherNumber.frame.origin.y, labelLength, 80);
+                    sumFrame = CGRectMake(firstNum.frame.origin.x, otherNumber.frame.origin.y, labelLength, 78);
                 }
                 else {
-                    sumFrame = CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, labelLength, 80);
+                    sumFrame = CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, labelLength, 78);
                 }
                 
                 BigNumber *sumNumber = [[BigNumber alloc] initWithFrame:sumFrame andValue:sumVal ];
@@ -466,7 +467,7 @@ bool decimalUsed = false;
                 
                 if (sumNumber.wholeNumberDigits.count > firstNum.wholeNumberDigits.count && sumNumber.wholeNumberDigits.count > otherNumber.wholeNumberDigits.count) {
                     NSLog(@"number shift");
-                    sumNumber.frame = CGRectMake(otherNumber.frame.origin.x - 60, otherNumber.frame.origin.y, labelLength, 80);
+                    sumNumber.frame = CGRectMake(otherNumber.frame.origin.x - 58, otherNumber.frame.origin.y, labelLength, 78);
                 }
                 
                 DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
@@ -477,11 +478,11 @@ bool decimalUsed = false;
                 
                 // add animation
                 CGRect coverFrame1;
-                coverFrame1 = CGRectMake(firstNum.frame.origin.x, firstNum.frame.origin.y, labelLength, 80);
+                coverFrame1 = CGRectMake(firstNum.frame.origin.x, firstNum.frame.origin.y, labelLength, 78);
                 BigNumber *cover1 = [[BigNumber alloc] initWithFrame:firstNum.frame andValue:firstNum.value];
                 
                 CGRect coverFrame2;
-                coverFrame2 = CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, otherNumber.frame.size.width, 80);
+                coverFrame2 = CGRectMake(otherNumber.frame.origin.x, otherNumber.frame.origin.y, otherNumber.frame.size.width, 78);
                 BigNumber *cover2 = [[BigNumber alloc] initWithFrame:otherNumber.frame andValue:otherNumber.value];
                 int coverDir = 1;
                 if (firstNum.frame.origin.y > otherNumber.frame.origin.y) {
@@ -561,7 +562,7 @@ bool decimalUsed = false;
                     
                 }
                 [UIView animateWithDuration:0.5 animations:^{
-                    sumNumber.frame = CGRectMake(closestLineX, closestLineY, sumNumber.frame.size.width, sumNumber.frame.size.height);
+                    sumNumber.frame = CGRectMake(closestLineX-1, closestLineY+2, sumNumber.frame.size.width, sumNumber.frame.size.height);
                 }];
                 break;
             }
@@ -622,7 +623,7 @@ bool decimalUsed = false;
 {
     BigNumber *blocker;
     CGRect bottomArea = CGRectMake(self.gridFrame.frame.origin.x, self.gridFrame.frame.size.height-10, self.gridFrame.frame.size.width, self.gridFrame.frame.size.height);
-    CGRect swipeDownArea = CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y+80, prevNum.frame.size.width, 80);
+    CGRect swipeDownArea = CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y+78, prevNum.frame.size.width, 78);
     BOOL isANumInSpawnSpot = NO;
     for (BigNumber *oldNum in self.onScreenNums) {
         if (CGRectIntersectsRect(oldNum.frame, swipeDownArea)) {
@@ -642,7 +643,7 @@ bool decimalUsed = false;
             NSDecimalNumber *decNum2 = val;
             
             NSDecimalNumber *subVal = [decNum1 decimalNumberBySubtracting:decNum2];
-            int labelLength = 60*subVal.stringValue.length;
+            int labelLength = 58*subVal.stringValue.length;
             if ([subVal.stringValue rangeOfString:@"."].location != NSNotFound) {
                 //labelLength -= 30;
             }
@@ -654,11 +655,11 @@ bool decimalUsed = false;
             }
             else{
                 NSLog(@"pulling decimal part");
-                offest = prevNum.decimalPosition.doubleValue - 60;
+                offest = prevNum.decimalPosition.doubleValue - 58;
                 NSLog(@"%d", offest);
             }
             
-            BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x+oldXOffsett, prevNum.frame.origin.y, labelLength, 80) andValue:subVal];
+            BigNumber *subNumber = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x+oldXOffsett, prevNum.frame.origin.y, labelLength, 78) andValue:subVal];
             subNumber.userInteractionEnabled = YES;
             
             DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
@@ -676,11 +677,11 @@ bool decimalUsed = false;
                 [self.onScreenNums addObject:subNumber];
             }
             
-            labelLength = 60*decNum2.stringValue.length;
+            labelLength = 58*decNum2.stringValue.length;
             if ([decNum2.stringValue rangeOfString:@"."].location != NSNotFound) {
                 //labelLength -= 30;
             }
-            BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + offest, subNumber.frame.origin.y, labelLength, 80) andValue:decNum2];
+            BigNumber *newNum = [[BigNumber alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x + offest+1, subNumber.frame.origin.y, labelLength, 78) andValue:decNum2];
             newNum.userInteractionEnabled = YES;
             
             DirectionPanGestureRecognizer *gesture4 = [[DirectionPanGestureRecognizer alloc]
@@ -694,9 +695,9 @@ bool decimalUsed = false;
                 [self.view insertSubview:newNum belowSubview:subNumber];
                 [self.onScreenNums addObject:newNum];
                 
-                UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x +offest, subNumber.frame.origin.y, 60, 80)];
+                UILabel *cover = [[UILabel alloc] initWithFrame:CGRectMake(prevNum.frame.origin.x +offest+1, subNumber.frame.origin.y, 58, 78)];
                 cover.textColor = [UIColor whiteColor];
-                cover.font = [UIFont fontWithName:@"Futura" size:100];
+                cover.font = [UIFont fontWithName:@"Futura" size:95];
                 [self.view addSubview:cover];
                 if(newNum.value.floatValue < 1){
                     cover.text = @"0";
@@ -837,16 +838,27 @@ bool decimalUsed = false;
     }
     float targetStartingX = 813 - 60*[targetNumberArray count];
     self.targetValue = [NSDecimalNumber decimalNumberWithString:self.numberDisplay.text];
-    self.targetNumberFrame = CGRectMake(targetStartingX, 584, 58*[targetNumberArray count], 78);
+    self.targetNumberFrame = CGRectMake(targetStartingX, 584, 60*[targetNumberArray count], 78);
 
     for (NSString *digit in targetNumberArray) {
         if ([digit isEqualToString:@"."]){
             self.targetDecimalLoc = targetStartingX;
         }
-        UILabel *newDigit = [[UILabel alloc] initWithFrame:CGRectMake(targetStartingX, 584, 58, 78)];
+        UILabel *newDigit = [[UILabel alloc] init];
+        if ([targetNumberArray indexOfObject:digit] != 0 && [targetNumberArray indexOfObject:digit] != [targetNumberArray count]-1) {
+            newDigit.frame = CGRectMake(targetStartingX-1, 584, 60, 78);
+        } else if ([targetNumberArray indexOfObject:digit] == 0) {
+            newDigit.frame = CGRectMake(targetStartingX, 584, 60, 78);
+        } else {
+            newDigit.frame = CGRectMake(targetStartingX-1, 584, 58, 78);
+        }
+        if ([targetNumberArray count] == 1) {
+            newDigit.frame = CGRectMake(targetStartingX, 584, 58, 78);
+        }
         newDigit.text = digit;
         newDigit.textAlignment = UITextAlignmentCenter;
         newDigit.font = [UIFont fontWithName:@"Futura" size:95];
+        [newDigit setBackgroundColor:[UIColor colorWithRed:5/255.0 green:83/255.0 blue:117/255.0 alpha:1.0]];
         newDigit.textColor = [UIColor colorWithRed:254/255.0 green:203/255.0 blue:73/255.0 alpha:1.0];
         [self.view addSubview:newDigit];
         targetStartingX +=60;
@@ -890,18 +902,18 @@ bool decimalUsed = false;
     
     int labelLength = (58*(self.numberDisplay.text.length));
     if ([self.numberDisplay.text hasSuffix:@"."]) {
-        labelLength -= 60;
+        labelLength -= 58;
     }
     if([self.numberDisplay.text hasPrefix:@"."]){
-        labelLength += 60;
+        labelLength += 58;
     }
 
-    CGRect potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 78);
+    CGRect potentialFrame = CGRectMake(154, self.verticalSpawnOffset, labelLength, 78);
     for (int i = 0; i<=8; i++) {
         for (BigNumber *oldNum in self.onScreenNums) {
             if (CGRectIntersectsRect(oldNum.frame, potentialFrame)) {
                 self.verticalSpawnOffset += 160;
-                potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 78);
+                potentialFrame = CGRectMake(154, self.verticalSpawnOffset, labelLength, 78);
             }
         }
     }
@@ -1073,13 +1085,23 @@ bool decimalUsed = false;
     }
     float targetStartingX = 813 - 60*[targetNumberArray count];
     self.targetValue = [NSDecimalNumber decimalNumberWithString:num.stringValue];
-    self.targetNumberFrame = CGRectMake(targetStartingX, 584, 58*[targetNumberArray count], 78);
+    self.targetNumberFrame = CGRectMake(targetStartingX, 584, 60*[targetNumberArray count], 78);
     
     for (NSString *digit in targetNumberArray) {
         if ([digit isEqualToString:@"."]){
             self.targetDecimalLoc = targetStartingX;
         }
-        UILabel *newDigit = [[UILabel alloc] initWithFrame:CGRectMake(targetStartingX, 584, 58, 78)];
+        UILabel *newDigit = [[UILabel alloc] init];
+        if ([targetNumberArray indexOfObject:digit] != 0 && [targetNumberArray indexOfObject:digit] !=[targetNumberArray count]-1) {
+            newDigit.frame = CGRectMake(targetStartingX-1, 584, 60, 78);
+        } else if ([targetNumberArray indexOfObject:digit] == 0) {
+            newDigit.frame = CGRectMake(targetStartingX, 584, 60, 78);
+        } else {
+            newDigit.frame = CGRectMake(targetStartingX-1, 584, 58, 78);
+        }
+        if ([targetNumberArray count] == 1) {
+            newDigit.frame = CGRectMake(targetStartingX, 584, 58, 78);
+        }
         newDigit.text = digit;
         newDigit.textAlignment = UITextAlignmentCenter;
         newDigit.font = [UIFont fontWithName:@"Futura" size:95];
@@ -1105,12 +1127,12 @@ bool decimalUsed = false;
         labelLength += 58;
     }
     
-    CGRect potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 78);
+    CGRect potentialFrame = CGRectMake(153, self.verticalSpawnOffset, labelLength, 78);
     for (int i = 0; i<=8; i++) {
         for (BigNumber *oldNum in self.onScreenNums) {
             if (CGRectIntersectsRect(oldNum.frame, potentialFrame)) {
                 self.verticalSpawnOffset += 160;
-                potentialFrame = CGRectMake(155, self.verticalSpawnOffset, labelLength, 78);
+                potentialFrame = CGRectMake(154, self.verticalSpawnOffset, labelLength, 78);
             }
         }
     }
