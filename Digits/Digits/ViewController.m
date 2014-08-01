@@ -590,9 +590,10 @@ bool decimalUsed = false;
                 CGRect rectToCheckBounds = CGRectMake(check2ndOriginX, check2ndOriginY, otherNumber.frame.size.width, otherNumber.frame.size.height);
                 
                 CGRect draggableFrame = CGRectMake(self.gridFrame.frame.origin.x, self.gridFrame.frame.origin.y, self.gridFrame.frame.size.width, self.gridFrame.frame.size.height);
-                if (!CGRectContainsRect(draggableFrame, rectToCheckBounds) && !CGRectContainsRect(self.targetNumberFrame, rectToCheckBounds)){
+                if ((!CGRectContainsRect(draggableFrame, rectToCheckBounds)) || (CGRectIntersectsRect(rectToCheckBounds, self.targetNumberFrame) && ![self doesTargetDecimalAndValueMatchNumber:otherNumber]) ){
                     wallCollisionDetected = YES;
                 }
+                
                 
                 if (wallCollisionDetected) {
                     firstNum.center = CGPointMake(firstNum.center.x - translation.x,
@@ -624,6 +625,7 @@ bool decimalUsed = false;
     BigNumber *blocker;
     CGRect bottomArea = CGRectMake(self.gridFrame.frame.origin.x, self.gridFrame.frame.size.height-10, self.gridFrame.frame.size.width, self.gridFrame.frame.size.height);
     CGRect swipeDownArea = CGRectMake(prevNum.frame.origin.x, prevNum.frame.origin.y+80, prevNum.frame.size.width, 80);
+    BOOL isTargetBelow = CGRectIntersectsRect(swipeDownArea, self.targetNumberFrame);
     BOOL isANumInSpawnSpot = NO;
     for (BigNumber *oldNum in self.onScreenNums) {
         if (CGRectIntersectsRect(oldNum.frame, swipeDownArea)) {
@@ -634,11 +636,11 @@ bool decimalUsed = false;
     if (!(CGRectIntersectsRect(prevNum.frame, bottomArea))) {
         BOOL hitWall = NO;
         if (isANumInSpawnSpot) {
-            blocker.center = CGPointMake(blocker.center.x, blocker.center.y+100);
+            blocker.center = CGPointMake(blocker.center.x, blocker.center.y+80);
             NSMutableArray *moveNums = [NSMutableArray arrayWithObjects:blocker, prevNum, nil];
-            hitWall = [self checkNumberCollisionWithNumber:blocker andTranslation:CGPointMake(0, 100) andMovedNums:moveNums andCanAdd:NO];
+            hitWall = [self checkNumberCollisionWithNumber:blocker andTranslation:CGPointMake(0, 80) andMovedNums:moveNums andCanAdd:NO];
         }
-        if (!hitWall) {
+        if (!hitWall && !isTargetBelow) {
             NSDecimalNumber *decNum1 = prevNum.value;
             NSDecimalNumber *decNum2 = val;
             
