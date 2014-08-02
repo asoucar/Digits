@@ -468,10 +468,13 @@ bool decimalUsed = false;
                 
                 BigNumber *sumNumber = [[BigNumber alloc] initWithFrame:sumFrame andValue:sumVal ];
                 sumNumber.userInteractionEnabled = YES;
-                
+                BOOL needRightShift = NO;
                 if (sumNumber.wholeNumberDigits.count > firstNum.wholeNumberDigits.count && sumNumber.wholeNumberDigits.count > otherNumber.wholeNumberDigits.count) {
                     NSLog(@"number shift");
                     sumNumber.frame = CGRectMake(otherNumber.frame.origin.x - 58, otherNumber.frame.origin.y, labelLength, 78);
+                    if (sumNumber.frame.origin.x < self.gridFrame.frame.origin.x) {
+                        needRightShift = YES;
+                    }
                 }
                 
                 DirectionPanGestureRecognizer *gesture3 = [[DirectionPanGestureRecognizer alloc]
@@ -500,27 +503,141 @@ bool decimalUsed = false;
 
                 [self.view addSubview:cover2];
                 [self.view addSubview:cover1];
-                
-                // trying cascading addition
-                double delay = 0.0;
-                NSArray *reversedDigits = [[cover1.digitViews reverseObjectEnumerator] allObjects];
-                NSArray *reversedCover = [[cover2.digitViews reverseObjectEnumerator] allObjects];
-                for (DigitView *digit in reversedDigits){
+                                    
+                if (needRightShift) {
+                    [UIView animateWithDuration:0.5
+                                     animations:^{
+                                         [cover1 setTransform:CGAffineTransformMakeTranslation(58, 0)];
+                                         [cover2 setTransform:CGAffineTransformMakeTranslation(58, 0)];
+                                     } completion:^(BOOL finished) {
+                                         // trying cascading addition
+                                         double delay = 0.0;
+                                         NSArray *reversedDigits = [[cover1.digitViews reverseObjectEnumerator] allObjects];
+                                         NSArray *reversedCover = [[cover2.digitViews reverseObjectEnumerator] allObjects];
+                                         for (DigitView *digit in reversedDigits){
+                                             [UIView animateWithDuration:.5 delay:delay options:UIViewAnimationTransitionNone animations:^{
+                                                 [digit setTransform:CGAffineTransformMakeTranslation([otherNumberDecimalLoc intValue]-[firstNumberDecimalLoc intValue], 48*coverDir)];
+                                             }  completion:^(BOOL finished) {
+                                                 if ([reversedDigits objectAtIndex:reversedDigits.count-1] == digit) {
+                                                     //add it
+                                                     if (sumNumber.digitViews.count > cover1.digitViews.count && sumNumber.digitViews.count > cover2.digitViews.count) {
+                                                         UILabel *carryOne = [[UILabel alloc] initWithFrame:CGRectMake(cover1.frame.origin.x, cover1.frame.origin.y+39, 58, cover1.frame.size.height)];
+                                                         carryOne.font = digit.font;
+                                                         carryOne.textColor = digit.textColor;
+                                                         carryOne.backgroundColor = digit.backgroundColor;
+                                                         carryOne.text = @"1";
+                                                         [UIView animateWithDuration:0.5
+                                                                          animations:^{
+                                                                              [self.view addSubview:carryOne];
+                                                                              [carryOne setTransform:CGAffineTransformMakeTranslation(-60, 0)];
+                                                                              
+                                                                          } completion:^(BOOL finished) {
+                                                                              [self.view addSubview:sumNumber];
+                                                                              [self.onScreenNums addObject:sumNumber];
+                                                                              
+                                                                              for (BigNumber *digitCover in self.digitCovers ) {
+                                                                                  [digitCover removeFromSuperview];
+                                                                              }
+                                                                              [self.digitCovers removeAllObjects];
+                                                                              [carryOne removeFromSuperview];
+                                                                              [cover1 removeFromSuperview];
+                                                                              [cover2 removeFromSuperview];
+                                                                          }];
+                                                     }
+                                                     else
+                                                     {
+                                                         [self.view addSubview:sumNumber];
+                                                         [self.onScreenNums addObject:sumNumber];
+                                                         
+                                                         for (BigNumber *digitCover in self.digitCovers ) {
+                                                             [digitCover removeFromSuperview];
+                                                         }
+                                                         [self.digitCovers removeAllObjects];
+                                                         [cover1 removeFromSuperview];
+                                                         [cover2 removeFromSuperview];
+                                                         
+                                                     }
+                                                     
+                                                 }
+                                                 else {
+                                                     for (DigitView *digitUnder in cover2.digitViews) {
+                                                         if (![digitUnder.text isEqualToString:@"."] && ![digit.text isEqualToString:@"."]) {
+                                                             if (CGRectIntersectsRect(digit.frame, digitUnder.frame)) {
+                                                                 NSDecimalNumber *sumVal = [digit.value decimalNumberByAdding:digitUnder.value];
+                                                                 NSString *trimmer = @"";
+                                                                 if (sumVal.floatValue < 1.0 && sumVal.floatValue > 0.0) {
+                                                                     trimmer = @"0.";
+                                                                 }
+                                                                 NSString* finalDigit = [sumVal.stringValue stringByTrimmingCharactersInSet: [NSCharacterSet characterSetWithCharactersInString:trimmer]];
+                                                                 if (finalDigit.length > 1) {
+                                                                     finalDigit = [finalDigit substringFromIndex: [finalDigit length] - 1];
+                                                                 }
+                                                                 
+                                                                 NSLog(@"final: %@", finalDigit);
+                                                                 //digit.text = finalDigit;
+                                                             }
+                                                         }
+                                                     }
+                                                     digit.frame = CGRectMake(digit.frame.origin.x, digit.frame.origin.y-20, 60, 120);
+                                                 }
+                                             }];
+                                             delay +=0.25;
+                                         }
+
+                                     }];
+                }
+                else
+                {
+                    // trying cascading addition
+                    double delay = 0.0;
+                    NSArray *reversedDigits = [[cover1.digitViews reverseObjectEnumerator] allObjects];
+                    NSArray *reversedCover = [[cover2.digitViews reverseObjectEnumerator] allObjects];
+                    for (DigitView *digit in reversedDigits){
                         [UIView animateWithDuration:.5 delay:delay options:UIViewAnimationTransitionNone animations:^{
-                        [digit setTransform:CGAffineTransformMakeTranslation([otherNumberDecimalLoc intValue]-[firstNumberDecimalLoc intValue], 48*coverDir)];
+                            [digit setTransform:CGAffineTransformMakeTranslation([otherNumberDecimalLoc intValue]-[firstNumberDecimalLoc intValue], 48*coverDir)];
                         }  completion:^(BOOL finished) {
                             if ([reversedDigits objectAtIndex:reversedDigits.count-1] == digit) {
-                                [cover1 removeFromSuperview];
-                                [cover2 removeFromSuperview];
                                 //add it
-                                [self.view addSubview:sumNumber];
-                                [self.onScreenNums addObject:sumNumber];
-
-                                for (BigNumber *digitCover in self.digitCovers ) {
-                                    [digitCover removeFromSuperview];
+                                if (sumNumber.digitViews.count > cover1.digitViews.count && sumNumber.digitViews.count > cover2.digitViews.count) {
+                                    UILabel *carryOne = [[UILabel alloc] initWithFrame:CGRectMake(cover1.frame.origin.x, cover1.frame.origin.y+39, 58, cover1.frame.size.height)];
+                                    carryOne.font = digit.font;
+                                    carryOne.textColor = digit.textColor;
+                                    carryOne.backgroundColor = digit.backgroundColor;
+                                    carryOne.text = @"1";
+                                    [UIView animateWithDuration:0.5
+                                                     animations:^{
+                                                         [self.view addSubview:carryOne];
+                                                         [carryOne setTransform:CGAffineTransformMakeTranslation(-60, 0)];
+                                                         
+                                                     } completion:^(BOOL finished) {
+                                                         [self.view addSubview:sumNumber];
+                                                         [self.onScreenNums addObject:sumNumber];
+                                                         
+                                                         for (BigNumber *digitCover in self.digitCovers ) {
+                                                             [digitCover removeFromSuperview];
+                                                         }
+                                                         [self.digitCovers removeAllObjects];
+                                                         [carryOne removeFromSuperview];
+                                                         [cover1 removeFromSuperview];
+                                                         [cover2 removeFromSuperview];
+                                                     }];
                                 }
-                                [self.digitCovers removeAllObjects];
-                            } else {
+                                else
+                                {
+                                    [self.view addSubview:sumNumber];
+                                    [self.onScreenNums addObject:sumNumber];
+                                    
+                                    for (BigNumber *digitCover in self.digitCovers ) {
+                                        [digitCover removeFromSuperview];
+                                    }
+                                    [self.digitCovers removeAllObjects];
+                                    [cover1 removeFromSuperview];
+                                    [cover2 removeFromSuperview];
+                                    
+                                }
+                                
+                            }
+                            else {
                                 for (DigitView *digitUnder in cover2.digitViews) {
                                     if (![digitUnder.text isEqualToString:@"."] && ![digit.text isEqualToString:@"."]) {
                                         if (CGRectIntersectsRect(digit.frame, digitUnder.frame)) {
@@ -543,7 +660,10 @@ bool decimalUsed = false;
                             }
                         }];
                         delay +=0.25;
+                    }
+
                 }
+                    
                 int closestLineX = 0;
                 int distanceFromClosestX = 1000;
                 for (int i = 0; i < [self.xGridLines count]; i++) {
